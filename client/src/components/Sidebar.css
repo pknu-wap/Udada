@@ -1,0 +1,19 @@
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background-color: #1f1f1f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+}
+
+.menu {
+  padding: 18px 25px;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.menu:hover {
+  background-color: #333;
+}
