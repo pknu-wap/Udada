@@ -57,4 +57,17 @@ public class BookmarkService {
         return BookmarkResponse.CreateResponse.from(bookmark);
     }
 
+    // 북마크 삭제
+    @Transactional
+    public void deleteBookmark(Long userId, Long bookmarkId) {
+        Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 북마크입니다."));
+
+        if (!bookmark.getUser().getId().equals(userId)) {
+            throw new IllegalStateException("본인의 북마크만 삭제할 수 있습니다.");
+        }
+
+        bookmarkRepository.delete(bookmark);
+    }
+
 }

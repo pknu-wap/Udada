@@ -37,4 +37,14 @@ public class BookmarkController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response));
     }
 
+    // 북마크 삭제
+    @DeleteMapping("/{bookmarkId}")
+    public ResponseEntity<ApiResponse<Void>> deleteBookmark(
+            @AuthenticationPrincipal Long userId,
+            @PathVariable Long bookmarkId
+    ) {
+        bookmarkService.deleteBookmark(userId, bookmarkId);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
 }
