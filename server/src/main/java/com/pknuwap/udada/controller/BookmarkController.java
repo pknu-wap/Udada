@@ -1,9 +1,12 @@
 package com.pknuwap.udada.controller;
 
 import com.pknuwap.udada.common.response.ApiResponse;
+import com.pknuwap.udada.dto.request.BookmarkRequest;
 import com.pknuwap.udada.dto.response.BookmarkResponse;
 import com.pknuwap.udada.service.BookmarkService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,16 @@ public class BookmarkController {
     ) {
         BookmarkResponse.ListResponse response = bookmarkService.getBookmarks(userId);
         return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    // 북마크 추가
+    @PostMapping
+    public ResponseEntity<ApiResponse<BookmarkResponse.CreateResponse>> addBookmark(
+            @AuthenticationPrincipal Long userId,
+            @Valid @RequestBody BookmarkRequest request
+    ) {
+        BookmarkResponse.CreateResponse response = bookmarkService.addBookmark(userId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response));
     }
 
 }

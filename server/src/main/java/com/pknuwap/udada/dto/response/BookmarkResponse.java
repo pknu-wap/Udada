@@ -29,6 +29,21 @@ public class BookmarkResponse {
                 .build();
     }
 
+    // 북마크 추가 응답용
+    @Getter
+    @Builder
+    public static class CreateResponse {
+        private Long bookmarkId;
+        private LocalDateTime createdAt;
+
+        public static CreateResponse from(Bookmark bookmark) {
+            return CreateResponse.builder()
+                    .bookmarkId(bookmark.getId())
+                    .createdAt(bookmark.getCreatedAt())
+                    .build();
+        }
+    }
+
     // 북마크 목록 응답용
     @Getter
     @Builder
