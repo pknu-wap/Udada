@@ -1,5 +1,6 @@
 package com.pknuwap.udada.service;
 
+import com.pknuwap.udada.dto.response.NoticeDetailResponse;
 import com.pknuwap.udada.dto.response.NoticeListResponse;
 import com.pknuwap.udada.entity.Notice;
 import com.pknuwap.udada.repository.NoticeRepository;
@@ -32,5 +33,13 @@ public class NoticeService {
                 .collect(Collectors.toList());
 
         return NoticeListResponse.of(dtos, noticePage.getTotalElements());
+    }
+
+    //존재하지 않는 공지사항 상세를 요청할 경우
+    public NoticeDetailResponse getNoticeDetail(Long noticeId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공지사항 입니다. id=" + noticeId));
+
+        return NoticeDetailResponse.from(notice);
     }
 }
