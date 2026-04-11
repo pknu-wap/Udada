@@ -1,5 +1,4 @@
-import React from "react";
-import "./Home.css";
+import Sidebar from "../components/Sidebar";
 
 function Home() {
   const notices = [
@@ -25,6 +24,8 @@ function Home() {
 
   return (
     <div className="home">
+      <Sidebar />   {/* 👈 여기 추가 */}
+
       <div className="search-bar">
         <input type="text" placeholder="검색어를 입력하세요" />
       </div>
