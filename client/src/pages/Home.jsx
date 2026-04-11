@@ -26,25 +26,30 @@ function Home() {
 
   return (
     <div className="home">
-<Sidebar />
+      <Sidebar />
 
-<div className="search-bar">
-  <input type="text" placeholder="검색어를 입력하세요" />
-</div>
+      <div className="search-bar">
+        <input type="text" placeholder="검색어를 입력하세요" />
+      </div>
 
-<div className="category-filter">
-  <button>전체</button>
-  <button>장학금</button>
-  <button>도서관</button>
-  <button>기숙사</button>
-</div>
+      <div className="category-filter">
+        <button>전체</button>
+        <button>장학금</button>
+        <button>도서관</button>
+        <button>기숙사</button>
+      </div>
 
-<div className="notice-list">
-  {notices.map((notice) => (
-    <div key={notice.id} className="notice-card">
-      <h3>{notice.title}</h3>
-      <p>{notice.date}</p>
-      <span>{notice.category}</span>
+      <div className="notice-list">
+        {notices.map((notice) => (
+          <div key={notice.id} className="notice-card">
+            <h3>{notice.title}</h3>
+            <p>{notice.date}</p>
+            <span>{notice.category}</span>
+          </div>
+        ))}
+      </div>
     </div>
-  ))}
-</div>
+  );
+}
+
+export default Home;
