@@ -1,7 +1,10 @@
 import React from "react";
 import "./Home.css";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+
   const notices = [
     {
       id: 1,
@@ -44,6 +47,7 @@ function Home() {
             <span>{notice.category}</span>
           </div>
         ))}
+        
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import "./Postdetail.css";
-import { useParams, useNavigate } from "react-rounter-dom";
-import Navbar from client / src / components / Sidebar.jsx;
+import { useParams, useNavigate } from "react-router-dom";
+
 
 const Postdetail = () => {
     const { id } = useParams();
@@ -51,3 +51,5 @@ const Postdetail = () => {
         </div>
     )
 }
+
+export default Postdetail;
