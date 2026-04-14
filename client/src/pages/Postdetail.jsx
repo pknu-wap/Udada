@@ -7,13 +7,13 @@ const Postdetail = () => {
     const navigate = useNavigate();
 
     const [Post, setPost] = useState({
-        id: id,
-        title: "제목입니다",
+        id: 1,
+        title: "학술 정보 서비스 이용 안내",
         content: "공지사항입니다 감기조심하세요..",
         categoryId: 1,
-        categoryName: "개인",
+        category: "도서관",
         originalUrl: "공지링크가들어가다",
-        noticedAt: "2026-04-15",
+        noticedAt: "2024-05-20",
         isBookmarked: false
     });
     const toggleBookmark = () => {

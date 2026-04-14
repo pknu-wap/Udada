@@ -1,0 +1,38 @@
+.article-header {
+  margin-bottom: 20px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between; /* 제목은 왼쪽, 북마크는 오른쪽 */
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.article-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #212529;
+  margin: 0;
+}
+
+.header-bottom {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  color: #868e96;
+  font-size: 0.95rem;
+}
+
+.content-divider {
+  border: 0;
+  height: 1.5px;
+  background-color: #dee2e6;
+  margin: 30px 0;
+}
+.article-body {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+  min-height: 300px;
+}
