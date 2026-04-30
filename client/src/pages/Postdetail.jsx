@@ -7,7 +7,7 @@ const Postdetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [Post, setPost] = useState(null);
+    const [post, setPost] = useState(null);
     const [isBookmarked, setIsBookmarked] = useState(false);
 
     useEffect(() => {

@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import PostDetail from "./pages/Postdetail";
+import Postdetail from "./pages/Postdetail";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/post/:id" element={<Postdetail />} />
         </Routes>
       </div>
     </BrowserRouter>
