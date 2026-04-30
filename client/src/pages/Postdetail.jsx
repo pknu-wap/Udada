@@ -24,7 +24,7 @@ const Postdetail = () => {
 
 
     const toggleBookmark = () => {
-        setPost({ ...post, isBookmarked: !post.isBookmarked });
+        setIsBookmarked(!isBookmarked);
     };
 
     if (!post) {
