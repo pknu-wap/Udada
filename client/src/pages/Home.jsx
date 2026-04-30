@@ -42,7 +42,11 @@ function Home() {
 
       <div className="notice-list">
         {notices.map((notice) => (
-          <div key={notice.id} className="notice-card">
+          <div
+           key={notice.id} 
+           className="notice-card"
+           onClick={() => navigate(`/post/${notice.id}`)}
+           >
             <h3>{notice.title}</h3>
             <p>{notice.date}</p>
             <span>{notice.category}</span>
