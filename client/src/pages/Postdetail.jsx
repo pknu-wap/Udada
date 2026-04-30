@@ -32,18 +32,18 @@ const Postdetail = () => {
     }
 
     return (
-        <div style={{ padding: "40px", backgroundColor: "#fff", minHeight: "100vh" }}>
-            <div style={{ maxWidth: "800px", margin: "0 auto", padding: "40px", border: "1px solid #eee", borderRadius: "10px", boxShadow: "0 4px 10px rgba(0,0,0,0.05)" }}>
-
+        <div className="post-detail-container">
+            <div className="post-detail-box">
                 {/* 상단 헤더 영역 */}
                 <div className="article-header">
+                    <span className="category-tag">[{post.category || "공지"}]</span>
                     <div className="header-top">
                         <h1 className="article-title">{post.title}</h1>
 
                         {/* 북마크 아이콘*/}
                         <button
+                            className="bookmark-btn"
                             onClick={toggleBookmark}
-                            style={{ background: "none", border: "none", fontSize: "2rem", cursor: "pointer", color: "#004080" }}
                         >
                             {isBookmarked ? "(t)" : "(f)"}
                         </button>
@@ -58,17 +58,17 @@ const Postdetail = () => {
 
                 {/* 본문 */}
                 <div className="article-body">
-                    <p style={{ whiteSpace: "pre-wrap", wordBreak: "keep-all" }}>
+                    <p>
                         {post.content}
                     </p>
                 </div>
 
                 {/* 하단 구분선 및 목록으로 버튼*/}
-                <hr className="content-divider" style={{ marginTop: "50px" }} />
-                <div style={{ textAlign: "right" }}>
+                <hr className="content-divider" />
+                <div className="button-group">
                     <button
+                        className="back-btn"
                         onClick={() => navigate(-1)}
-                        style={{ padding: "10px 25px", backgroundColor: "#004080", color: "#fff", border: "none", borderRadius: "20px", cursor: "pointer", fontWeight: "bold" }}
                     >
                         목록으로
                     </button>
