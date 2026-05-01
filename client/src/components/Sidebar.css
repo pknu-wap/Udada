@@ -22,12 +22,6 @@
   gap: 20px; /* 아이콘 사이의 간격 */
 }
 
-/* 하단 설정 아이콘을 맨 아래로 밀어내기 위한 클래스 */
-.sidebar-bottom {
-  margin-top: auto; 
-  margin-bottom: 20px;
-}
-
 /* svg 아이콘 영역 */
 .menu-item {
   width: 48px;
