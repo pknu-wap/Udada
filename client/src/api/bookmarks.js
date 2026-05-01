@@ -12,6 +12,9 @@ export const getBookmarks = async () => {
 export const addBookmark = async (noticeId) => {
   const response = await fetch(`${API_BASE_URL}/bookmarks`, {
     method: "POST",
+    headers: {
+  "Content-Type": "application/json",
+},
     body: JSON.stringify({ noticeId }),
   });
 

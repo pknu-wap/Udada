@@ -12,6 +12,9 @@ export const getKeywords = async () => {
 export const addKeyword = async (keyword) => {
   const response = await fetch(`${API_BASE_URL}/keywords`, {
     method: "POST",
+    headers: {
+  "Content-Type": "application/json",
+},
     body: JSON.stringify({ keyword }),
   });
 
