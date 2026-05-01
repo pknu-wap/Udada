@@ -1,19 +1,66 @@
+/* sidebar.css */
 .sidebar {
-  width: 220px;
+  width: 70px;
   height: 100vh;
-  background-color: #1f1f1f;
-  color: white;
+  background-color: #004695;
   display: flex;
   flex-direction: column;
-  padding-top: 40px;
+  align-items: center;
+  padding: 30px 0;
+  box-sizing: border-box;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.menu {
-  padding: 18px 25px;
-  font-size: 16px;
-  transition: 0.2s;
+/* 상단그룹 */
+.sidebar-menu-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 20px; /* 아이콘 사이의 간격 */
 }
 
-.menu:hover {
-  background-color: #333;
+/* 하단 설정 아이콘을 맨 아래로 밀어내기 위한 클래스 */
+.sidebar-bottom {
+  margin-top: auto; 
+  margin-bottom: 20px;
+}
+
+/* svg 아이콘 영역 */
+.menu-item {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px; /* 둥근 사각형 */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+/* 커서 올릴때 네모 */
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* 네모고정 */
+.menu-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* 홈전용 네모 */
+.menu-item.home-btn:active {
+  background-color: transparent;
+}
+/* SVG 아이콘 크기 제어 (내부에 들어갈 아이콘) */
+.menu-item svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
 }
