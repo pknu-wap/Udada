@@ -1,0 +1,149 @@
+/* BookmarkPanel.css */
+
+/* 패널 전체 영역*/
+.bookmark-panel-wrapper {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  background-color: #f5f5f5;
+  z-index: 10;
+}
+
+/* 왼쪽: 게시글 목록 회색 상자 */
+.bookmark-list-box {
+  width: 320px;
+  height: 100%;
+  background-color: #e9ecef;
+  border-right: 1px solid #dee2e6; /* 오른쪽 창과의 경계선 */
+  display: flex;
+  flex-direction: column;
+}
+
+.bookmark-list-header {
+  padding: 25px 20px 15px;
+}
+
+.bookmark-list-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+/* 스크롤 가능한 목록 영역 */
+.bookmark-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* 개별 게시글 항목 */
+.bookmark-item {
+  padding: 18px 20px;
+  border-bottom: 1px solid #dee2e6;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.bookmark-item:hover {
+  background-color: #dee2e6; /* 마우스 올렸을 때 살짝 더 진한 회색 */
+}
+
+/* 클릭된(활성화된) 게시글 항목 */
+.bookmark-item.active {
+  background-color: #ffffff;
+  border-left: 4px solid #004695;
+}
+
+.post-category {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #004695;
+}
+
+.post-title {
+  font-size: 1rem;
+  color: #212529;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+
+/* 오른쪽: 상세 내용 뷰어 영역 */
+.bookmark-detail-viewer {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+/* 하얀색 문서 뷰어 느낌을 주기 위한 컨테이너 (선택사항) */
+.detail-header, .detail-body {
+  width: 100%;
+  max-width: 800px;
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.detail-header {
+  margin-bottom: 20px;
+}
+
+.detail-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.detail-title {
+  font-size: 1.8rem;
+  margin: 0 0 15px 0;
+  color: #212529;
+}
+
+/* 상세창 닫기 버튼 (✕) 
+.close-detail-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #adb5bd;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s;
+}
+
+.close-detail-btn:hover {
+  color: #495057; /* 마우스 올리면 진해짐 *
+}
+*/
+
+.detail-meta {
+  color: #868e96;
+  font-size: 0.95rem;
+  display: flex;
+  gap: 12px;
+}
+
+.detail-divider {
+  border: none;
+  height: 1px;
+  background-color: #eee;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 800px;
+}
+
+.detail-body {
+  min-height: 400px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+}
