@@ -9,14 +9,26 @@
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
+<<<<<<< HEAD
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+=======
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+>>>>>>> 58cfe2d0876b988a06a3632be306522f390668c4
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
+<<<<<<< HEAD
+  color: var(--text);
+  background: var(--bg);
+=======
   color-scheme: light dark;
   color: var(--text);
   background: var(--bg);
@@ -48,6 +60,7 @@
   #social .button-icon {
     filter: invert(1) brightness(2);
   }
+>>>>>>> 58cfe2d0876b988a06a3632be306522f390668c4
 }
 
 body {
@@ -55,6 +68,21 @@ body {
 }
 
 #root {
+<<<<<<< HEAD
+  width: 100%;
+  margin: 0;
+}
+
+h1 {
+  font-size: 40px;
+  margin: 20px;
+  color: var(--text-h);
+}
+
+p {
+  margin: 20px;
+}
+=======
 <<<<<<< HEAD
   width: 100%;
   margin: 0;
@@ -104,3 +132,4 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+>>>>>>> 58cfe2d0876b988a06a3632be306522f390668c4

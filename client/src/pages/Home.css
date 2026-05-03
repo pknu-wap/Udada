@@ -57,3 +57,12 @@
   border-radius: 6px;
   background-color: #eee;
 }
+
+.home {
+  display: flex;
+}
+
+.content {
+  padding: 20px;
+  flex: 1;
+}
