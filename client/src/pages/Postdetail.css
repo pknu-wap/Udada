@@ -1,0 +1,108 @@
+/* 전체 배경 및 가운데 정렬 */
+.post-detail-container {
+    padding: 40px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+/* 하얀색 메인 박스 */
+.post-detail-box {
+    width: 100%;
+    max-width: 900px;
+    background-color: #fff;
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* 상단 헤더 영역 */
+.article-header {
+    margin-bottom: 20px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 카테고리 태그 */
+.category-tag {
+    display: inline-block;
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.article-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #212529;
+    margin: 0;
+}
+
+/* 북마크 버튼 */
+.bookmark-btn {
+    background: none;
+    border: none;
+    font-size: 2.5rem; /* 아이콘 크기 */
+    cursor: pointer;
+    color: #004080;
+    transition: transform 0.2s;
+}
+
+.bookmark-btn:hover {
+    transform: scale(1.1);
+    background-color: transparent;
+}
+
+/* 날짜 정보 */
+.header-bottom {
+    margin-top: 15px;
+    color: #868e96;
+    font-size: 1rem;
+}
+
+/* 중앙 구분선 */
+.content-divider {
+    border: 0;
+    height: 1.5px;
+    background-color: #e9ecef;
+    margin: 30px 0;
+}
+
+/* 본문 영역 */
+.article-body {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #333;
+    min-height: 400px; /* 본문이 짧아도 박스 높이 유지 */
+}
+
+/* 하단 버튼 영역 */
+.button-group {
+    text-align: right;
+    margin-top: 40px;
+}
+
+.back-btn {
+    padding: 12px 30px;
+    background-color: #212529;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+    background-color: #495057;
+}
