@@ -15,11 +15,11 @@ public class NoticeController {
 
     @GetMapping
     public ApiResponse<NoticeListResponse> getNotices(
-            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) Integer keywordId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
 
-        NoticeListResponse response = noticeService.getNoticeList(categoryId, page, size);
+        NoticeListResponse response = noticeService.getNoticeList(keywordId, page, size);
         return ApiResponse.success(response);
     }
 }
