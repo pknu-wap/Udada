@@ -19,7 +19,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <Sidebar isOpen={isBookmarkOpen} onToggle={toggleBookmark} />
+        <Sidebar isOpen={isBookmarkOpen} toggleBookmark={toggleBookmark} />
 
         <div className="main-layout">
           <Routes>
@@ -33,9 +33,10 @@ function App() {
                 <>
                   <Navbar />
                   <div className="content-area">
-                    {isBookmarkOpen &&
-                      (<BookmarkPanel onClose={() => setIsBookmarkOpen(false)} />
-                      )}
+                    <BookmarkPanel 
+                      isOpen={isBookmarkOpen} 
+                      onClose={() => setIsBookmarkOpen(false)} 
+                    />
 
                     <Routes>
                       <Route path="/home" element={<Home />} />
