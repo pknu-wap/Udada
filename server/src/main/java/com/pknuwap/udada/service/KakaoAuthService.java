@@ -13,8 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -38,6 +36,9 @@ public class KakaoAuthService {
 
     @Value("${kakao.user-info-uri}")
     private String userInfoUri;
+
+    @Value("${kakao.login-client-secret}")
+    private String clientSecret;
 
     @Transactional
     public AuthResponse kakaoLogin(String code) {
@@ -69,23 +70,21 @@ public class KakaoAuthService {
 
     // 카카오 서버에 액세스 토큰 요청
     private KakaoTokenResponse getKakaoToken(String code) {
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", clientId);
-        params.add("redirect_uri", redirectUri);
-        params.add("code", code);
+        // 임시 로그
+        log.debug("kakao token request - clientId: {}, redirectUri: {}, clientSecret: {}, code: {}",
+                clientId, redirectUri, clientSecret, code);
 
-        // 임시 로그 추가
-        log.debug("kakao token request - clientId: {}, redirectUri: {}, code: {}",
-                clientId, redirectUri, code);
+        BodyInserters.FormInserter<String> formData =
+                BodyInserters.fromFormData("grant_type", "authorization_code")
+                        .with("client_id", clientId)
+                        .with("redirect_uri", redirectUri)
+                        .with("code", code)
+                        .with("client_secret", clientSecret);
 
         return webClient.post()
                 .uri(tokenUri)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters.fromFormData("grant_type", "authorization_code")
-                        .with("client_id", clientId)
-                        .with("redirect_uri", redirectUri)
-                        .with("code", code)) // form 인코딩
+                .body(formData)
                 .retrieve()
                 .bodyToMono(KakaoTokenResponse.class)
                 .block();
