@@ -31,9 +31,6 @@ function Home() {
     <div className="home">
 
       <div className="content">
-        <div className="search-bar">
-          <input type="text" placeholder="검색어를 입력하세요" />
-        </div>
 
         <div className="category-filter">
           <button>전체</button>
