@@ -11,13 +11,13 @@ export default function Navbar({ toggleKeywordPanel }) {
 
       <div className="navbar-right">
         <div className="search-section">
-          <div className="search-bar">
+          <div className="search-wrapper">
             <input type="text" className="search-input" placeholder="검색어를 입력" />
-            <button className="search-btn">🔍</button>
+            <button className="search-icon-btn">🔍</button>
           </div>
 
           <button className="keyword-btn" onClick={toggleKeywordPanel}>
-            # 키워드 설정
+            카테고리
           </button>
 
           {/* 구분선 및 로그인 */}
