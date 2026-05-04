@@ -18,13 +18,14 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
-    public NoticeListResponse getNoticeList(Integer categoryId, int page, int size) {
+    // TODO: 키워드가 여러개 설정되어 있을 때, 공지사항 조회 기능 수정 필요
+    public NoticeListResponse getNoticeList(Integer keywordId, int page, int size) {
         // 최신순 정렬
         Pageable pageable = PageRequest.of(page, size, Sort.by("noticedAt").descending());
 
-        // 카테고리 유무에 따라 리포지토리 호출
-        Page<Notice> noticePage = (categoryId != null)
-                ? noticeRepository.findAllByCategoryId(categoryId, pageable)
+        // 키워드 유무에 따라 리포지토리 호출
+        Page<Notice> noticePage = (keywordId != null)
+                ? noticeRepository.findAllByKeywordId(keywordId, pageable)
                 : noticeRepository.findAll(pageable);
 
         // 엔티티 목록을 DTO 목록으로 변환

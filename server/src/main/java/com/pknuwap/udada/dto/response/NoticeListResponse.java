@@ -24,14 +24,14 @@ public class NoticeListResponse {
     public static class NoticeDto {
         private Long id;
         private String title;
-        private Integer categoryId;
+        private Integer keywordId;
         private String noticedAt;
 
         public static NoticeDto from(Notice notice) {
             return NoticeDto.builder()
                     .id(notice.getId())
                     .title(notice.getTitle())
-                    .categoryId(notice.getCategory().getId())
+                    .keywordId(notice.getKeyword().getId())
                     .noticedAt(notice.getNoticedAt().toString())
                     .build();
         }
