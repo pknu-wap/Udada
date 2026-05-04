@@ -49,6 +49,10 @@ dependencies {
 	// Validation (@NotNull, @Valid)
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// web client
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// h2 database
 	implementation 'com.h2database:h2'
 
 	// Jsoup (크롤링)
