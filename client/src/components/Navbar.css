@@ -1,0 +1,91 @@
+/* Navbar.css */
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 40px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e4e7;
+  box-sizing: border-box;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* 요소들 사이의 간격 */
+}
+
+/* --- 검색바 디자인 --- */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 280px;
+  height: 40px;
+  padding: 0 40px 0 15px; /* 오른쪽에 돋보기 들어갈 공간 확보 */
+  border: 1px solid #d1d5db;
+  border-radius: 20px; /* 둥근*/
+  background-color: #f9fafb;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #004695;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 70, 149, 0.1);
+}
+
+.search-icon-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+/* --- 키워드 설정 버튼 --- */
+.keyword-btn {
+  height: 40px;
+  padding: 0 20px;
+  background-color: #004695;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.keyword-btn:hover {
+  background-color: #003370;
+}
+
+/* --- 로그인 및 구분선 --- */
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #d1d5db;
+  margin: 0 5px;
+}
+
+.login-link {
+  text-decoration: none;
+  color: #374151;
+  font-weight: 600;
+  font-size: 15px;
+  transition: color 0.2s ease;
+}
+
+.login-link:hover {
+  color: #004695;
+}
