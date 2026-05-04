@@ -36,7 +36,7 @@ public class NoticeService {
         return NoticeListResponse.of(dtos, noticePage.getTotalElements());
     }
 
-    //존재하지 않는 공지사항 상세를 요청할 경우
+    //존재하지 않는 공지사항 조회
     public NoticeDetailResponse getNoticeDetail(Long noticeId) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공지사항 입니다. id=" + noticeId));

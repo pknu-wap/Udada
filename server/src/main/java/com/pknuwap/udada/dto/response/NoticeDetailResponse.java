@@ -11,7 +11,7 @@ public class NoticeDetailResponse {
     private String title;
     private String content;
     private String originalUrl;
-    private Integer categoryId;
+    private Integer keywordId;
     private String noticedAt;
 
     //응답 생성
@@ -21,7 +21,7 @@ public class NoticeDetailResponse {
                 .title(notice.getTitle())
                 .content(notice.getContent())
                 .originalUrl(notice.getOriginalUrl())
-                .categoryId(notice.getCategory().getId())
+                .keywordId(notice.getKeyword().getId())
                 .noticedAt(notice.getNoticedAt() != null ? notice.getNoticedAt().toString() : "")
                 .build();
 
