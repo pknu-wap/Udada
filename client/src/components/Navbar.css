@@ -10,20 +10,44 @@
   border-bottom: 1px solid #e5e4e7;
   box-sizing: border-box;
   width: 100%;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-.navbar-right {
+.navbar-left, .navbar-right {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 15px; /* 요소들 사이의 간격 */
+}
+.navbar-right {
+  justify-content: flex-end;
+  gap: 15px;
 }
 
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-svg {
+  height: 30px; /* 디자이너 시안에 맞춘 높이값 */
+  width: auto;  /* 비율 유지 */
+}
 /* --- 검색바 디자인 --- */
+.navbar-center {
+  flex: 2; /* 가운데 영역을 더 넓게 배분 */
+  display: flex;
+  justify-content: center;
+}
 .search-section {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 0;
   width: 100%;
+  max-width: 600px;
 }
 
 .search-wrapper {
@@ -37,15 +61,29 @@
 
 .search-input {
   width: 100%;
-  height: 40px;
+  height: 42px;
   padding: 0 40px 0 15px; /* 오른쪽에 돋보기 들어갈 공간 확보 */
-  border: 1px solid #d1d5db;
-  border-radius: 20px; /* 둥근*/
+  border: 1.5px solid #000000;
+  border-radius: 0 20px 20px 0; /* 둥근*/
   background-color: #f9fafb;
-  font-size: 14px;
   outline: none;
+  font-size: 14px;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+}
+
+.search-icon-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-icon-btn:hover {
+  background-color: transparent; 
 }
 
 .search-input:focus {
@@ -64,14 +102,14 @@
   color: #6b7280;
 }
 
-/* --- 키워드 설정 버튼 --- */
-.keyword-btn {
-  height: 40px;
+/* --- 키워드(카테고리 설정 버튼 --- */
+.category-btn {
+  height: 42px;
   padding: 0 20px;
-  background-color: #004695;
-  color: #ffffff;
-  border: none;
-  border-radius: 20px;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1.5px solid #9ca3af;
+  border-radius: 20px 0 0 20px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -80,8 +118,10 @@
   transition: background-color 0.2s ease;
 }
 
-.keyword-btn:hover {
-  background-color: #003370;
+.category-btn.active {
+  border-color: #ff4d4d; 
+  background-color: #ff9999;
+  color: #ffffff;
 }
 
 /* --- 구분선 --- */
@@ -90,4 +130,9 @@
   height: 20px;
   background-color: #d1d5db;
   margin: 0 5px;
+}
+.nav-link {
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 14px;
 }
