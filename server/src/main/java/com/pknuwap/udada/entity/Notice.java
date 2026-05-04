@@ -20,8 +20,9 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // TODO 삭제 예정, 테이블로 별도 분리
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "keyword_id", nullable = false)
+    @JoinColumn(name = "keyword_id", nullable = true)
     private Keyword keyword;
 
     @Column(nullable = false, length = 500)
