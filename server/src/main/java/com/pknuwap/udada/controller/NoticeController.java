@@ -1,6 +1,7 @@
 package com.pknuwap.udada.controller;
 
 import com.pknuwap.udada.common.response.ApiResponse;
+import com.pknuwap.udada.dto.response.NoticeDetailResponse;
 import com.pknuwap.udada.dto.response.NoticeListResponse;
 import com.pknuwap.udada.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,14 @@ public class NoticeController {
             @RequestParam(defaultValue = "20") int size) {
 
         NoticeListResponse response = noticeService.getNoticeList(keywordId, page, size);
+        return ApiResponse.success(response);
+    }
+
+    @GetMapping("/{noticeId}")
+
+    public ApiResponse<NoticeDetailResponse> getNoticeDetail(@PathVariable Long noticeId) {
+        NoticeDetailResponse response = noticeService.getNoticeDetail(noticeId);
+
         return ApiResponse.success(response);
     }
 }
