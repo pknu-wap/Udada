@@ -38,4 +38,6 @@ out/
 /gradle/wrapper/gradle-wrapper.jar
 server/.DS_Store
 .DS_Store
-.DS_Store
+
+### Key ###
+server/src/main/resources/application.yml

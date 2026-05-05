@@ -20,9 +20,10 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // TODO 삭제 예정, 테이블로 별도 분리
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    @JoinColumn(name = "keyword_id", nullable = true)
+    private Keyword keyword;
 
     @Column(nullable = false, length = 500)
     private String title;
@@ -44,8 +45,8 @@ public class Notice {
     private List<Bookmark> bookmarks = new ArrayList<>();
 
     @Builder
-    public Notice(Category category, String title, String content, String originalUrl, LocalDateTime noticedAt) {
-        this.category = category;
+    public Notice(Keyword keyword, String title, String content, String originalUrl, LocalDateTime noticedAt) {
+        this.keyword = keyword;
         this.title = title;
         this.content = content;
         this.originalUrl = originalUrl;

@@ -14,7 +14,6 @@ public class BookmarkResponse {
     private Long bookmarkId;
     private Long noticeId;
     private String title;
-    private String categoryName;
     private LocalDateTime noticedAt;
     private LocalDateTime createdAt;
 
@@ -23,7 +22,6 @@ public class BookmarkResponse {
                 .bookmarkId(bookmark.getId())
                 .noticeId(bookmark.getNotice().getId())
                 .title(bookmark.getNotice().getTitle())
-                .categoryName(bookmark.getNotice().getCategory().getName())
                 .noticedAt(bookmark.getNotice().getNoticedAt())
                 .createdAt(bookmark.getCreatedAt())
                 .build();
