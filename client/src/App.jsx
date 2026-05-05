@@ -14,6 +14,7 @@ function App() {
 
   const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
   const [isKeywordOpen, setIsKeywordOpen] = useState(false);
+  const [keywords, setKeywords] = useState(["도서관", "장학금", "기숙사"]);
 
   const toggleBookmark = () => {
     setIsBookmarkOpen(!isBookmarkOpen);
@@ -41,7 +42,7 @@ function App() {
               path="/*"
               element={
                 <>
-                  <Navbar />
+                  <Navbar keywords={keywords} />
                   <div className="content-area">
                     <BookmarkPanel
                       isOpen={isBookmarkOpen}
@@ -50,6 +51,8 @@ function App() {
                     <KeywordPanel
                       isOpen={isKeywordOpen}
                       onClose={() => setIsKeywordOpen(false)}
+                      keywords={keywords}
+                      setKeywords={setKeywords}
                     />
 
                     <Routes>

@@ -3,15 +3,43 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 
-export default function Navbar({ toggleKeywordPanel }) {
+export default function Navbar({ keywords = [] }) {
   // 카테고리 활성화 상태 관리
   const [isActive, setIsActive] = useState(false);
 
-  const handleFilterClick = () => {
-    setIsActive(!isActive); // 색상 토글
-    if (toggleKeywordPanel) toggleKeywordPanel(); // 패널 열기 기능 실행
+  const [activeKeys, setActiveKeys] = useState(
+    () => new Set(keywords.map((_, i) => i))
+  );
+
+  const prevLenRef = React.useRef(keywords.length);
+  React.useEffect(() => {
+    if (keywords.length > prevLenRef.current) {
+      setActiveKeys((prev) => {
+        const next = new Set(prev);
+        next.add(keywords.length - 1);
+        return next;
+      });
+    }
+    prevLenRef.current = keywords.length;
+  }, [keywords]);
+
+  const toggleKey = (idx) => {
+    setActiveKeys((prev) => {
+      const next = new Set(prev);
+      next.has(idx) ? next.delete(idx) : next.add(idx);
+      return next;
+    });
   };
 
+  const isAllActive = activeKeys.size === keywords.length;
+
+  const toggleAll = () => {
+    if (isAllActive) {
+      setActiveKeys(new Set()); // 전체 해제
+    } else {
+      setActiveKeys(new Set(keywords.map((_, i) => i))); // 전체 선택
+    }
+  };
   return (
     <nav className="navbar-container">
       {/* 로고 왼쪽 배치 */}
@@ -24,11 +52,11 @@ export default function Navbar({ toggleKeywordPanel }) {
       <div className="navbar-center">
         <div className="search-section">
           <div className={`search-wrapper ${isActive ? "active" : ""}`}>
-            
+
             {/* 필터링 버튼 (회색 -> 클릭 시 붉은색) */}
             <button
               className={`Filter-btn ${isActive ? "active" : ""}`}
-              onClick={handleFilterClick}
+              onClick={() => setIsActive(!isActive)}
             >
               필터링
             </button>
@@ -37,6 +65,27 @@ export default function Navbar({ toggleKeywordPanel }) {
             <input type="text" className="search-input" placeholder="검색어를 입력" />
             <button className="search-icon-btn">🔍</button>
           </div>
+          {isActive && (
+            <div className="keyword-dropdown">
+
+              {/* 전체 버튼 */}
+              <button
+                className={`keyword-dropdown-item ${isAllActive ? "kd-active" : "kd-inactive"}`}
+                onClick={toggleAll}
+              >
+                전체
+              </button>
+              {keywords.length === 0 ? (
+                <p className="keyword-dropdown-empty">설정된 키워드가 없어요</p>
+              ) : (
+                keywords.map((kw, idx) => (
+                  <button key={idx} className="keyword-dropdown-item">
+                    {kw}
+                  </button>
+                ))
+              )}
+            </div>
+          )}
         </div>
       </div>
     </nav>
