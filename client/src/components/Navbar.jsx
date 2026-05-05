@@ -28,7 +28,7 @@ export default function Navbar({ toggleKeywordPanel }) {
             className={`category-btn ${isActive ? "active" : ""}`}
             onClick={handleCategoryClick}
           >
-            카테고리
+            필터링
           </button>
           {/* 검색바 */}
 

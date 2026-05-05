@@ -204,5 +204,6 @@
   flex-direction: column; /* 세로로 배치 (Navbar -> 화면) */
   width: 100%;
   min-width: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
