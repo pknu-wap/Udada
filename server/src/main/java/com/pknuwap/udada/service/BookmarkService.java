@@ -2,6 +2,7 @@ package com.pknuwap.udada.service;
 
 import com.pknuwap.udada.common.exception.BusinessException;
 import com.pknuwap.udada.common.exception.ErrorCode;
+import com.pknuwap.udada.common.exception.Exceptions;
 import com.pknuwap.udada.dto.request.BookmarkRequest;
 import com.pknuwap.udada.dto.response.BookmarkResponse;
 import com.pknuwap.udada.entity.Bookmark;
@@ -28,6 +29,8 @@ public class BookmarkService {
 
     // 북마크 목록 조회
     public BookmarkResponse.ListResponse getBookmarks(Long userId) {
+        Exceptions.getInstance().requireUserId(userId);
+
         List<BookmarkResponse> bookmarks = bookmarkRepository.findAllByUserIdWithNotice(userId)
                 .stream()
                 .map(BookmarkResponse::from)
@@ -39,6 +42,8 @@ public class BookmarkService {
     // 북마크 추가
     @Transactional
     public BookmarkResponse.CreateResponse addBookmark(Long userId, BookmarkRequest request) {
+        Exceptions.getInstance().requireUserId(userId);
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_INVALID));
 
@@ -62,6 +67,8 @@ public class BookmarkService {
     // 북마크 삭제
     @Transactional
     public void deleteBookmark(Long userId, Long bookmarkId) {
+        Exceptions.getInstance().requireUserId(userId);
+
         Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOOKMARK_INVALID));
 
