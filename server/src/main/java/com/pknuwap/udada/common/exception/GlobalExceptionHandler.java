@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiResponse<Void>> handleException(BusinessException e) {
         log.error("[Exception] {} : {}", e.getClass().getSimpleName(), e.getMessage(), e);
+        final ErrorCode error = e.getErrorCode();
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.failure(e.getMessage()));
+                .status(error.getStatus())
+                .body(ApiResponse.failure(error));
     }
 }

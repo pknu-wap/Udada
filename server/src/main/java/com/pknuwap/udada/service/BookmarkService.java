@@ -1,5 +1,7 @@
 package com.pknuwap.udada.service;
 
+import com.pknuwap.udada.common.exception.BusinessException;
+import com.pknuwap.udada.common.exception.ErrorCode;
 import com.pknuwap.udada.dto.request.BookmarkRequest;
 import com.pknuwap.udada.dto.response.BookmarkResponse;
 import com.pknuwap.udada.entity.Bookmark;
@@ -38,13 +40,13 @@ public class BookmarkService {
     @Transactional
     public BookmarkResponse.CreateResponse addBookmark(Long userId, BookmarkRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_INVALID));
 
         Notice notice = noticeRepository.findById(request.getNoticeId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공지사항입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.BOOKMARK_INVALID));
 
         if (bookmarkRepository.existsByUserIdAndNoticeId(userId, request.getNoticeId())) {
-            throw new IllegalStateException("이미 북마크한 공지사항입니다.");
+            throw new BusinessException(ErrorCode.BOOKMARK_ALREADY);
         }
 
         Bookmark bookmark = Bookmark.builder()
@@ -61,10 +63,10 @@ public class BookmarkService {
     @Transactional
     public void deleteBookmark(Long userId, Long bookmarkId) {
         Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 북마크입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.BOOKMARK_INVALID));
 
         if (!bookmark.getUser().getId().equals(userId)) {
-            throw new IllegalStateException("본인의 북마크만 삭제할 수 있습니다.");
+            throw new BusinessException(ErrorCode.BOOKMARK_NOT_OWNED);
         }
 
         bookmarkRepository.delete(bookmark);
