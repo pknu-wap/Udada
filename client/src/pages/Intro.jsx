@@ -1,7 +1,6 @@
 import "./Intro.css";
 
 function Intro() {
-
   const handleKakaoLogin = () => {
     const REST_API_KEY = "35ee70385d55e7d205867dc2788f35b4";
     const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
@@ -14,17 +13,19 @@ function Intro() {
   return (
     <div className="intro">
       <div className="intro-container">
-        <h1 className="logo">UDADA</h1>
+      <img src="/udada-logo.png" alt="UDADA 로고" className="logo-image" />
 
-        <p className="description">
-          우리 학교 다 알려드림
-          <br />
-          모든 공지를 한눈에 알려드립니다.
-        </p>
+        <p className="description">서비스 소개 - 서브</p>
 
         <button className="login-btn" onClick={handleKakaoLogin}>
-          카카오 로그인
+          로그인
         </button>
+
+        <footer className="footer-text">
+          서비스 소개 | 이용약관 | 개인정보처리방침 | 문의하기
+          <br />
+          우리 학교의 모든 정보를 한눈에, 우다다(UDADA)
+        </footer>
       </div>
     </div>
   );
