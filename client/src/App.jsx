@@ -7,19 +7,29 @@ import BookmarkPanel from "./components/BookmarkPanel";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Postdetail from "./pages/Postdetail";
+import KeywordPanel from "./components/KeywordPanel";
 import "./App.css";
 
 function App() {
 
   const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
+  const [isKeywordOpen, setIsKeywordOpen] = useState(false);
+
   const toggleBookmark = () => {
     setIsBookmarkOpen(!isBookmarkOpen);
+  };
+
+  const toggleKeywordPanel = () => {
+    setIsKeywordOpen(!isKeywordOpen);
   };
 
   return (
     <BrowserRouter>
       <div className="app">
-        <Sidebar isOpen={isBookmarkOpen} toggleBookmark={toggleBookmark} />
+        <Sidebar
+          isOpen={isBookmarkOpen}
+          toggleBookmark={toggleBookmark}
+          toggleKeyword={toggleKeywordPanel} />
 
         <div className="main-layout">
           <Routes>
@@ -33,9 +43,13 @@ function App() {
                 <>
                   <Navbar />
                   <div className="content-area">
-                    <BookmarkPanel 
-                      isOpen={isBookmarkOpen} 
-                      onClose={() => setIsBookmarkOpen(false)} 
+                    <BookmarkPanel
+                      isOpen={isBookmarkOpen}
+                      onClose={() => setIsBookmarkOpen(false)}
+                    />
+                    <KeywordPanel
+                      isOpen={isKeywordOpen}
+                      onClose={() => setIsKeywordOpen(false)}
                     />
 
                     <Routes>
