@@ -11,7 +11,7 @@ public class NoticeDetailResponse {
     private String title;
     private String content;
     private String originalUrl;
-    private Integer keywordId;
+    private Long keywordId;
     private String noticedAt;
 
     //응답 생성
