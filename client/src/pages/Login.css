@@ -38,7 +38,7 @@
 .kakao-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
+gap: 10px;
   background-color: #FEE500;
   color: #000;
   border: none;
@@ -53,4 +53,5 @@
 
 .kakao-btn:hover {
   opacity: 0.9;
+}
 }

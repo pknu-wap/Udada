@@ -52,9 +52,6 @@ dependencies {
 	// web client
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-	// h2 database
-	implementation 'com.h2database:h2'
-
 	// Jsoup (크롤링)
 	implementation 'org.jsoup:jsoup:1.17.2'
 }

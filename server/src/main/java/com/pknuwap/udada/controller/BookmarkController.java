@@ -1,5 +1,6 @@
 package com.pknuwap.udada.controller;
 
+import com.pknuwap.udada.common.jwt.UserPrincipal;
 import com.pknuwap.udada.common.response.ApiResponse;
 import com.pknuwap.udada.dto.request.BookmarkRequest;
 import com.pknuwap.udada.dto.response.BookmarkResponse;
@@ -20,30 +21,28 @@ public class BookmarkController {
 
     // 북마크 목록 조회
     @GetMapping
-    public ResponseEntity<ApiResponse<BookmarkResponse.ListResponse>> getBookmarks(
-            @AuthenticationPrincipal Long userId
-    ) {
-        BookmarkResponse.ListResponse response = bookmarkService.getBookmarks(userId);
+    public ResponseEntity<ApiResponse<BookmarkResponse.ListResponse>> getBookmarks(@AuthenticationPrincipal UserPrincipal principal) {
+        BookmarkResponse.ListResponse response = bookmarkService.getBookmarks(principal.getUserId());
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     // 북마크 추가
     @PostMapping
     public ResponseEntity<ApiResponse<BookmarkResponse.CreateResponse>> addBookmark(
-            @AuthenticationPrincipal Long userId,
+            @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody BookmarkRequest request
     ) {
-        BookmarkResponse.CreateResponse response = bookmarkService.addBookmark(userId, request);
+        BookmarkResponse.CreateResponse response = bookmarkService.addBookmark(principal.getUserId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response));
     }
 
     // 북마크 삭제
     @DeleteMapping("/{bookmarkId}")
     public ResponseEntity<ApiResponse<Void>> deleteBookmark(
-            @AuthenticationPrincipal Long userId,
+            @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long bookmarkId
     ) {
-        bookmarkService.deleteBookmark(userId, bookmarkId);
+        bookmarkService.deleteBookmark(principal.getUserId(), bookmarkId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 

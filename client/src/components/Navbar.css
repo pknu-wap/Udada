@@ -1,0 +1,236 @@
+/* Navbar.css */
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    padding: 0 2%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e4e7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; 
+    padding-left: 10px;
+}
+
+.navbar-right {
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+/*가운데*/
+.navbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+    min-width: 0;
+}
+
+/*---------로고--------*/
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-svg {
+    height: 55px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* --- 검색바 디자인 --- */
+
+.search-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: min(600px, 100%);
+    height: 46px
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border: 1.5px solid #cccccc;
+    border-radius: 23px;
+    background-color: #ffffff;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.search-wrapper:focus-within {
+    border-color: #004695;
+    box-shadow: 0 0 0 3px rgba(0, 70, 149, 0.1);
+}
+
+.search-wrapper.active {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.1);
+}
+
+.search-input {
+    flex: 1;
+    height: 100%;
+    padding: 0 10px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    border-color: #004695;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 70, 149, 0.1);
+}
+
+.search-icon-btn {
+    padding: 0 15px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #6b7280;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon-btn:hover {
+    background-color: transparent;
+}
+
+/* 카테고리-검색창 사이 구분선 */
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: #d1d5db;
+    flex-shrink: 0;
+}
+
+
+/* --- 필터링 설정 버튼 --- */
+.Filter-btn {
+    height: 100%;
+    margin: 0;
+    padding: 0 25px;
+    background-color: #f0f0f0;
+    color: #555555;
+    border: 1.5px solid #cccccc;
+    /* 버튼 테두리색과 통일 */
+    border-right: none;
+    border-radius: 23px 0 0 23px;
+    /* 오른쪽만 둥글게 */
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.Filter-btn.active {
+    border-color: #ff4d4d;
+    background-color: #ff9999;
+    color: #ffffff;
+}
+/*필터링 창*/
+/* 키워드 드롭다운 */
+.keyword-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: #f0f0f0;
+  border-radius: 16px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  overflow: visible;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+/* 공통 버튼 */
+.keyword-dropdown-item {
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+.keyword-dropdown-item:hover {
+  background: #222;
+  color: #fff;
+}
+
+/* 활성 (보이는 키워드) - 검정 고정 */
+.kd-active {
+  background: #222;
+  color: #fff;
+}
+
+.kd-active:hover {
+  background: #555;
+  color: #fff;
+}
+
+/* 비활성 (안보이는 키워드) - 회색 고정 */
+.kd-inactive {
+  background: #d9d9d9;
+  color: #888;
+}
+
+.kd-inactive:hover {
+  background: #bbb;
+  color: #444;
+}
+
+.keyword-dropdown-empty {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* --- 구분선 --- */
+.nav-divider {
+    width: 1px;
+    height: 20px;
+    background-color: #d1d5db;
+    margin: 0 5px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 14px;
+}
