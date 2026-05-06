@@ -185,3 +185,6 @@
 .app {
   display: flex;
 }
+.content-area {
+  position: relative;
+}
