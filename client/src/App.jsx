@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 import BookmarkPanel from "./components/BookmarkPanel";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import KakaoCallback from "./pages/KakaoCallback";
+import KakaoCallback from "./pages/KaKaoCallback";
 import Postdetail from "./pages/Postdetail";
 
 import KeywordPanel from "./components/KeywordPanel";
