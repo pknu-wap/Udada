@@ -7,7 +7,7 @@ const navigate = useNavigate();
   useEffect(() => {
     const code = new URLSearchParams(location.search).get("code");
     if (!code) return;
-    fetch("http://localhost:3000/api/v1/auth/kakao", {
+    fetch("http://34.47.85.214:3000/api/v1/auth/kakao", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code }),
