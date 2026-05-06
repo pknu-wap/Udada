@@ -1,36 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
-
 import { useNavigate } from "react-router-dom";
 
 function Home({ activeKeywords = [] }) {
   const navigate = useNavigate();
+  const [notices, setNotices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const notices = [
-    {
-      id: 1,
-      title: "학술 정보 서비스 이용 안내",
-      date: "2024-05-20",
-      keyword: "도서관",
-    },
-    {
-      id: 2,
-      title: "2024 2학기 장학금 신청 안내",
-      date: "2024-05-19",
-      keyword: "장학금",
-    },
-    {
-      id: 3,
-      title: "기숙사 신청 공지",
-      date: "2024-05-18",
-      keyword: "기숙사",
-    },
-  ];
-    // activeKeywords가 비어있으면 전체 표시, 있으면 해당 카테고리만
-   const filtered = activeKeywords.length === 0
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    fetch("http://localhost:3000/api/v1/notices", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setNotices(data.notices);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("공지사항 불러오기 실패:", err);
+        setLoading(false);
+      });
+  }, []);
+
+if (loading) return <div>로딩 중...</div>;
+
+  // activeKeywords가 비어있으면 전체 표시, 있으면 해당 카테고리만
+  const filtered = activeKeywords.length === 0
     ? notices
-    : notices.filter((n) => activeKeywords.includes(n.category));
-
+    : notices.filter((n) => activeKeywords.includes(n.categoryName));
 
   return (
     <div className="home">
@@ -38,7 +39,7 @@ function Home({ activeKeywords = [] }) {
       <div className="content">
 
         <div className="notice-list">
-          {filtered.length === 0 ? (
+{filtered.length === 0 ? (
             <p className="no-result">표시할 공지가 없어요</p>
           ) : (
             filtered.map((notice) => (
@@ -48,8 +49,8 @@ function Home({ activeKeywords = [] }) {
                 onClick={() => navigate(`/post/${notice.id}`)}
               >
                 <h3>{notice.title}</h3>
-                <p>{notice.date}</p>
-                <span>{notice.category}</span>
+                <p>{notice.noticedAt}</p>
+                <span>{notice.categoryName}</span>
               </div>
             ))
           )}

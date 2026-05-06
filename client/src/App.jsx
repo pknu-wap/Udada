@@ -7,6 +7,7 @@ import BookmarkPanel from "./components/BookmarkPanel";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Postdetail from "./pages/Postdetail";
+import KakaoCallback from "./pages/KaKaoCallback";
 import KeywordPanel from "./components/KeywordPanel";
 import "./App.css";
 

@@ -2,29 +2,65 @@ import "./Postdetail.css";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-
 const Postdetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
     const [post, setPost] = useState(null);
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [bookmarkId, setBookmarkId] = useState(null);
 
+    const token = localStorage.getItem("accessToken");
+
+    // 공지사항 상세 불러오기
     useEffect(() => {
-        const dummyParsedData = {
-            id: id,
-            title: "게시글 제목",
-            date: "2026. 04. 30",
-            content: '예시데이터',
-            bookmarked: false,
-        };
-        setPost(dummyParsedData);
-        setIsBookmarked(dummyParsedData.bookmarked);
+        fetch(`http://localhost:3000/api/v1/notices/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setPost(data);
+                setIsBookmarked(data.isBookmarked);
+            })
+            .catch((err) => {
+                console.error("공지사항 불러오기 실패:", err);
+            });
     }, [id]);
 
-
+    // 북마크 토글
     const toggleBookmark = () => {
-        setIsBookmarked(!isBookmarked);
+        if (isBookmarked) {
+            // 북마크 삭제
+            fetch(`http://localhost:3000/api/v1/bookmarks/${bookmarkId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then(() => {
+                    setIsBookmarked(false);
+                    setBookmarkId(null);
+                })
+                .catch((err) => console.error("북마크 삭제 실패:", err));
+        } else {
+            // 북마크 추가
+            fetch("http://localhost:3000/api/v1/bookmarks", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ noticeId: id }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    setIsBookmarked(true);
+                    setBookmarkId(data.bookmarkId);
+                })
+                .catch((err) => console.error("북마크 추가 실패:", err));
+        }
     };
 
     if (!post) {
@@ -34,46 +70,31 @@ const Postdetail = () => {
     return (
         <div className="post-detail-container">
             <div className="post-detail-box">
-                {/* 상단 헤더 영역 */}
                 <div className="article-header">
-                    <span className="category-tag">[{post.category || "공지"}]</span>
+                    <span className="category-tag">[{post.keywordName || "공지"}]</span>
                     <div className="header-top">
                         <h1 className="article-title">{post.title}</h1>
-
-                        {/* 북마크 아이콘*/}
-                        <button
-                            className="bookmark-btn"
-                            onClick={toggleBookmark}
-                        >
-                            {isBookmarked ? "(t)" : "(f)"}
+                        <button className="bookmark-btn" onClick={toggleBookmark}>
+                            {isBookmarked ? "★" : "☆"}
                         </button>
                     </div>
                     <div className="header-bottom">
-                        <span>{post.date}</span>
+                        <span>{post.noticedAt}</span>
                     </div>
                 </div>
 
-                {/* 중앙 구분선 */}
                 <hr className="content-divider" />
 
-                {/* 본문 */}
                 <div className="article-body">
-                    <p>
-                        {post.content}
-                    </p>
+                    <p>{post.content}</p>
                 </div>
 
-                {/* 하단 구분선 및 목록으로 버튼*/}
                 <hr className="content-divider" />
                 <div className="button-group">
-                    <button
-                        className="back-btn"
-                        onClick={() => navigate(-1)}
-                    >
+                    <button className="back-btn" onClick={() => navigate(-1)}>
                         목록으로
                     </button>
                 </div>
-
             </div>
         </div>
     );
