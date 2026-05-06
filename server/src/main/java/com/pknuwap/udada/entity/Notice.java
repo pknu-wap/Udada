@@ -20,11 +20,6 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO 삭제 예정, 테이블로 별도 분리
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "keyword_id", nullable = true)
-    private Keyword keyword;
-
     @Column(nullable = false, length = 500)
     private String title;
 
@@ -41,16 +36,29 @@ public class Notice {
     @Column(name = "crawled_at", nullable = false, updatable = false)
     private LocalDateTime crawledAt;
 
+    // notice_keywords 중간 테이블을 통한 N:M 관계
+    @ManyToMany
+    @JoinTable(
+            name = "notice_keywords",
+            joinColumns = @JoinColumn(name = "notice_id"),
+            inverseJoinColumns = @JoinColumn(name = "keyword_id")
+    )
+    private List<Keyword> keywords = new ArrayList<>();
+
     @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarks = new ArrayList<>();
 
     @Builder
-    public Notice(Keyword keyword, String title, String content, String originalUrl, LocalDateTime noticedAt) {
-        this.keyword = keyword;
+    public Notice(String title, String content, String originalUrl, LocalDateTime noticedAt) {
         this.title = title;
         this.content = content;
         this.originalUrl = originalUrl;
         this.noticedAt = noticedAt;
         this.crawledAt = LocalDateTime.now();
+    }
+
+    // 키워드 추가
+    public void addKeyword(Keyword keyword) {
+        this.keywords.add(keyword);
     }
 }

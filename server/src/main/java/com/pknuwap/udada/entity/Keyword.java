@@ -18,7 +18,7 @@ public class Keyword {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
@@ -43,5 +43,8 @@ public class Keyword {
         this.isDefault = isDefault;
         this.createdBy = createdBy;
         this.createdAt = LocalDateTime.now();
+    }
+    public void updateWord(String word) {
+        this.word = word;
     }
 }
