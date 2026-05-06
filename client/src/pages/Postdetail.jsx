@@ -12,8 +12,13 @@ const Postdetail = () => {
 
     const token = localStorage.getItem("accessToken");
 
-    // 공지사항 상세 불러오기
     useEffect(() => {
+        // 토큰 없으면 로그인 페이지로 튕겨내기
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+
         fetch(`http://localhost:3000/api/v1/notices/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -29,10 +34,8 @@ const Postdetail = () => {
             });
     }, [id]);
 
-    // 북마크 토글
     const toggleBookmark = () => {
         if (isBookmarked) {
-            // 북마크 삭제
             fetch(`http://localhost:3000/api/v1/bookmarks/${bookmarkId}`, {
                 method: "DELETE",
                 headers: {
@@ -45,7 +48,6 @@ const Postdetail = () => {
                 })
                 .catch((err) => console.error("북마크 삭제 실패:", err));
         } else {
-            // 북마크 추가
             fetch("http://localhost:3000/api/v1/bookmarks", {
                 method: "POST",
                 headers: {
