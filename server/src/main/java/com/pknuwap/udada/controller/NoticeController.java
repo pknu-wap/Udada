@@ -17,7 +17,7 @@ public class NoticeController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<NoticeListResponse>> getNotices(
-            @RequestParam(required = false) Integer keywordId,
+            @RequestParam(required = false) Long keywordId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
 

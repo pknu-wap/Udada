@@ -23,7 +23,11 @@ public enum ErrorCode {
     KEYWORD_NOT_OWNED(HttpStatus.BAD_REQUEST, "본인의 키워드만 수정할 수 있습니다."),
 
     // 유저
-    USER_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다.");
+    USER_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다."),
+
+    // 서버 오류
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류 ㅠㅠ 미아내 ㅠㅠ 백엔드팀한테 알려주세염 ㅠㅠ");
+
 
 
     private final HttpStatus status;

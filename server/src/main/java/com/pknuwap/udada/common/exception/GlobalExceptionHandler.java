@@ -9,18 +9,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * exception 로그 출력용 공통 예외 처리 핸들러
- * 추후 다른 오류 처리 로직도... 추가 예정...
- * */
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse<Void>> handleException(BusinessException e) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
         log.error("[Exception] {} : {}", e.getClass().getSimpleName(), e.getMessage(), e);
-        final ErrorCode error = e.getErrorCode();
-        return ResponseEntity
-                .status(error.getStatus())
-                .body(ApiResponse.failure(error));
+        if (e instanceof BusinessException) {
+            final ErrorCode error = ((BusinessException) e).getErrorCode();
+            return ResponseEntity
+                    .status(error.getStatus())
+                    .body(ApiResponse.failure(error));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.failure(ErrorCode.INTERNAL_SERVER_ERROR));
+        }
     }
+
 }
