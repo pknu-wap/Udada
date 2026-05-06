@@ -3,37 +3,63 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  position: relative;
+  background: linear-gradient(to bottom, #ffffff, #dfe8f5);
 }
 
 .intro-container {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo {
-  font-size: 48px;
+  font-size: 64px;
   font-weight: bold;
-  margin-bottom: 20px;
+  color: #0b4ea2;
+  margin-top: -120px;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .description {
-  font-size: 18px;
-  color: #555;
-  margin-bottom: 40px;
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 60px;
 }
 
 .login-btn {
-  width: 200px;
-  padding: 12px;
-  font-size: 16px;
+  width: 420px;
+  padding: 16px;
+  font-size: 24px;
   border: none;
-  border-radius: 25px;
-  background-color: black;
+  border-radius: 30px;
+  background-color: #0b4ea2;
   color: white;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .login-btn:hover {
-  background-color: #333;
+  opacity: 0.9;
+}
+
+.footer-text {
+  position: absolute;
+  bottom: 30px;
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+}
+
+.logo-image {
+  width: 220px;
+  margin-top: -120px;
+  margin-bottom: 30px;
 }

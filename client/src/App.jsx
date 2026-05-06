@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Intro from "./pages/Intro";
@@ -6,10 +7,14 @@ import Sidebar from "./components/Sidebar";
 import BookmarkPanel from "./components/BookmarkPanel";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+
+import KakaoCallback from "./pages/KakaoCallback";
+
 import Postdetail from "./pages/Postdetail";
 import KakaoCallback from "./pages/KaKaoCallback";
 import KeywordPanel from "./components/KeywordPanel";
 import "./App.css";
+
 
 function App() {
 
@@ -39,10 +44,12 @@ function App() {
           toggleBookmark={toggleBookmark}
           toggleKeyword={toggleKeywordPanel} />
 
-        <div className="main-layout">
+<div className="main-layout">
           <Routes>
             {/* 인트로 페이지 */}
             <Route path="/" element={<Intro />} />
+            {/* 카카오 콜백 */}
+            <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
 
             {/* 홈 페이지 (Navbar 포함) */}
             <Route
