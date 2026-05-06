@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 
-function Home() {
+function Home({ activeKeywords = [] }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,36 +26,34 @@ function Home() {
       });
   }, []);
 
-  if (loading) return <div>로딩 중...</div>;
+if (loading) return <div>로딩 중...</div>;
+
+  // activeKeywords가 비어있으면 전체 표시, 있으면 해당 카테고리만
+  const filtered = activeKeywords.length === 0
+    ? notices
+    : notices.filter((n) => activeKeywords.includes(n.categoryName));
 
   return (
     <div className="home">
-      <Sidebar />
 
       <div className="content">
-        <div className="search-bar">
-          <input type="text" placeholder="검색어를 입력하세요" />
-        </div>
-
-        <div className="category-filter">
-          <button>전체</button>
-          <button>장학금</button>
-          <button>도서관</button>
-          <button>기숙사</button>
-        </div>
 
         <div className="notice-list">
-          {notices.map((notice) => (
-            <div
-              key={notice.id}
-              className="notice-card"
-              onClick={() => navigate(`/post/${notice.id}`)}
-            >
-              <h3>{notice.title}</h3>
-              <p>{notice.noticedAt}</p>
-              <span>{notice.categoryName}</span>
-            </div>
-          ))}
+{filtered.length === 0 ? (
+            <p className="no-result">표시할 공지가 없어요</p>
+          ) : (
+            filtered.map((notice) => (
+              <div
+                key={notice.id}
+                className="notice-card"
+                onClick={() => navigate(`/post/${notice.id}`)}
+              >
+                <h3>{notice.title}</h3>
+                <p>{notice.noticedAt}</p>
+                <span>{notice.categoryName}</span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
