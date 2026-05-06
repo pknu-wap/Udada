@@ -1,5 +1,7 @@
 package com.pknuwap.udada.service;
 
+import com.pknuwap.udada.common.exception.BusinessException;
+import com.pknuwap.udada.common.exception.ErrorCode;
 import com.pknuwap.udada.dto.request.KeywordRequest;
 import com.pknuwap.udada.dto.response.KeywordResponse;
 import com.pknuwap.udada.entity.Keyword;
@@ -29,7 +31,7 @@ public class KeywordService {
     @Transactional
     public KeywordResponse createKeyword(KeywordRequest request, Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_INVALID));
 
         Keyword keyword = Keyword.builder()
                 .word(request.getWord())
@@ -43,10 +45,10 @@ public class KeywordService {
     @Transactional
     public KeywordResponse updateKeyword(Long keywordId, Long userId, KeywordRequest request) {
         Keyword keyword = keywordRepository.findById(keywordId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 키워드입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.KEYWORD_NOT_FOUND));
 
         if (!keyword.getCreatedBy().getId().equals(userId)) {
-            throw new IllegalStateException("본인의 키워드만 수정할 수 있습니다.");
+            throw new BusinessException(ErrorCode.KEYWORD_NOT_OWNED);
         }
 
         keyword.updateWord(request.getWord());
@@ -57,10 +59,10 @@ public class KeywordService {
     @Transactional
     public void deleteKeyword(Long keywordId, Long userId) {
         Keyword keyword = keywordRepository.findById(keywordId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 키워드입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.KEYWORD_NOT_FOUND));
 
         if (!keyword.getCreatedBy().getId().equals(userId)) {
-            throw new IllegalStateException("본인의 키워드만 삭제할 수 있습니다.");
+            throw new BusinessException(ErrorCode.KEYWORD_NOT_OWNED);
         }
 
         keywordRepository.delete(keyword);

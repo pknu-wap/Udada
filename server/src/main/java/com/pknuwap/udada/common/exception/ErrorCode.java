@@ -18,8 +18,13 @@ public enum ErrorCode {
     // 공지사항
     NOTICE_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 공지사항입니다."),
 
+    //키워드
+    KEYWORD_NOT_FOUND(HttpStatus.BAD_REQUEST, "존재하지 않는 키워드입니다."),
+    KEYWORD_NOT_OWNED(HttpStatus.BAD_REQUEST, "본인의 키워드만 수정할 수 있습니다."),
+
     // 유저
     USER_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다.");
+
 
     private final HttpStatus status;
     private final String message;
