@@ -1,5 +1,4 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
 import "./Home.css";
 
 import { useNavigate } from "react-router-dom";
@@ -30,7 +29,6 @@ function Home() {
 
   return (
     <div className="home">
-      <Sidebar />
 
       <div className="content">
         <div className="search-bar">

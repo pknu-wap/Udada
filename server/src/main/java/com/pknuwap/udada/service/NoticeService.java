@@ -1,5 +1,7 @@
 package com.pknuwap.udada.service;
 
+import com.pknuwap.udada.common.exception.BusinessException;
+import com.pknuwap.udada.common.exception.ErrorCode;
 import com.pknuwap.udada.dto.response.NoticeDetailResponse;
 import com.pknuwap.udada.dto.response.NoticeListResponse;
 import com.pknuwap.udada.entity.Notice;
@@ -36,10 +38,10 @@ public class NoticeService {
         return NoticeListResponse.of(dtos, noticePage.getTotalElements());
     }
 
-    //존재하지 않는 공지사항 조회
+    // 공지사항 상세 조회
     public NoticeDetailResponse getNoticeDetail(Long noticeId) {
         Notice notice = noticeRepository.findById(noticeId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공지사항 입니다. id=" + noticeId));
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_INVALID));
 
         return NoticeDetailResponse.from(notice);
     }
