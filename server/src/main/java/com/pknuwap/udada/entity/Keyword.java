@@ -44,4 +44,7 @@ public class Keyword {
         this.createdBy = createdBy;
         this.createdAt = LocalDateTime.now();
     }
+    public void updateWord(String word) {
+        this.word = word;
+    }
 }

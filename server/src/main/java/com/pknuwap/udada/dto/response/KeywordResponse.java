@@ -9,11 +9,13 @@ import lombok.Getter;
 public class KeywordResponse {
     private Long id;
     private String word;
+    private boolean isDefault;
 
     public static KeywordResponse from(Keyword keyword) {
         return KeywordResponse.builder()
                 .id(keyword.getId())
                 .word(keyword.getWord())
+                .isDefault(keyword.isDefault())
                 .build();
     }
 }
