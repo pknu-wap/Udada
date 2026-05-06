@@ -15,7 +15,7 @@
 }
 
 .logo {
-  font-size: 64px;
+  font-size: 100px;
   font-weight: bold;
   color: #0b4ea2;
   margin-top: -120px;
@@ -35,7 +35,7 @@
 }
 
 .login-btn {
-  width: 420px;
+  width: 220px;
   padding: 16px;
   font-size: 24px;
   border: none;
@@ -59,7 +59,7 @@
 }
 
 .logo-image {
-  width: 220px;
+  width: 400px;
   margin-top: -120px;
   margin-bottom: 30px;
 }
