@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 
-export default function Navbar({ keywords = [] }) {
+export default function Navbar({ keywords = [] , onActiveKeysChange }) {
   // 카테고리 활성화 상태 관리
   const [isActive, setIsActive] = useState(false);
 
@@ -29,16 +29,6 @@ export default function Navbar({ keywords = [] }) {
       next.has(idx) ? next.delete(idx) : next.add(idx);
       return next;
     });
-  };
-
-  const isAllActive = activeKeys.size === keywords.length;
-
-  const toggleAll = () => {
-    if (isAllActive) {
-      setActiveKeys(new Set()); // 전체 해제
-    } else {
-      setActiveKeys(new Set(keywords.map((_, i) => i))); // 전체 선택
-    }
   };
   return (
     <nav className="navbar-container">
@@ -67,14 +57,6 @@ export default function Navbar({ keywords = [] }) {
           </div>
           {isActive && (
             <div className="keyword-dropdown">
-
-              {/* 전체 버튼 */}
-              <button
-                className={`keyword-dropdown-item ${isAllActive ? "kd-active" : "kd-inactive"}`}
-                onClick={toggleAll}
-              >
-                전체
-              </button>
               {keywords.length === 0 ? (
                 <p className="keyword-dropdown-empty">설정된 키워드가 없어요</p>
               ) : (

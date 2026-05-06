@@ -15,6 +15,8 @@ function App() {
   const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
   const [isKeywordOpen, setIsKeywordOpen] = useState(false);
   const [keywords, setKeywords] = useState(["도서관", "장학금", "기숙사"]);
+  
+   const [activeKeywords, setActiveKeywords] = useState(["도서관", "장학금", "기숙사"]);
 
   const toggleBookmark = () => {
     setIsBookmarkOpen(!isBookmarkOpen);
@@ -23,6 +25,10 @@ function App() {
   const toggleKeywordPanel = () => {
     setIsKeywordOpen(!isKeywordOpen);
   };
+
+  const handleActiveKeysChange = (activeSet, kws) => {
+  setActiveKeywords(kws.filter((_, i) => activeSet.has(i)));
+};
 
   return (
     <BrowserRouter>
@@ -42,7 +48,7 @@ function App() {
               path="/*"
               element={
                 <>
-                  <Navbar keywords={keywords} />
+                  <Navbar keywords={keywords} onActiveKeysChange={handleActiveKeysChange} />
                   <div className="content-area">
                     <BookmarkPanel
                       isOpen={isBookmarkOpen}
@@ -56,7 +62,7 @@ function App() {
                     />
 
                     <Routes>
-                      <Route path="/home" element={<Home />} />
+                      <Route path="/home" element={<Home activeKeywords={activeKeywords} />} />
                       {/* 로그인 페이지 */}
                       <Route path="/login" element={<Login />} />
                       {/*상세페이지*/}

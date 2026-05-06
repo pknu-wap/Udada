@@ -167,6 +167,7 @@
   gap: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  overflow: visible;
   animation: dropdownFadeIn 0.2s ease;
 }
 
@@ -182,6 +183,10 @@
   text-align: center;
   transition: all 0.15s ease;
 }
+.keyword-dropdown-item:hover {
+  background: #222;
+  color: #fff;
+}
 
 /* 활성 (보이는 키워드) - 검정 고정 */
 .kd-active {
@@ -191,6 +196,7 @@
 
 .kd-active:hover {
   background: #555;
+  color: #fff;
 }
 
 /* 비활성 (안보이는 키워드) - 회색 고정 */
