@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import KakaoCallback from "./pages/KakaoCallback";
 
 import Postdetail from "./pages/Postdetail";
-import KakaoCallback from "./pages/KaKaoCallback";
+
 import KeywordPanel from "./components/KeywordPanel";
 import "./App.css";
 
