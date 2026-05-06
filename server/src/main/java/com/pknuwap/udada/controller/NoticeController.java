@@ -5,6 +5,7 @@ import com.pknuwap.udada.dto.response.NoticeDetailResponse;
 import com.pknuwap.udada.dto.response.NoticeListResponse;
 import com.pknuwap.udada.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,20 +16,19 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @GetMapping
-    public ApiResponse<NoticeListResponse> getNotices(
+    public ResponseEntity<ApiResponse<NoticeListResponse>> getNotices(
             @RequestParam(required = false) Integer keywordId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
 
         NoticeListResponse response = noticeService.getNoticeList(keywordId, page, size);
-        return ApiResponse.success(response);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     @GetMapping("/{noticeId}")
-
-    public ApiResponse<NoticeDetailResponse> getNoticeDetail(@PathVariable Long noticeId) {
+    public ResponseEntity<ApiResponse<NoticeDetailResponse>> getNoticeDetail(@PathVariable Long noticeId) {
         NoticeDetailResponse response = noticeService.getNoticeDetail(noticeId);
 
-        return ApiResponse.success(response);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

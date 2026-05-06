@@ -1,5 +1,7 @@
 package com.pknuwap.udada.service;
 
+import com.pknuwap.udada.common.exception.BusinessException;
+import com.pknuwap.udada.common.exception.ErrorCode;
 import com.pknuwap.udada.common.jwt.JwtProvider;
 import com.pknuwap.udada.dto.response.AuthResponse;
 import com.pknuwap.udada.dto.response.KakaoTokenResponse;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +89,10 @@ public class KakaoAuthService {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(formData)
                 .retrieve()
+                .onStatus(status -> status == HttpStatus.BAD_REQUEST, response ->
+                        response.bodyToMono(String.class)
+                                .map(body -> new BusinessException(ErrorCode.INVALID_KAKAO_TOKEN))
+                )
                 .bodyToMono(KakaoTokenResponse.class)
                 .block();
     }

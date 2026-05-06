@@ -1,25 +1,15 @@
 package com.pknuwap.udada.common.response;
 
-import lombok.Getter;
+import com.pknuwap.udada.common.exception.ErrorCode;
+import org.springframework.http.HttpStatus;
 
-@Getter
-public class ApiResponse<T> {
-
-    private final boolean success;
-    private final T data;
-    private final String message;
-
-    private ApiResponse(boolean success, T data, String message) {
-        this.success = success;
-        this.data = data;
-        this.message = message;
-    }
+public record ApiResponse<T>(boolean success, int code, T data, String message) {
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(true, data, null);
+        return new ApiResponse<>(true, HttpStatus.OK.value(), data, null);
     }
 
-    public static <T> ApiResponse<T> failure(String message) {
-        return new ApiResponse<>(false, null, message);
+    public static <T> ApiResponse<T> failure(ErrorCode errorCode) {
+        return new ApiResponse<>(false, errorCode.getStatus().value(), null, errorCode.getMessage());
     }
 }
