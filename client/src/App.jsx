@@ -7,19 +7,36 @@ import BookmarkPanel from "./components/BookmarkPanel";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Postdetail from "./pages/Postdetail";
+import KeywordPanel from "./components/KeywordPanel";
 import "./App.css";
 
 function App() {
 
   const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
+  const [isKeywordOpen, setIsKeywordOpen] = useState(false);
+  const [keywords, setKeywords] = useState(["도서관", "장학금", "기숙사"]);
+  
+   const [activeKeywords, setActiveKeywords] = useState(["도서관", "장학금", "기숙사"]);
+
   const toggleBookmark = () => {
     setIsBookmarkOpen(!isBookmarkOpen);
   };
 
+  const toggleKeywordPanel = () => {
+    setIsKeywordOpen(!isKeywordOpen);
+  };
+
+  const handleActiveKeysChange = (activeSet, kws) => {
+  setActiveKeywords(kws.filter((_, i) => activeSet.has(i)));
+};
+
   return (
     <BrowserRouter>
       <div className="app">
-        <Sidebar isOpen={isBookmarkOpen} toggleBookmark={toggleBookmark} />
+        <Sidebar
+          isOpen={isBookmarkOpen}
+          toggleBookmark={toggleBookmark}
+          toggleKeyword={toggleKeywordPanel} />
 
         <div className="main-layout">
           <Routes>
@@ -31,15 +48,21 @@ function App() {
               path="/*"
               element={
                 <>
-                  <Navbar />
+                  <Navbar keywords={keywords} onActiveKeysChange={handleActiveKeysChange} />
                   <div className="content-area">
-                    <BookmarkPanel 
-                      isOpen={isBookmarkOpen} 
-                      onClose={() => setIsBookmarkOpen(false)} 
+                    <BookmarkPanel
+                      isOpen={isBookmarkOpen}
+                      onClose={() => setIsBookmarkOpen(false)}
+                    />
+                    <KeywordPanel
+                      isOpen={isKeywordOpen}
+                      onClose={() => setIsKeywordOpen(false)}
+                      keywords={keywords}
+                      setKeywords={setKeywords}
                     />
 
                     <Routes>
-                      <Route path="/home" element={<Home />} />
+                      <Route path="/home" element={<Home activeKeywords={activeKeywords} />} />
                       {/* 로그인 페이지 */}
                       <Route path="/login" element={<Login />} />
                       {/*상세페이지*/}

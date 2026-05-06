@@ -9,13 +9,6 @@
   flex: 1;
 }
 
-/* 검색창 */
-.search-bar input {
-  width: 300px;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
 /* 카테고리 */
 .category-filter {
   display: flex;
