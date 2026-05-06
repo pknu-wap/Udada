@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     @Query("SELECT b FROM Bookmark b " +
-            "JOIN FETCH b.notice n JOIN FETCH n.keyword " +
+            "JOIN FETCH b.notice n JOIN FETCH n.keywords " +
             "WHERE b.user.id = :userId ORDER BY b.createdAt DESC")
     List<Bookmark> findAllByUserIdWithNotice(@Param("userId") Long userId);
 

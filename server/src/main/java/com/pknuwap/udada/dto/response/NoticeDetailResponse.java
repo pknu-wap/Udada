@@ -4,6 +4,9 @@ import com.pknuwap.udada.entity.Notice;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Builder
 public class NoticeDetailResponse {
@@ -11,7 +14,7 @@ public class NoticeDetailResponse {
     private String title;
     private String content;
     private String originalUrl;
-    private Integer keywordId;
+    private List<KeywordResponse> keywords;
     private String noticedAt;
 
     //응답 생성
@@ -21,7 +24,9 @@ public class NoticeDetailResponse {
                 .title(notice.getTitle())
                 .content(notice.getContent())
                 .originalUrl(notice.getOriginalUrl())
-                .keywordId(notice.getKeyword().getId())
+                .keywords(notice.getKeywords().stream()
+                        .map(KeywordResponse::from)
+                        .collect(Collectors.toList()))
                 .noticedAt(notice.getNoticedAt() != null ? notice.getNoticedAt().toString() : "")
                 .build();
 
