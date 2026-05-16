@@ -1,0 +1,39 @@
+.bookmark-detail-viewer {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background-color: #ffffff;
+}
+
+.bookmark-detail-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
+
+.detail-title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.detail-meta {
+  margin-top: 15px;
+  color: #888;
+  display: flex;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.detail-divider {
+  border: 0;
+  height: 1px;
+  background-color: #ddd;
+  margin: 25px 0;
+}
+
+.detail-body {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+}
