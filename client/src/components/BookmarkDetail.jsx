@@ -13,16 +13,18 @@ export default function BookmarkDetail({ post }) {
   return (
     <div className="bookmark-detail-viewer">
       <div className="detail-header">
-        <h2 className="detail-title">{post.title}</h2>
-        <div className="detail-meta">
-          <span>{post.date}</span>
-          <span>|</span>
-          <span>{post.category}</span>
+        <div className="detail-card">
+          <h2 className="detail-title">{post.title}</h2>
+          <div className="detail-meta">
+            <span>{post.date}</span>
+            <span>|</span>
+            <span>{post.category}</span>
+          </div>
         </div>
-      </div>
-      <hr className="detail-divider" />
-      <div className="detail-body">
-        {post.content}
+        <hr className="detail-divider" />
+        <div className="detail-body">
+          {post.content}
+        </div>
       </div>
     </div>
   );
