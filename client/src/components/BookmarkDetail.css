@@ -1,16 +1,20 @@
 .bookmark-detail-viewer {
   flex: 1;
-  padding: 40px;
+  padding: 40px 24px 24px 24px;;
   overflow-y: auto;
-  background-color: transparent;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .detail-card {
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 40px;
-  height: 100%;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 720px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .bookmark-detail-empty {
@@ -44,4 +48,22 @@
   font-size: 1.1rem;
   line-height: 1.8;
   color: #333;
+}
+
+.detail-footer {
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-end;
+}
+.detail-link-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.detail-link-btn:hover {
+  background-color: #0b5ed7;
 }

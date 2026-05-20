@@ -17,11 +17,23 @@ export default function BookmarkList({ posts, selectedPost, onSelect }) {
           {posts.map((post) => (
             <li
               key={post.id}
-              className={`bookmark-item ${selectedPost?.id === post.id ? "active" : ""}`}
+              className={`bookmark-item ${selectedPost?.id === post.id
+                  ? "active"
+                  : selectedPost
+                    ? "inactive"
+                    : ""
+                }`}
               onClick={() => onSelect(selectedPost?.id === post.id ? null : post)}
             >
               <span className="post-category">[{post.category}]</span>
               <span className="post-title">{post.title}</span>
+              <span
+                className="post-bookmark-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove(post.id);
+                }}
+              >🔖</span>
             </li>
           ))}
         </ul>

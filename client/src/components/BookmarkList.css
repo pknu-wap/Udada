@@ -1,6 +1,6 @@
 .bookmark-list-box {
   width: 300px;
-  background-color: #f0f0f0;
+  background-color: #DEE2E6;
   border-right: none;
   border-radius: 16px;
   display: flex;
@@ -27,34 +27,44 @@
 
 .bookmark-list {
   list-style: none;
-  padding: 0;
+  padding: 10px;
   margin: 0;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .bookmark-item {
-  padding: 10px 10px;
-  border-bottom: 1px solid #eee;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: 1.5px solid transparent;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   cursor: pointer;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  gap: 4px;
+  align-items: flex-start;
+  gap: 8px;
+  transition: border 0.15s ease, background-color 0.15s ease;
 }
 
 .bookmark-item:hover {
-  background-color: #e9ecef;
+  background-color: #ffffff;
+  border: 1.5px solid #0d6efd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.bookmark-item.active {
-  background-color: #0d6efd;
-  border-left: none;
+.bookmark-item.active{
+  background-color: #ffffff;
+  border: 1.5px solid #0d6efd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
-.bookmark-item.active .post-title,
-.bookmark-item.active .post-category {
-  color: #ffffff;
+.bookmark-item.inactive {
+  background-color: #eeeeee;
+  border: 1.5px solid transparent;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .post-category {
@@ -65,9 +75,8 @@
 .post-title {
   font-size: 0.85rem;
   color: #333;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: normal;
   flex: 1;
 }
 
@@ -75,4 +84,5 @@
   font-size: 0.9rem;
   color: #0d6efd;
   flex-shrink: 0;
+  margin-top: 2px;
 }

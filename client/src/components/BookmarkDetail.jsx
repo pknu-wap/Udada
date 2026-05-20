@@ -12,8 +12,8 @@ export default function BookmarkDetail({ post }) {
 
   return (
     <div className="bookmark-detail-viewer">
+      <div className="detail-card"> 
       <div className="detail-header">
-        <div className="detail-card">
           <h2 className="detail-title">{post.title}</h2>
           <div className="detail-meta">
             <span>{post.date}</span>
@@ -24,6 +24,10 @@ export default function BookmarkDetail({ post }) {
         <hr className="detail-divider" />
         <div className="detail-body">
           {post.content}
+        </div>
+        <hr className="detail-divider" />
+        <div className="detail-footer">
+          <button className="detail-link-btn">목록으로</button>
         </div>
       </div>
     </div>
