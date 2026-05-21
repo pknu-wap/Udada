@@ -1,7 +1,7 @@
 import React from "react";
 import "./BookmarkDetail.css";
 
-export default function BookmarkDetail({ post }) {
+export default function BookmarkDetail({ post, onClose }) {
   if (!post) {
     return (
       <div className="bookmark-detail-empty">
@@ -27,7 +27,7 @@ export default function BookmarkDetail({ post }) {
         </div>
         <hr className="detail-divider" />
         <div className="detail-footer">
-          <button className="detail-link-btn">목록으로</button>
+          <button className="detail-link-btn" onClick={onClose}>목록으로</button>
         </div>
       </div>
     </div>

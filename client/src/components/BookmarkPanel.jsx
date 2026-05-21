@@ -31,7 +31,8 @@ export default function BookmarkPanel({ isOpen }) {
         onRemove={handleRemoveBookmark}
       />
       {/* 오른쪽 */}
-      <BookmarkDetail post={selectedPost} />
+      <BookmarkDetail post={selectedPost}
+      onClose={() => setSelectedPost(null)} />
     </div>
   );
 }
