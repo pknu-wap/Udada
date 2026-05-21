@@ -5,7 +5,7 @@ export default function BookmarkList({ posts, selectedPost, onSelect }) {
   return (
     <div className="bookmark-list-box">
       <div className="bookmark-list-header">
-        <h3>북마크 목록</h3>
+        <h3>북마크</h3>
       </div>
 
       {posts.length === 0 ? (

@@ -4,7 +4,7 @@ import "./BookmarkDetail.css";
 export default function BookmarkDetail({ post }) {
   if (!post) {
     return (
-      <div className="bookmark-detail-viewer bookmark-detail-empty">
+      <div className="bookmark-detail-empty">
         <p>목록에서 글을 선택해 상세 내용을 확인하세요.</p>
       </div>
     );
