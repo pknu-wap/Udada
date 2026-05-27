@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import filterIcon from "../assets/filter_icon.svg";
+import searchIcon from "../assets/search.svg";
 
-
-export default function Navbar({ keywords = [] , onActiveKeysChange }) {
+export default function Navbar({ keywords = [], onActiveKeysChange }) {
   // 카테고리 활성화 상태 관리
   const [isActive, setIsActive] = useState(false);
 
   const [activeKeys, setActiveKeys] = useState(
     () => new Set(keywords.map((_, i) => i))
   );
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const prevLenRef = React.useRef(keywords.length);
   React.useEffect(() => {
@@ -23,10 +26,15 @@ export default function Navbar({ keywords = [] , onActiveKeysChange }) {
     prevLenRef.current = keywords.length;
   }, [keywords]);
 
+  const handleSearch = () => {
+      console.log("검색어:", searchQuery);
+    };
+
   const toggleKey = (idx) => {
     setActiveKeys((prev) => {
       const next = new Set(prev);
       next.has(idx) ? next.delete(idx) : next.add(idx);
+      onActiveKeysChange?.(next, keywords);
       return next;
     });
   };
@@ -48,12 +56,17 @@ export default function Navbar({ keywords = [] , onActiveKeysChange }) {
               className={`Filter-btn ${isActive ? "active" : ""}`}
               onClick={() => setIsActive(!isActive)}
             >
+              <img src={filterIcon} alt="필터" className="filter-icon" />
               필터링
             </button>
             {/* 검색바 */}
             <div className="divider" />
-            <input type="text" className="search-input" placeholder="검색어를 입력" />
-            <button className="search-icon-btn">🔍</button>
+            <input type="text" className="search-input" placeholder="검색어를 입력" value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()} />
+            <button className="search-icon-btn" onClick={handleSearch}>
+              <img src={searchIcon} alt="검색" className="search-icon" />
+            </button>
           </div>
           {isActive && (
             <div className="keyword-dropdown">
@@ -61,7 +74,12 @@ export default function Navbar({ keywords = [] , onActiveKeysChange }) {
                 <p className="keyword-dropdown-empty">설정된 키워드가 없어요</p>
               ) : (
                 keywords.map((kw, idx) => (
-                  <button key={idx} className="keyword-dropdown-item">
+                  <button
+                    key={idx}
+                    className={`keyword-dropdown-item ${activeKeys.has(idx) ? "kd-active" : "kd-inactive"
+                      }`}
+                    onClick={() => toggleKey(idx)}
+                  >
                     {kw}
                   </button>
                 ))
@@ -73,3 +91,5 @@ export default function Navbar({ keywords = [] , onActiveKeysChange }) {
     </nav>
   );
 }
+
+//기능 좀 더 손보기
