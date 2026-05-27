@@ -18,33 +18,46 @@ import java.util.Date;
 public class JwtProvider {
 
     private final SecretKey secretKey;
-    private final long expiration;
+    private final long accessTokenExpiration;
+    private final long refreshTokenExpiration;
 
     public JwtProvider(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.expiration}") long expiration
     ) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        this.expiration = expiration;
+        this.accessTokenExpiration = expiration;
+        this.refreshTokenExpiration = 604800000L; // 리프레쉬 토큰 수명 1주일
     }
 
-    // JWT 발급
     public String generateToken(Long userId) {
         Date now = new Date();
         return Jwts.builder()
                 .subject(String.valueOf(userId))
                 .issuedAt(now)
-                .expiration(new Date(now.getTime() + expiration))
+                .expiration(new Date(now.getTime() + accessTokenExpiration))
                 .signWith(secretKey)
                 .compact();
     }
 
-    // userId 추출
+    public String generateRefreshToken(Long userId) {
+        Date now = new Date();
+        return Jwts.builder()
+                .subject(String.valueOf(userId))
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + refreshTokenExpiration)) // 더 긴 수명 적용
+                .signWith(secretKey)
+                .compact();
+    }
+
     public Long getUserId(String token) {
         return Long.parseLong(getClaims(token).getSubject());
     }
 
-    // 유효성 검증
+    public boolean validateToken(String token) {
+        return isValid(token);
+    }
+
     public boolean isValid(String token) {
         try {
             getClaims(token);
