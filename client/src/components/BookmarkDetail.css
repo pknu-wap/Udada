@@ -1,6 +1,6 @@
 .bookmark-detail-viewer {
   flex: 1;
-  padding: 40px 24px 24px 24px;;
+  padding: 40px 24px 24px 24px;
   overflow-y: auto;
   background-color: transparent;
   display: flex;
