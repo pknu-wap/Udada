@@ -1,7 +1,7 @@
 import React from "react";
 import "./BookmarkList.css";
 
-export default function BookmarkList({ posts, selectedPost, onSelect }) {
+export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }) {
   return (
     <div className="bookmark-list-box">
       <div className="bookmark-list-header">
