@@ -1,24 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
+import { getNotices } from "../api/notices";
 
 function Home({ activeKeywords = [] }) {
   const navigate = useNavigate();
+  const [notices, setNotices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [notices] = useState([
-    {
-      id: 1,
-      title: "게시글1",
-      noticedAt: "2026. 04. 11",
-      categoryName: "도서관",
-    },
-    {
-      id: 2,
-      title: "게시글1",
-      noticedAt: "2026. 04. 11",
-      categoryName: "도서관",
-    },
-  ]);
+  useEffect(() => {
+    getNotices()
+      .then((res) => {
+        setNotices(res.data.notices);
+      })
+      .catch((err) => {
+        console.error("공지사항 불러오기 실패", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
@@ -29,11 +30,11 @@ function Home({ activeKeywords = [] }) {
           (notice) => notice.categoryName === selectedCategory
         );
 
+  if (loading) return <div>불러오는 중...</div>;
+
   return (
     <div className="home">
       <div className="content">
-
-      
         {/* 테이블 헤더 */}
         <div className="notice-header">
           <span>번호</span>

@@ -1,59 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./BookmarkPanel.css";
-
-// dummyData
-const dummyNotices = [
-  { id: 1, title: "학술 정보 서비스 이용 안내", date: "2024-05-20", category: "도서관", content: "도서관 이용 안내 본문입니다...", isBookmarked: true },
-  { id: 2, title: "2024 2학기 장학금 신청 안내", date: "2024-05-19", category: "장학금", content: "장학금 신청 방법 안내 본문입니다...", isBookmarked: false },
-  { id: 3, title: "기숙사 신청 공지", date: "2024-05-18", category: "기숙사", content: "기숙사 입사 신청 안내 본문입니다...", isBookmarked: false },
-];
+import { getBookmarks, deleteBookmark } from "../api/bookmarks";
+import { getNoticeDetail } from "../api/notices";
 
 export default function BookmarkPanel({ isOpen }) {
+  const [bookmarks, setBookmarks] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    getBookmarks()
+      .then((res) => {
+        setBookmarks(res.data.bookmarks);
+      })
+      .catch((err) => console.error("북마크 불러오기 실패:", err));
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const bookmarkedPosts = dummyNotices.filter((post) => post.isBookmarked);
-
-  const handleTitleClick = (post) => {
-    // 이미 선택된 글을 다시 누르면 상세창 닫기, 아니면 해당 글 열기
-    if (selectedPost && selectedPost.id === post.id) {
+  const handleTitleClick = (bookmark) => {
+    if (selectedPost && selectedPost.id === bookmark.noticeId) {
       setSelectedPost(null);
-    } else {
-      setSelectedPost(post);
+      return;
     }
+    getNoticeDetail(bookmark.noticeId)
+      .then((res) => setSelectedPost(res.data))
+      .catch((err) => console.error("공지사항 불러오기 실패:", err));
+  };
+
+  const handleDeleteBookmark = (e, bookmarkId) => {
+    e.stopPropagation();
+    deleteBookmark(bookmarkId)
+      .then(() => {
+        setBookmarks(bookmarks.filter((b) => b.bookmarkId !== bookmarkId));
+        if (selectedPost) setSelectedPost(null);
+      })
+      .catch((err) => console.error("북마크 삭제 실패:", err));
   };
 
   return (
     <div className="bookmark-panel-wrapper">
-      {/* 왼쪽: 게시글 목록 회색 상자*/}
+      {/* 왼쪽: 게시글 목록 */}
       <div className="bookmark-list-box">
         <div className="bookmark-list-header">
           <h3>북마크 목록</h3>
         </div>
-        
-        {/* 0개일 때 빈 화면 보여주기*/}
-        {bookmarkedPosts.length === 0 ? (
+
+        {bookmarks.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px 20px", color: "#888" }}>
             <p>아직 북마크한 공지사항이 없습니다.</p>
           </div>
         ) : (
           <ul className="bookmark-list">
-            {bookmarkedPosts.map((post) => (
-              <li 
-                key={post.id} 
-                className={`bookmark-item ${selectedPost?.id === post.id ? "active" : ""}`}
-                onClick={() => handleTitleClick(post)}
+            {bookmarks.map((bookmark) => (
+              <li
+                key={bookmark.bookmarkId}
+                className={`bookmark-item ${selectedPost?.id === bookmark.noticeId ? "active" : ""}`}
+                onClick={() => handleTitleClick(bookmark)}
               >
-                <span className="post-category">[{post.category}]</span>
-                <span className="post-title">{post.title}</span>
+                <span className="post-category">[{bookmark.keywordName}]</span>
+                <span className="post-title">{bookmark.title}</span>
+                <button
+                  className="bookmark-delete-btn"
+                  onClick={(e) => handleDeleteBookmark(e, bookmark.bookmarkId)}
+                >
+                  ✕
+                </button>
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      {/* 오른쪽: 게시글 상세 내용*/}
+      {/* 오른쪽: 게시글 상세 */}
       {selectedPost ? (
         <div className="bookmark-detail-viewer">
           <div className="detail-header">
@@ -61,15 +80,13 @@ export default function BookmarkPanel({ isOpen }) {
               <h2 className="detail-title">{selectedPost.title}</h2>
             </div>
             <div className="detail-meta">
-              <span>{selectedPost.date}</span>
+              <span>{selectedPost.noticedAt}</span>
               <span>|</span>
-              <span>{selectedPost.category}</span>
+              <span>{selectedPost.keywordName}</span>
             </div>
           </div>
           <hr className="detail-divider" />
-          <div className="detail-body">
-            {selectedPost.content}
-          </div>
+          <div className="detail-body">{selectedPost.content}</div>
         </div>
       ) : (
         <div className="bookmark-detail-viewer" style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "#aaa" }}>

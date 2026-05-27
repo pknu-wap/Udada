@@ -1,8 +1,11 @@
-import API_BASE_URL from "./api";
+import api from './instance';
 
-export const getNotices = async () => {
-  const response = await fetch(`${API_BASE_URL}/notices`);
-  const data = await response.json();
+// 공지사항 목록 조회
+export const getNotices = (params = {}) => {
+  return api.get('/notices', { params });
+};
 
-  return data;
+// 공지사항 상세 조회
+export const getNoticeDetail = (noticeId) => {
+  return api.get(`/notices/${noticeId}`);
 };
