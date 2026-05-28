@@ -7,6 +7,7 @@ import com.pknuwap.udada.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/notices")
@@ -29,6 +30,14 @@ public class NoticeController {
     public ResponseEntity<ApiResponse<NoticeDetailResponse>> getNoticeDetail(@PathVariable Long noticeId) {
         NoticeDetailResponse response = noticeService.getNoticeDetail(noticeId);
 
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<NoticeListResponse>> searchNoticesByKeywords(
+            @RequestParam(value = "keywords", required = false) List<String> keywords) {
+
+        NoticeListResponse response = noticeService.searchNoticesByKeywords(keywords);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
