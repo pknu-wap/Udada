@@ -30,6 +30,7 @@
 .detail-title {
   font-size: 2rem;
   margin: 0;
+  flex: 1; 
 }
 
 .detail-meta {
@@ -69,4 +70,26 @@
 }
 .detail-link-btn:hover {
   background-color: #0b5ed7;
+}
+
+.detail-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detail-bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.detail-bookmark-icon {
+  width: 28px;
+  height: 28px;
 }
