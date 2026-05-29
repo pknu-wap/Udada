@@ -30,11 +30,11 @@ public class NoticeService {
                 : noticeRepository.findAllWithKeywords(pageable);
 
         // 엔티티 목록을 DTO 목록으로 변환
-        List<NoticeListResponse.NoticeDto> dtos = noticePage.getContent().stream()
+        List<NoticeListResponse.NoticeDto> noticeDtos = noticePage.getContent().stream()
                 .map(NoticeListResponse.NoticeDto::from)
                 .collect(Collectors.toList());
 
-        return NoticeListResponse.of(dtos, noticePage.getTotalElements());
+        return NoticeListResponse.of(noticeDtos, noticePage.getTotalElements());
     }
 
     // 공지사항 상세 조회
@@ -43,5 +43,20 @@ public class NoticeService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_INVALID));
 
         return NoticeDetailResponse.from(notice);
+    }
+    public NoticeListResponse searchNoticesByKeywords(List<String> keywords) {
+        List<Notice> notices;
+
+        if (keywords == null || keywords.isEmpty()) {
+            notices = noticeRepository.findAll();
+        } else {
+            notices = noticeRepository.findByKeywordWordsIn(keywords);
+        }
+
+        List<NoticeListResponse.NoticeDto> noticeDtos = notices.stream()
+                .map(NoticeListResponse.NoticeDto::from)
+                .collect(Collectors.toList());
+
+        return NoticeListResponse.of(noticeDtos, noticeDtos.size());
     }
 }

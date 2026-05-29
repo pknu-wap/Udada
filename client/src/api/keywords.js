@@ -1,24 +1,13 @@
-import API_BASE_URL from "./api";
+import api from './instance';
 
 // 키워드 목록 조회
-export const getKeywords = async () => {
-  const response = await fetch(`${API_BASE_URL}/keywords`);
-  const data = await response.json();
-
-  return data;
+export const getKeywords = () => {
+  return api.get('/keywords');
 };
 
 // 키워드 추가
-export const addKeyword = async (keyword) => {
-  const response = await fetch(`${API_BASE_URL}/keywords`, {
-    method: "POST",
-    headers: {
-  "Content-Type": "application/json",
-},
-    body: JSON.stringify({ keyword }),
-  });
-
-  const data = await response.json();
-
-  return data;
+export const addKeyword = (word) => {
+  return api.post('/keywords', { word });
 };
+
+// 키워드 수정, 삭제는 금요일 회의 후 추가 예정
