@@ -47,7 +47,7 @@ public class NoticeController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "200",
-                    description = "공지사항 목록 조회 성공"
+                    description = "공지사항 상세 조회 성공"
             ),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "400",

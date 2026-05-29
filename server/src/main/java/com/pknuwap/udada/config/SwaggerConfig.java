@@ -25,7 +25,7 @@ public class SwaggerConfig {
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
                                 .type(SecurityScheme.Type.HTTP)
-                                .description("Bearer {{access_token} 형태로 입력해주세요!! 꼭 앞에 Bearer 붙이기!!!")
+                                .description("JWT 액세스 토큰을 입력해주세요.")
                 );
 
         return new OpenAPI()

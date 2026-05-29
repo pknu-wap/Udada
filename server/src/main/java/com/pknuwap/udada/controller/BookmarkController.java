@@ -35,11 +35,6 @@ public class BookmarkController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "200",
                     description = "북마크 목록 조회 성공"
-            ),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "400",
-                    description = "잘못된 북마크 ID 전달",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
             )
     })
     public ResponseEntity<ApiResponse<BookmarkResponse.ListResponse>> getBookmarks(@AuthenticationPrincipal UserPrincipal principal) {
@@ -56,7 +51,7 @@ public class BookmarkController {
             ),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "400",
-                    description = "잘못된 북마크 ID 전달",
+                    description = "잘못된 요청 데이터 전달",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))
             )
     })
