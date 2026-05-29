@@ -1,7 +1,7 @@
 .home {
   width: 100%;
   min-height: 100vh;
-  background: #f7f7f7;
+  background: #F8F9FA;
 }
 
 .content {
@@ -15,10 +15,10 @@
 /* 헤더 */
 .notice-header {
   display: grid;
-  grid-template-columns: 1fr 2fr 5fr 2fr 1fr;
+  grid-template-columns: 0.5fr 1.5fr 4fr 2fr 1fr;
   padding: 15px 20px;
   font-size: 14px;
-  color: gray;
+  color: black;
   border-bottom: 1px solid #ddd;
 }
 
@@ -30,7 +30,7 @@
 /* 한 줄 */
 .notice-row {
   display: grid;
-  grid-template-columns: 1fr 2fr 5fr 2fr 1fr;
+  grid-template-columns: 0.5fr 1.5fr 4fr 2fr 1fr;
   align-items: center;
   padding: 20px;
   margin-bottom: 15px;
@@ -43,4 +43,27 @@
 
 .notice-row:hover {
   transform: translateY(-2px);
+}
+
+.bookmark-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.keywords-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.keywords-badge {
+  background-color: #FFC5C5;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-block;
 }
