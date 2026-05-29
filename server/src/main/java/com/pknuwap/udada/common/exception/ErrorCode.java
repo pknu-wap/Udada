@@ -11,19 +11,26 @@ public enum ErrorCode {
     INVALID_KAKAO_TOKEN(HttpStatus.BAD_REQUEST, "잘못된 code입니다."),
 
     // 북마크
-    BOOKMARK_ALREADY(HttpStatus.BAD_REQUEST, "이미 북마크한 공지사항입니다."),
+    BOOKMARK_ALREADY(HttpStatus.CONFLICT, "이미 북마크한 공지사항입니다."),
     BOOKMARK_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 북마크입니다."),
     BOOKMARK_NOT_OWNED(HttpStatus.BAD_REQUEST, "본인의 북마크만 삭제할 수 있습니다."),
 
     // 공지사항
     NOTICE_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 공지사항입니다."),
 
-    //키워드
+    // 키워드
     KEYWORD_NOT_FOUND(HttpStatus.BAD_REQUEST, "존재하지 않는 키워드입니다."),
     KEYWORD_NOT_OWNED(HttpStatus.BAD_REQUEST, "본인의 키워드만 수정할 수 있습니다."),
 
+    // 유저 키워드
+    USER_KEYWORD_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 키워드입니다."),
+    USER_KEYWORD_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 키워드입니다."),
+    USER_KEYWORD_FORBIDDEN(HttpStatus.FORBIDDEN, "접근할 수 없는 키워드입니다. 본인이 설정한 키워드가 아니셈 userId 값 제대로 전달했는지 확인해 보시오..."),
+
     // 유저
     USER_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다."),
+    EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 이메일입니다."),
+    EMAIL_NOT_REGISTERED(HttpStatus.FORBIDDEN, "이메일 등록 후 서비스를 이용할 수 있습니다."),
 
     // 서버 오류
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류 ㅠㅠ 미아내 ㅠㅠ 백엔드팀한테 알려주세염 ㅠㅠ");

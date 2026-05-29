@@ -23,6 +23,9 @@ public class User {
     @Column(name = "kakao_id", nullable = false, unique = true, length = 50)
     private String kakaoId;
 
+    @Column(length = 100)
+    private String email;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -36,5 +39,13 @@ public class User {
     public User(String kakaoId) {
         this.kakaoId = kakaoId;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean hasEmail() {
+        return this.email != null && !this.email.isBlank();
     }
 }
