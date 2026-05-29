@@ -30,6 +30,9 @@ const Postdetail = () => {
         .then((data) => {
             setPost(data);
             setIsBookmarked(data.isBookmarked);
+            if (data.isBookmarked && data.bookmarkId) {
+                setBookmarkId(data.bookmarkId);
+            }
         })
         .catch((err) => {
             console.error("공지사항 불러오기 실패:", err);
