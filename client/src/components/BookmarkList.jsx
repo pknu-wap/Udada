@@ -1,5 +1,7 @@
 import React from "react";
 import "./BookmarkList.css";
+import bookmarkIcon from "../assets/favourite_false.svg";
+import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
 export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }) {
   return (
@@ -25,7 +27,7 @@ export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }
                 }`}
               onClick={() => onSelect(selectedPost?.id === post.id ? null : post)}
             >
-              <span className="post-category">[{post.category}]</span>
+              <span className="post-keyword">{post.category}</span>
               <span className="post-title">{post.title}</span>
               <span
                 className="post-bookmark-icon"
@@ -33,7 +35,7 @@ export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }
                   e.stopPropagation();
                   onRemove(post.id);
                 }}
-              >🔖</span>
+              ><img src={bookmarkTrueIcon} alt="북마크" className="bookmarktrue" /></span>
             </li>
           ))}
         </ul>

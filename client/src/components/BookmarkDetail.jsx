@@ -1,7 +1,9 @@
 import React from "react";
 import "./BookmarkDetail.css";
+import bookmarkIcon from "../assets/favourite_false.svg";
+import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
-export default function BookmarkDetail({ post, onClose }) {
+export default function BookmarkDetail({ post, onClose, onToggleBookmark }) {
   if (!post) {
     return (
       <div className="bookmark-detail-empty">
@@ -12,9 +14,18 @@ export default function BookmarkDetail({ post, onClose }) {
 
   return (
     <div className="bookmark-detail-viewer">
-      <div className="detail-card"> 
-      <div className="detail-header">
+      <div className="detail-card">
+        <div className="detail-header">
+          <div className="detail-title-row">
           <h2 className="detail-title">{post.title}</h2>
+          <button className="detail-bookmark-btn" onClick={() => onToggleBookmark(post.id)}>
+            <img
+              src={post.isBookmarked ? bookmarkTrueIcon : bookmarkIcon}
+              alt="북마크"
+              className="detail-bookmark-icon"
+            />
+          </button>
+          </div>
           <div className="detail-meta">
             <span>{post.date}</span>
             <span>|</span>

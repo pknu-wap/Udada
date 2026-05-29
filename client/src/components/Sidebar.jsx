@@ -1,17 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
+import homeIcon from "../assets/home.svg";
+import bookmarkIcon from "../assets/favourite_sidebar.svg";
+import keywordIcon from "../assets/keywordIcon.svg";
+import logoutIcon from "../assets/logout.svg";
 
 export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    console.log("로그아웃");
+    navigate("/"); // 로그아웃 후 인트로로 이동
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-menu-group">
 
         <Link to="/" className="menu-item home-btn" title="홈">
           {/* svg파일 교체 예정 */}
-          <svg viewBox="0 0 24 24">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-          </svg>
+          <img src={homeIcon} alt="홈" className="homeIcon" />
         </Link>
 
         <div
@@ -20,20 +29,25 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
           style={{ cursor: 'pointer' }}
           title="북마크"
         >
-          <svg viewBox="0 0 24 24">
-            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
-          </svg>
+          <img src={bookmarkIcon} alt="북마크" className="bookmark" />
         </div>
 
         <div
-          className="menu-item"
+          className="menu-item keyword-btn"
           onClick={toggleKeyword}   // ← Link → div로 변경
           title="설정" title="설정">
-          <svg viewBox="0 0 24 24">
-            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
-          </svg>
+          <img src={keywordIcon} alt="검색"/>
         </div>
 
+      </div>
+      <div className="sidebar-bottom-group">
+        <div
+          className="menu-item"
+          onClick={handleLogout}
+          title="로그아웃"
+        >
+          <img src={logoutIcon} alt="검색" className="logout" />
+        </div>
       </div>
     </aside>
   );

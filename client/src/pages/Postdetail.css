@@ -28,23 +28,23 @@
     align-items: center;
 }
 
-/* 카테고리 태그 */
-.category-tag {
+/* 키워드 태그 */
+.keyword-tag {
     display: inline-block;
-    background-color: #e9ecef;
-    color: #495057;
-    padding: 5px 12px;
+    background-color: #FFC5C5;
+    color: #ffffff;
+    padding: 7px 11px;
     border-radius: 15px;
     font-size: 0.9rem;
-    font-weight: bold;
     margin-bottom: 15px;
 }
 
 .article-title {
-    font-size: 2.2rem;
+    font-size: 2.0rem;
     font-weight: 800;
     color: #212529;
     margin: 0;
+    -webkit-text-stroke: 0.5px #212529;
 }
 
 /* 북마크 버튼 */
@@ -53,8 +53,13 @@
     border: none;
     font-size: 2.5rem; /* 아이콘 크기 */
     cursor: pointer;
-    color: #004080;
+    color: #00489F;
     transition: transform 0.2s;
+}
+
+.bookmark-icon {
+    width: 35px;
+    height: 35px;
 }
 
 .bookmark-btn:hover {
@@ -79,7 +84,7 @@
 
 /* 본문 영역 */
 .article-body {
-    font-size: 1.15rem;
+    font-size: 1.0rem;
     line-height: 1.8;
     color: #333;
     min-height: 400px; /* 본문이 짧아도 박스 높이 유지 */
@@ -93,10 +98,10 @@
 
 .back-btn {
     padding: 12px 30px;
-    background-color: #212529;
+    background-color: #00489F;
     color: #fff;
     border: none;
-    border-radius: 25px;
+    border-radius: 15px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
@@ -104,5 +109,5 @@
 }
 
 .back-btn:hover {
-    background-color: #495057;
+    background-color: #003980;
 }
