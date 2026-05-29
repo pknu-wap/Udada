@@ -1,6 +1,8 @@
 import "./Postdetail.css";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import bookmarkIcon from "../assets/favourite_false.svg";
+import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
 const Postdetail = () => {
     const { id } = useParams();
@@ -13,26 +15,30 @@ const Postdetail = () => {
     const token = localStorage.getItem("accessToken");
 
     useEffect(() => {
-        // 토큰 없으면 로그인 페이지로 튕겨내기
-        if (!token) {
-            navigate("/login");
-            return;
-        }
+    // 토큰 없으면 로그인 페이지로 튕겨내기
+    if (!token) {
+        navigate("/login");
+        return;
+    }
 
-        fetch(`http://localhost:3000/api/v1/notices/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+    fetch(`http://localhost:3000/api/v1/notices/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            setPost(data);
+            setIsBookmarked(data.isBookmarked);
+            if (data.isBookmarked && data.bookmarkId) {
+                setBookmarkId(data.bookmarkId);
+            }
         })
-            .then((res) => res.json())
-            .then((data) => {
-                setPost(data);
-                setIsBookmarked(data.isBookmarked);
-            })
-            .catch((err) => {
-                console.error("공지사항 불러오기 실패:", err);
-            });
+        .catch((err) => {
+            console.error("공지사항 불러오기 실패:", err);
+        });
     }, [id]);
+
 
     const toggleBookmark = () => {
         if (isBookmarked) {
@@ -73,11 +79,15 @@ const Postdetail = () => {
         <div className="post-detail-container">
             <div className="post-detail-box">
                 <div className="article-header">
-                    <span className="category-tag">[{post.keywordName || "공지"}]</span>
+                    <span className="keyword-tag">{post.keywordName || "공지"}</span>
                     <div className="header-top">
                         <h1 className="article-title">{post.title}</h1>
                         <button className="bookmark-btn" onClick={toggleBookmark}>
-                            {isBookmarked ? "★" : "☆"}
+                            <img
+                                src={isBookmarked ? bookmarkTrueIcon : bookmarkIcon}
+                                alt="북마크"
+                                className="bookmark-icon"
+                            />
                         </button>
                     </div>
                     <div className="header-bottom">
