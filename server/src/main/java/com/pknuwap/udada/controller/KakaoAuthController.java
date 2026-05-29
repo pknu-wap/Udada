@@ -1,6 +1,7 @@
 package com.pknuwap.udada.controller;
 
 import com.pknuwap.udada.common.response.ApiResponse;
+import com.pknuwap.udada.dto.request.RefreshTokenRequest;
 import com.pknuwap.udada.common.response.ErrorResponse;
 import com.pknuwap.udada.dto.response.AuthResponse;
 import com.pknuwap.udada.service.KakaoAuthService;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +44,14 @@ public class KakaoAuthController {
             @Parameter(name = "code", description = "카카오 인가 코드") @RequestParam String code
     ) {
         AuthResponse response = kakaoAuthService.kakaoLogin(code);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<ApiResponse<AuthResponse>> reissueToken(
+            @RequestBody RefreshTokenRequest request
+    ) {
+        AuthResponse response = kakaoAuthService.reissueToken(request.getRefreshToken());
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

@@ -6,10 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
+import java.util.List;
 import java.util.Optional;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
+
+    boolean existsByOriginalUrl(String originalUrl);
 
     // 전체 공지 목록 조회 (최신순, 키워드 fetch join)
     @Query("SELECT DISTINCT n FROM Notice n JOIN FETCH n.keywords ORDER BY n.noticedAt DESC")
@@ -23,5 +25,9 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     @Query("SELECT n FROM Notice n JOIN FETCH n.keywords WHERE n.id = :id")
     Optional<Notice> findByIdWithKeywords(@Param("id") Long id);
 
-    boolean existsByOriginalUrl(String originalUrl);
+    @Query("SELECT DISTINCT n FROM Notice n " +
+            "JOIN n.keywords k " +
+            "WHERE k.word IN :keywords " +
+            "ORDER BY n.noticedAt DESC")
+    List<Notice> findByKeywordWordsIn(@Param("keywords") List<String> keywords);
 }
