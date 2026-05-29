@@ -12,7 +12,10 @@ function KakaoCallback() {
     fetch(`http://34.47.85.214:3000/api/v1/auth/kakao?code=${code}`, {
       method: "POST",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         console.log("서버 응답:", data);
         if (data.accessToken) {
