@@ -21,7 +21,7 @@ public class PknuCrawler {
     private static final String TARGET_URL = "https://www.pknu.ac.kr/main/163";
     private static final String BASE_URL = "https://www.pknu.ac.kr";
     private static final DateTimeFormatter DATE_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 부경대 페이지 보니까 . 이 아니라 -로 돼있어서 수정함
+            DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public List<CrawledNotice> crawl() {
         List<CrawledNotice> results = new ArrayList<>();

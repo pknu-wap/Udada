@@ -48,10 +48,13 @@ public class KakaoAuthService {
 
     @Transactional
     public AuthResponse kakaoLogin(String code) {
+        // 1. 인가 코드로 카카오 액세스 토큰 발급
         KakaoTokenResponse kakaoToken = getKakaoToken(code);
 
+        // 2. 카카오 액세스 토큰으로 유저 정보 조회
         KakaoUserInfoResponse userInfo = getKakaoUserInfo(kakaoToken.getAccessToken());
 
+        // 3. 신규 유저면 DB 저장, 기존 유저면 조회
         String kakaoId = String.valueOf(userInfo.getKakaoId());
         boolean isNewUser = !userRepository.existsByKakaoId(kakaoId);
 
