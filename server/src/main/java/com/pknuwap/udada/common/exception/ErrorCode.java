@@ -24,6 +24,8 @@ public enum ErrorCode {
 
     // 유저
     USER_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다."),
+    EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 이메일입니다."),
+    EMAIL_NOT_REGISTERED(HttpStatus.FORBIDDEN, "이메일 등록 후 서비스를 이용할 수 있습니다."),
 
     // 서버 오류
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류 ㅠㅠ 미아내 ㅠㅠ 백엔드팀한테 알려주세염 ㅠㅠ");
