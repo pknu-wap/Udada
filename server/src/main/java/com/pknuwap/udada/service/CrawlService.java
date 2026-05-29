@@ -22,6 +22,7 @@ public class CrawlService {
 //    private final KeywordRepository keywordRepository;
 //    private final UserKeywordRepository userKeywordRepository;
     private final CrawlLogRepository crawlLogRepository;
+    private final NoticeAttachmentRepository noticeAttachmentRepository;
 
     @Transactional
     public void crawlAndNotify() {
@@ -43,17 +44,33 @@ public class CrawlService {
                 }
 
                 // 2. 새 공지사항 DB 저장
-                Notice notice = noticeRepository.save(
+                // TODO : notice -> savedNotice 변수명 충돌 에러 방지! 일단 제가 했습니다
+                Notice savedNotice = noticeRepository.save(
                         Notice.builder()
                                 .title(crawled.getTitle())
                                 .originalUrl(crawled.getOriginalUrl())
                                 .noticedAt(crawled.getNoticedAt())
+                                .content(crawled.getContent())
                                 .build()
                 );
                 savedCount++;
 
+                // 첨부파일 저장
+                if (crawled.getAttachments() != null && !crawled.getAttachments().isEmpty()) {
+                    List<NoticeAttachment> attachments = crawled.getAttachments().stream()
+                            .map(att -> NoticeAttachment.builder()
+                                    .notice(savedNotice)
+                                    .fileName(att.getFileName()) // 일반 클래스라 get이 붙습니다.
+                                    .fileUrl(att.getFileUrl())
+                                    .fileType(att.getFileType())
+                                    .build())
+                            .toList();
+
+                    noticeAttachmentRepository.saveAll(attachments);
+                }
+
                 // 3. 키워드 매칭 후 알림 발송
-                sendNotificationToMatchedUsers(notice);
+                sendNotificationToMatchedUsers(savedNotice);
             }
 
             log.info("[CrawlService] 크롤링 완료 - 신규 저장: {}건", savedCount);

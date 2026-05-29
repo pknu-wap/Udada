@@ -48,6 +48,9 @@ public class Notice {
     @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NoticeAttachment> attachments = new ArrayList<>();
+
     @Builder
     public Notice(String title, String content, String originalUrl, LocalDateTime noticedAt) {
         this.title = title;
@@ -60,5 +63,10 @@ public class Notice {
     // 키워드 추가
     public void addKeyword(Keyword keyword) {
         this.keywords.add(keyword);
+    }
+
+    // 첨부파일 추가
+    public void addAttachment(NoticeAttachment attachment) {
+        this.attachments.add(attachment);
     }
 }
