@@ -5,7 +5,7 @@
     align-items: center;
     height: 100px;
     padding: 0 2%;
-    background-color: #ffffff;
+    background-color: #F8F9FA;
     border-bottom: 1px solid #e5e4e7;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
@@ -79,7 +79,7 @@
 }
 
 .search-wrapper.active {
-    border-color: #ff4d4d;
+    border-color: #FFC5C5;
     box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.1);
 }
 
@@ -107,9 +107,17 @@
     font-size: 16px;
     cursor: pointer;
     color: #6b7280;
+    width: auto;
     height: 100%;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
 }
 
 .search-icon-btn:hover {
@@ -130,7 +138,7 @@
     height: 100%;
     margin: 0;
     padding: 0 25px;
-    background-color: #f0f0f0;
+    background-color: #DEE2E6;
     color: #555555;
     border: 1.5px solid #cccccc;
     /* 버튼 테두리색과 통일 */
@@ -142,29 +150,41 @@
     cursor: pointer;
     white-space: nowrap;
     display: flex;
+    gap: 6px;
     align-items: center;
     box-sizing: border-box;
     transition: all 0.2s ease;
 }
 
 .Filter-btn.active {
-    border-color: #ff4d4d;
+    border-color: #FFC5C5;
     background-color: #ff9999;
     color: #ffffff;
 }
+
+.filter-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.Filter-btn.active .filter-icon {
+    filter: brightness(0) invert(1); /* 아이콘도 흰색으로 */
+}
+
 /*필터링 창*/
 /* 키워드 드롭다운 */
 .keyword-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  width: 100%;
-  background: #f0f0f0;
+  width: auto;
+  min-width: 100px;
+  background: #ffffff;
   border-radius: 16px;
-  padding: 10px;
+  padding: 10px 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   z-index: 100;
   overflow: visible;
@@ -176,38 +196,39 @@
   width: 100%;
   padding: 12px 20px;
   border: none;
-  border-radius: 12px;
+  border-radius: 20px;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   text-align: center;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 .keyword-dropdown-item:hover {
-  background: #222;
+  background: #00489F;
   color: #fff;
 }
 
 /* 활성 (보이는 키워드) - 검정 고정 */
 .kd-active {
-  background: #222;
+  background: #00489F;
   color: #fff;
 }
 
 .kd-active:hover {
-  background: #555;
+  background: #00346e;
   color: #fff;
 }
 
 /* 비활성 (안보이는 키워드) - 회색 고정 */
 .kd-inactive {
-  background: #d9d9d9;
-  color: #888;
+  background: #DEE2E6;
+  color: #000;
 }
 
 .kd-inactive:hover {
   background: #bbb;
-  color: #444;
+  color: #000;
 }
 
 .keyword-dropdown-empty {

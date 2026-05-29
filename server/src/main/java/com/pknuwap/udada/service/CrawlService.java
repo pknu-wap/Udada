@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -19,10 +19,13 @@ public class CrawlService {
 
     private final PknuCrawler pknuCrawler;
     private final NoticeRepository noticeRepository;
-//    private final KeywordRepository keywordRepository;
-//    private final UserKeywordRepository userKeywordRepository;
+    private final KeywordRepository keywordRepository;
+    private final UserKeywordRepository userKeywordRepository;
     private final CrawlLogRepository crawlLogRepository;
     private final NoticeAttachmentRepository noticeAttachmentRepository;
+    private final EmailNotificationService emailNotificationService;
+
+    private static final long PKNU_KEYWORD_ID = 1L;
 
     @Transactional
     public void crawlAndNotify() {
@@ -31,14 +34,17 @@ public class CrawlService {
         String failReason = null;
         int savedCount = 0;
 
-//        Keyword pknuKeyword = keywordRepository.findById(PKNU_KEYWORD_ID)
-//                .orElseThrow(() -> new IllegalStateException("키워드가 존재하지 않습니다."));
+        Keyword pknuKeyword = keywordRepository.findById(PKNU_KEYWORD_ID)
+                .orElseThrow(() -> new IllegalStateException("키워드가 존재하지 않습니다."));
+
+        // 유저 ID → 매칭된 공지 목록 (한 번에 모으기 위한 Map)
+        Map<User, List<Notice>> userNoticeMap = new LinkedHashMap<>();
 
         try {
             List<CrawledNotice> crawledList = pknuCrawler.crawl();
 
             for (CrawledNotice crawled : crawledList) {
-                // 1. 이미 수집된 공지사항이면 스킵 (중복 방지)
+                // 1. 중복 공지 스킵
                 if (noticeRepository.existsByOriginalUrl(crawled.getOriginalUrl())) {
                     continue;
                 }
@@ -73,15 +79,20 @@ public class CrawlService {
                 sendNotificationToMatchedUsers(savedNotice);
             }
 
-            log.info("[CrawlService] 크롤링 완료 - 신규 저장: {}건", savedCount);
+            // 6. 유저별로 모인 공지를 한 번에 이메일 발송
+            sendBatchEmail(userNoticeMap);
+
+            log.info("[CrawlService] 크롤링 완료 - 신규 저장: {}건, 알림 발송: {}명",
+                    savedCount, userNoticeMap.size());
+
         } catch (Exception e) {
             status = "FAILED";
             failReason = e.getMessage();
             log.error("[CrawlService] 크롤링 실패: {}", e.getMessage());
+
         } finally {
-            // 크롤링 로그 저장
             crawlLogRepository.save(CrawlLog.builder()
-//                    .keyword(pknuKeyword)
+                    .keyword(pknuKeyword)
                     .status(status)
                     .parsedCount(savedCount)
                     .failReason(failReason)
@@ -91,21 +102,35 @@ public class CrawlService {
         }
     }
 
-    // 공지사항 제목/본문에 키워드가 포함된 유저에게 알림 발송
-    private void sendNotificationToMatchedUsers(Notice notice) {
-//        List<Keyword> allKeywords = keywordRepository.findAll();
-//
-//        for (Keyword keyword : allKeywords) {
-//            if (!containsKeyword(notice, keyword.getWord())) continue;
-//
-//            List<UserKeyword> userKeywords =
-//                    userKeywordRepository.findAllByKeywordIdWithUser(keyword.getId());
+    // 공지의 매칭된 키워드를 구독 중인 유저별로 공지 누적
+    private void collectNoticeByUser(Notice notice, Map<User, List<Notice>> userNoticeMap) {
+        for (Keyword keyword : notice.getKeywords()) {
+            List<UserKeyword> userKeywords =
+                    userKeywordRepository.findAllByKeywordIdWithUser(keyword.getId());
 
-            // TODO: 논의사항 - 이메일 or 카카오톡 알림톡 유지 (비용 문제)
-//            for (UserKeyword userKeyword : userKeywords) {
-//                kakaoNotificationService.send(userKeyword.getUser(), notice, keyword);
-//            }
-//        }
+            for (UserKeyword userKeyword : userKeywords) {
+                User user = userKeyword.getUser();
+                // 같은 유저에게 같은 공지가 중복 추가되지 않도록 체크
+                userNoticeMap
+                        .computeIfAbsent(user, k -> new ArrayList<>())
+                        .stream()
+                        .filter(n -> n.getId().equals(notice.getId()))
+                        .findFirst()
+                        .ifPresentOrElse(
+                                n -> {}, // 이미 있으면 스킵
+                                () -> userNoticeMap.get(user).add(notice)
+                        );
+            }
+        }
+    }
+
+    // 유저별로 모인 공지를 한 번에 이메일 발송
+    private void sendBatchEmail(Map<User, List<Notice>> userNoticeMap) {
+        for (Map.Entry<User, List<Notice>> entry : userNoticeMap.entrySet()) {
+            User user = entry.getKey();
+            List<Notice> notices = entry.getValue();
+            emailNotificationService.sendBatch(user, notices);
+        }
     }
 
     // 공지 제목 또는 본문에 키워드 포함 여부 확인

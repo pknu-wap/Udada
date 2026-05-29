@@ -1,6 +1,6 @@
 import "./Login.css";
 
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=35ee70385d55e7d205867dc2788f35b4&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`;
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=35ee70385d55e7d205867dc2788f35b4&redirect_uri=http://34.47.85.214:3000/oauth/kakao/callback&response_type=code`;
 
 
 export default function Login() {

@@ -1,36 +1,16 @@
-import API_BASE_URL from "./api";
+import api from './instance';
 
-// 내 키워드 목록 조회
-export const getUserKeywords = async () => {
-  const response = await fetch(`${API_BASE_URL}/user-keywords`);
-  const data = await response.json();
-
-  return data;
+// 알림 키워드 설정 목록 조회
+export const getUserKeywords = () => {
+  return api.get('/user-keywords');
 };
 
-// 내 키워드 추가
-export const addUserKeyword = async (keywordId) => {
-  const response = await fetch(`${API_BASE_URL}/user-keywords`, {
-    method: "POST",
-    headers: {
-  "Content-Type": "application/json",
-},
-    body: JSON.stringify({ keywordId }),
-  });
-
-  const data = await response.json();
-
-  return data;
+// 알림 키워드 설정 추가
+export const addUserKeyword = (keywordId) => {
+  return api.post('/user-keywords', { keywordId });
 };
 
-// 내 키워드 삭제
-export const deleteUserKeyword = async (keywordId) => {
-  const response = await fetch(
-    `${API_BASE_URL}/user-keywords/${keywordId}`,
-    {
-      method: "DELETE",
-    }
-  );
-
-  return response;
+// 알림 키워드 설정 해제
+export const deleteUserKeyword = (userKeywordId) => {
+  return api.delete(`/user-keywords/${userKeywordId}`);
 };

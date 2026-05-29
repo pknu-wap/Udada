@@ -1,0 +1,95 @@
+.bookmark-detail-viewer {
+  flex: 1;
+  padding: 40px 24px 24px 24px;
+  overflow-y: auto;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.detail-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 720px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-detail-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  background-color: transparent;
+  padding-top: 60px;
+}
+
+.detail-title {
+  font-size: 2rem;
+  margin: 0;
+  flex: 1; 
+}
+
+.detail-meta {
+  margin-top: 15px;
+  color: #888;
+  display: flex;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.detail-divider {
+  border: 0;
+  height: 1px;
+  background-color: #ddd;
+  margin: 25px 0;
+}
+
+.detail-body {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+.detail-footer {
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-end;
+}
+.detail-link-btn {
+  background-color: #00489F;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.detail-link-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.detail-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detail-bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.detail-bookmark-icon {
+  width: 28px;
+  height: 28px;
+}

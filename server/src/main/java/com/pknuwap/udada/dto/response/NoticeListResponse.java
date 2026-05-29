@@ -1,6 +1,7 @@
 package com.pknuwap.udada.dto.response;
 
 import com.pknuwap.udada.entity.Notice;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Builder
 public class NoticeListResponse {
     private List<NoticeDto> notices;
+    @Schema(example = "1")
     private long totalCount;
 
     // 응답 생성
@@ -22,6 +24,7 @@ public class NoticeListResponse {
     @Getter
     @Builder
     public static class NoticeDto {
+        @Schema(example = "1")
         private Long id;
         private String title;
         private String noticedAt;
