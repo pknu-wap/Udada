@@ -31,13 +31,11 @@ export default function Navbar({ keywords = [], onActiveKeysChange }) {
     };
 
   const toggleKey = (idx) => {
-    setActiveKeys((prev) => {
-      const next = new Set(prev);
-      next.has(idx) ? next.delete(idx) : next.add(idx);
-      onActiveKeysChange?.(next, keywords);
-      return next;
-    });
-  };
+    const next = new Set(activeKeys);
+    next.has(idx) ? next.delete(idx) : next.add(idx);
+    setActiveKeys(next);                       
+    onActiveKeysChange?.(next, keywords);       
+};
   return (
     <nav className="navbar-container">
       {/* 로고 왼쪽 배치 */}
