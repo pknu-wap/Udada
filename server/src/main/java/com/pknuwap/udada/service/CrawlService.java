@@ -22,6 +22,7 @@ public class CrawlService {
     private final KeywordRepository keywordRepository;
     private final UserKeywordRepository userKeywordRepository;
     private final CrawlLogRepository crawlLogRepository;
+    private final NoticeAttachmentRepository noticeAttachmentRepository;
     private final EmailNotificationService emailNotificationService;
 
     private static final long PKNU_KEYWORD_ID = 1L;
@@ -48,31 +49,34 @@ public class CrawlService {
                     continue;
                 }
 
-                // 2. 새 공지사항 생성
-                Notice notice = Notice.builder()
-                        .title(crawled.getTitle())
-                        .originalUrl(crawled.getOriginalUrl())
-                        .noticedAt(crawled.getNoticedAt())
-                        .build();
-
-                // 3. 키워드 매칭 후 notice_keywords 연결
-                List<Keyword> allKeywords = keywordRepository.findAll();
-                for (Keyword keyword : allKeywords) {
-                    if (containsKeyword(notice, keyword.getWord())) {
-                        notice.addKeyword(keyword);
-                    }
-                }
-
-                // 4. 매칭 키워드 없으면 기본 키워드 연결
-                if (notice.getKeywords().isEmpty()) {
-                    notice.addKeyword(pknuKeyword);
-                }
-
-                noticeRepository.save(notice);
+                // 2. 새 공지사항 DB 저장
+                // TODO : notice -> savedNotice 변수명 충돌 에러 방지! 일단 제가 했습니다
+                Notice savedNotice = noticeRepository.save(
+                        Notice.builder()
+                                .title(crawled.getTitle())
+                                .originalUrl(crawled.getOriginalUrl())
+                                .noticedAt(crawled.getNoticedAt())
+                                .content(crawled.getContent())
+                                .build()
+                );
                 savedCount++;
 
-                // 5. 매칭된 키워드를 구독 중인 유저별로 공지 누적
-                collectNoticeByUser(notice, userNoticeMap);
+                // 첨부파일 저장
+                if (crawled.getAttachments() != null && !crawled.getAttachments().isEmpty()) {
+                    List<NoticeAttachment> attachments = crawled.getAttachments().stream()
+                            .map(att -> NoticeAttachment.builder()
+                                    .notice(savedNotice)
+                                    .fileName(att.getFileName()) // 일반 클래스라 get이 붙습니다.
+                                    .fileUrl(att.getFileUrl())
+                                    .fileType(att.getFileType())
+                                    .build())
+                            .toList();
+
+                    noticeAttachmentRepository.saveAll(attachments);
+                }
+
+                // 3. 키워드 매칭 후 알림 발송
+                sendNotificationToMatchedUsers(savedNotice);
             }
 
             // 6. 유저별로 모인 공지를 한 번에 이메일 발송
