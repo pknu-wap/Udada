@@ -2,6 +2,8 @@ import React from "react";
 import "./BookmarkList.css";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
+import { getBookmarks, deleteBookmark } from "../api/bookmarks";
+import { getNoticeDetail } from "../api/notices";
 
 export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }) {
   return (
