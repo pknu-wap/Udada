@@ -2,6 +2,8 @@ import React from "react";
 import "./BookmarkDetail.css";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
+import { getBookmarks, deleteBookmark } from "../api/bookmarks";
+import { getNoticeDetail } from "../api/notices";
 
 export default function BookmarkDetail({ post, onClose, onToggleBookmark }) {
   if (!post) {
