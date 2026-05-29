@@ -22,6 +22,11 @@ public enum ErrorCode {
     KEYWORD_NOT_FOUND(HttpStatus.BAD_REQUEST, "존재하지 않는 키워드입니다."),
     KEYWORD_NOT_OWNED(HttpStatus.BAD_REQUEST, "본인의 키워드만 수정할 수 있습니다."),
 
+    // 유저 키워드
+    USER_KEYWORD_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 키워드입니다."),
+    USER_KEYWORD_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 키워드입니다."),
+    USER_KEYWORD_FORBIDDEN(HttpStatus.FORBIDDEN, "접근할 수 없는 키워드입니다. 본인이 설정한 키워드가 아니셈 userId 값 제대로 전달했는지 확인해 보시오..."),
+
     // 유저
     USER_INVALID(HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다."),
     EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 이메일입니다."),

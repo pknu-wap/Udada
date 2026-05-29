@@ -54,6 +54,10 @@ dependencies {
 
 	// Jsoup (크롤링)
 	implementation 'org.jsoup:jsoup:1.17.2'
+
+	// smtp
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'com.fasterxml.jackson.core:jackson-databind' // todo: 병합 후 삭제
 }
 
 tasks.named('test') {
