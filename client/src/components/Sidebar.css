@@ -2,7 +2,7 @@
 .sidebar {
   width: 70px;
   height: 100vh;
-  background-color: #004695;
+  background-color: #00489F;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +20,7 @@
   align-items: center;
   width: 100%;
   gap: 20px; /* 아이콘 사이의 간격 */
+  margin-top: 20px;
 }
 
 /* svg 아이콘 영역 */
@@ -53,8 +54,22 @@
   background-color: transparent;
 }
 /* SVG 아이콘 크기 제어 (내부에 들어갈 아이콘) */
-.menu-item svg {
-  width: 24px;
-  height: 24px;
+.menu-item img {
+  width: 25px;
+  height: 25px;
   fill: currentColor;
+}
+
+.menu-item.keyword-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-bottom-group {
+  margin-top: auto;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
