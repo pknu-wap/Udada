@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
+import bookmarkIcon from "../assets/favourite_false.svg";
+import bookmarkTrueIcon from "../assets/favourite_true.svg";
+
 
 function Home({ activeKeywords = [] }) {
   const navigate = useNavigate();
@@ -20,14 +23,27 @@ function Home({ activeKeywords = [] }) {
         setLoading(false);
       });
   }, []);
+  
+  const [bookmarked, setBookmarked] = useState(
+    () => new Set(notices.filter((n) => n.isBookmarked).map((n) => n.id))
+  );
 
-  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const toggleBookmark = (e, id) => {
+    e.stopPropagation();
+    setBookmarked((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
   const filtered =
-    selectedCategory === "전체"
+    selectedKeyword === "전체"
       ? notices
       : notices.filter(
-          (notice) => notice.categoryName === selectedCategory
+          (notice) => notice.keywords.includes(selectedKeyword)
         );
 
   if (loading) return <div>불러오는 중...</div>;
@@ -35,10 +51,11 @@ function Home({ activeKeywords = [] }) {
   return (
     <div className="home">
       <div className="content">
+
         {/* 테이블 헤더 */}
         <div className="notice-header">
           <span>번호</span>
-          <span>카테고리</span>
+          <span>키워드</span>
           <span>제목</span>
           <span>작성일</span>
           <span>북마크</span>
@@ -53,10 +70,19 @@ function Home({ activeKeywords = [] }) {
               onClick={() => navigate(`/post/${notice.id}`)}
             >
               <span>{notice.id}</span>
-              <span>[{notice.categoryName}]</span>
+              <span className="keywords-badges">
+                {(notice.keywords ?? []).map((kw, idx) => (
+                  <span key={idx} className="keywords-badge">{kw}</span>
+                ))}
+              </span>
               <span>{notice.title}</span>
               <span>{notice.noticedAt}</span>
-              <span>🔖</span>
+              <img
+                src={bookmarked.has(notice.id) ? bookmarkTrueIcon : bookmarkIcon}
+                alt="북마크"
+                className="bookmark-icon"
+                onClick={(e) => toggleBookmark(e, notice.id)}
+              />
             </div>
           ))}
         </div>

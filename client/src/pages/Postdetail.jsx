@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getNoticeDetail } from "../api/notices";
 import { addBookmark, deleteBookmark } from "../api/bookmarks";
+import bookmarkIcon from "../assets/favourite_false.svg";
+import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
 const Postdetail = () => {
     const { id } = useParams();
@@ -15,20 +17,34 @@ const Postdetail = () => {
     const token = localStorage.getItem("accessToken");
 
     useEffect(() => {
-        if (!token) {
-            navigate("/login");
-            return;
-        }
 
-        getNoticeDetail(id)
-            .then((res) => {
+    // 토큰 없으면 로그인 페이지로 튕겨내기
+    if (!token) {
+        navigate("/login");
+        return;
+    }
+
+    fetch(`http://localhost:3000/api/v1/notices/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+        .then((res) => {
                 setPost(res.data);
                 setIsBookmarked(res.data.isBookmarked);
             })
-            .catch((err) => {
-                console.error("공지사항 불러오기 실패:", err);
-            });
+        .then((data) => {
+            setPost(data);
+            setIsBookmarked(data.isBookmarked);
+            if (data.isBookmarked && data.bookmarkId) {
+                setBookmarkId(data.bookmarkId);
+            }
+        })
+        .catch((err) => {
+            console.error("공지사항 불러오기 실패:", err);
+        });
     }, [id]);
+
 
     const toggleBookmark = () => {
         if (isBookmarked) {
@@ -56,11 +72,15 @@ const Postdetail = () => {
         <div className="post-detail-container">
             <div className="post-detail-box">
                 <div className="article-header">
-                    <span className="category-tag">[{post.keywordName || "공지"}]</span>
+                    <span className="keyword-tag">{post.keywordName || "공지"}</span>
                     <div className="header-top">
                         <h1 className="article-title">{post.title}</h1>
                         <button className="bookmark-btn" onClick={toggleBookmark}>
-                            {isBookmarked ? "★" : "☆"}
+                            <img
+                                src={isBookmarked ? bookmarkTrueIcon : bookmarkIcon}
+                                alt="북마크"
+                                className="bookmark-icon"
+                            />
                         </button>
                     </div>
                     <div className="header-bottom">
