@@ -1,6 +1,8 @@
 import "./Postdetail.css";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { getNoticeDetail } from "../api/notices";
+import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
@@ -15,6 +17,7 @@ const Postdetail = () => {
     const token = localStorage.getItem("accessToken");
 
     useEffect(() => {
+
     // 토큰 없으면 로그인 페이지로 튕겨내기
     if (!token) {
         navigate("/login");
@@ -26,7 +29,10 @@ const Postdetail = () => {
             Authorization: `Bearer ${token}`,
         },
     })
-        .then((res) => res.json())
+        .then((res) => {
+                setPost(res.data);
+                setIsBookmarked(res.data.isBookmarked);
+            })
         .then((data) => {
             setPost(data);
             setIsBookmarked(data.isBookmarked);
@@ -42,30 +48,17 @@ const Postdetail = () => {
 
     const toggleBookmark = () => {
         if (isBookmarked) {
-            fetch(`http://localhost:3000/api/v1/bookmarks/${bookmarkId}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            deleteBookmark(bookmarkId)
                 .then(() => {
                     setIsBookmarked(false);
                     setBookmarkId(null);
                 })
                 .catch((err) => console.error("북마크 삭제 실패:", err));
         } else {
-            fetch("http://localhost:3000/api/v1/bookmarks", {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ noticeId: id }),
-            })
-                .then((res) => res.json())
-                .then((data) => {
+            addBookmark(Number(id))
+                .then((res) => {
                     setIsBookmarked(true);
-                    setBookmarkId(data.bookmarkId);
+                    setBookmarkId(res.data.bookmarkId);
                 })
                 .catch((err) => console.error("북마크 추가 실패:", err));
         }
