@@ -37,21 +37,16 @@ const EmailInput = () => {
     }
   };
 
-  const handleSkip = () => {
-    // TODO: 이메일 없이 넘어가기
-    console.log("이메일 입력 건너뜀");
-  };
-
   return (
-    <div className="email-page">
-      <div className="email-card">
-        <div className="email-icon">✉️</div>
-
+    <div className="email-container">
+      <div className="email-box">
+        <img src={logo} alt="로고" className="email-logo" />
+ 
         <h1 className="email-title">이메일을 알려주세요</h1>
-        <p className="email-desc">
-          알림 받을 이메일 주소를 입력해주세요.
+        <p className="email-sub">
+          알림을 받을 이메일 주소를 입력해주세요.
         </p>
-
+ 
         <div className={`email-input-wrap ${error ? "has-error" : ""}`}>
           <input
             type="email"
@@ -63,17 +58,17 @@ const EmailInput = () => {
             autoFocus
           />
         </div>
-
+ 
         {error && <p className="email-error">{error}</p>}
-
+ 
         <button
-          className="email-btn-submit"
+          className="email-submit-btn"
           onClick={handleSubmit}
           disabled={loading}
         >
           {loading ? "저장 중..." : "확인"}
         </button>
-
+ 
       </div>
     </div>
   );
