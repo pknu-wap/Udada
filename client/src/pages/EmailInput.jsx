@@ -1,10 +1,12 @@
 import { useState } from "react";
 import "./EmailInput.css";
+import { useNavigate } from "react-router-dom";
 
 const EmailInput = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validateEmail = (value) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -30,6 +32,7 @@ const EmailInput = () => {
       // TODO: 이메일 저장 API 호출
       // await api.post("/user/email", { email });
       console.log("이메일 저장:", email);
+        navigate("/home"); 
     } catch (err) {
       setError("오류가 발생했어요. 다시 시도해주세요.");
     } finally {
@@ -40,11 +43,11 @@ const EmailInput = () => {
   return (
     <div className="email-container">
       <div className="email-box">
-        <img src={logo} alt="로고" className="email-logo" />
+        <img src="/logo.svg" alt="UDADA 로고" className="logo-svg" />
  
-        <h1 className="email-title">이메일을 알려주세요</h1>
+        <h1 className="email-title">이메일을 알려주세요.</h1>
         <p className="email-sub">
-          알림을 받을 이메일 주소를 입력해주세요.
+          알림을 받기 위해선 이메일 주소가 필요해요!
         </p>
  
         <div className={`email-input-wrap ${error ? "has-error" : ""}`}>

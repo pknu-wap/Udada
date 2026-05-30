@@ -60,12 +60,12 @@
 }
 
 .has-error .email-input {
-  border-color: #ff4d4f;
+  border-color: #FFC5C5;
 }
 
 .email-error {
   font-size: 13px;
-  color: #ff4d4f;
+  color: #ff9999;
   margin: 0 0 12px;
   align-self: flex-start;
 }
@@ -74,8 +74,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #FEE500;
-  color: #000;
+  background-color: #00489F;
+  color: #fff;
   border: none;
   border-radius: 12px;
   padding: 14px 28px;
