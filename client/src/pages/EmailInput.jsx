@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./EmailInput.css";
 import { useNavigate } from "react-router-dom";
+import api from "../api/instance";
 
 const EmailInput = () => {
   const [email, setEmail] = useState("");
@@ -29,8 +30,9 @@ const EmailInput = () => {
 
     setLoading(true);
     try {
-      // TODO: 이메일 저장 API 호출
+      // TODO: 이메일 저장 API 호출 / url, body 수정
       // await api.post("/user/email", { email });
+    // await api.post("/user/email", { email });
       console.log("이메일 저장:", email);
         navigate("/home"); 
     } catch (err) {
