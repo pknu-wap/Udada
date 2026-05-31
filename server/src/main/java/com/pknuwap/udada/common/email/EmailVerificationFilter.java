@@ -29,7 +29,7 @@ public class EmailVerificationFilter extends OncePerRequestFilter {
 
     // 이메일 검증 없이 허용할 경로
     private static final List<String> WHITELIST = List.of(
-            "/api/v1/auth/kakao",
+            "/auth/kakao",
             "/api/v1/users/email"
     );
 
