@@ -5,21 +5,27 @@ import "./BookmarkPanel.css";
 import { getBookmarks, deleteBookmark } from "../api/bookmarks";
 import { getNoticeDetail } from "../api/notices";
 
-// 나중에 API 연동하면 여기서 데이터 fetch
-const dummyNotices = [
-  { id: 1, title: "학술 정보 서비스 이용 안내", date: "2024-05-20", category: "도서관", content: "도서관 이용 안내 본문입니다...", isBookmarked: true },
-  { id: 2, title: "2024 2학기 장학금 신청 안내", date: "2024-05-19", category: "장학금", content: "장학금 신청 방법 안내 본문입니다...", isBookmarked: true },
-  { id: 3, title: "기숙사 신청 공지", date: "2024-05-18", category: "기숙사", content: "기숙사 입사 신청 안내 본문입니다...", isBookmarked: true },
-];
-
 export default function BookmarkPanel({ isOpen }) {
-  const [posts, setPosts] = useState(dummyNotices.filter(p => p.isBookmarked));
+  const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const handleRemoveBookmark = (postId) => {
-    setPosts(prev => prev.filter(p => p.id !== postId));
-    if (selectedPost?.id === postId) setSelectedPost(null); // 상세도 닫기
+   useEffect(() => {
+    if (!isOpen) return;
 
+    getBookmarks()
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch((err) => console.error("북마크 불러오기 실패:", err));
+  }, [isOpen]);
+
+  const handleRemoveBookmark = (postId) => {
+    deleteBookmark(postId)
+      .then(() => {
+        setPosts(prev => prev.filter(p => p.id !== postId));
+        if (selectedPost?.id === postId) setSelectedPost(null);
+      })
+      .catch((err) => console.error("북마크 삭제 실패:", err));
   };
 
   if (!isOpen) return null;
