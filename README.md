@@ -24,7 +24,7 @@
 
 <table>
   <tr>
-    <td align="center" width="150dpx"><b>프론트엔드</b></td>
+    <td align=
     <td align="center" width="150px"><b>프론트엔드</b></td>
     <td align="center" width="150px"><b>백엔드</b></td>
     <td align="center" width="150px"><b>백엔드</b></td>
