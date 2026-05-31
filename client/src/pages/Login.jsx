@@ -1,7 +1,6 @@
 import "./Login.css";
 
-// ✅ 이렇게!
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=35ee70385d55e7d205867dc2788f35b4&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
+const KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/authorize?client_id=" + process.env.REACT_APP_KAKAO_CLIENT_ID + "&redirect_uri=" + process.env.REACT_APP_REDIRECT_URI + "&response_type=code";
 
 export default function Login() {
   const handleKakaoLogin = () => {
