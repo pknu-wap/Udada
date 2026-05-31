@@ -95,18 +95,3 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-.email-skip-btn {
-  background: none;
-  border: none;
-  color: #aaa;
-  font-size: 13px;
-  cursor: pointer;
-  margin-top: 16px;
-  text-decoration: underline;
-  padding: 0;
-}
-
-.email-skip-btn:hover {
-  color: #888;
-}
