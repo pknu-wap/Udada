@@ -20,7 +20,7 @@ function KakaoCallback() {
         console.log("서버 응답:", data);
         if (data.accessToken) {
           localStorage.setItem("accessToken", data.accessToken);
-          navigate("/email-input"); // 인트로 페이지로 이동 (필요시 "/home"으로 변경)
+          navigate("/email-input"); // 이메일 페이지로 이동 (필요시 "/home"으로 변경)
         } else {
           console.error("accessToken 없음:", data);
           navigate("/login");
