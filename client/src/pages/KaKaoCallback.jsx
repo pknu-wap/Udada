@@ -9,7 +9,7 @@ function KakaoCallback() {
     const code = new URLSearchParams(location.search).get("code");
     if (!code) return;
 
-    fetch(`http://34.47.85.214:3000/api/v1/auth/kakao?code=${code}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/v1/auth/kakao?code=${code}`, {
       method: "POST",
     })
       .then((res) => {
