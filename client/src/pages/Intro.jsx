@@ -6,7 +6,7 @@ const navigate = useNavigate();
 
   const handleKakaoLogin = () => {
     const REST_API_KEY = "35ee70385d55e7d205867dc2788f35b4";
-    const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
+    const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
     const KAKAO_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = KAKAO_URL;
   };
