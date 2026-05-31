@@ -24,26 +24,18 @@ const Postdetail = () => {
         return;
     }
 
-    fetch(`http://localhost:3000/api/v1/notices/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    })
+    getNoticeDetail(id)
         .then((res) => {
-                setPost(res.data);
-                setIsBookmarked(res.data.isBookmarked);
-            })
-        .then((data) => {
-            setPost(data);
-            setIsBookmarked(data.isBookmarked);
-            if (data.isBookmarked && data.bookmarkId) {
-                setBookmarkId(data.bookmarkId);
+            setPost(res.data);
+            setIsBookmarked(res.data.isBookmarked);
+            if (res.data.isBookmarked && res.data.bookmarkId) {
+                setBookmarkId(res.data.bookmarkId);
             }
         })
         .catch((err) => {
             console.error("공지사항 불러오기 실패:", err);
         });
-    }, [id]);
+}, [id]);
 
 
     const toggleBookmark = () => {
