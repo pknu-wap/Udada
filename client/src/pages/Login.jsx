@@ -1,6 +1,5 @@
 import "./Login.css";
-
-const KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/authorize?client_id=" + process.env.REACT_APP_KAKAO_CLIENT_ID + "&redirect_uri=" + process.env.REACT_APP_REDIRECT_URI + "&response_type=code";
+import { KAKAO_AUTH_URL } from "../api/api";
 
 export default function Login() {
   const handleKakaoLogin = () => {
