@@ -14,7 +14,7 @@ export default function BookmarkPanel({ isOpen }) {
 
     getBookmarks()
       .then((res) => {
-        setPosts(res.data);
+        setPosts(res.data.bookmarks);
       })
       .catch((err) => console.error("북마크 불러오기 실패:", err));
   }, [isOpen]);
@@ -22,8 +22,8 @@ export default function BookmarkPanel({ isOpen }) {
   const handleRemoveBookmark = (postId) => {
     deleteBookmark(postId)
       .then(() => {
-        setPosts(prev => prev.filter(p => p.id !== postId));
-        if (selectedPost?.id === postId) setSelectedPost(null);
+        setPosts(prev => prev.filter(p => p.bookmarkId !== postId));
+        if (selectedPost?.bookmarkId === postId) setSelectedPost(null);
       })
       .catch((err) => console.error("북마크 삭제 실패:", err));
   };

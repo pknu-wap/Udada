@@ -1,6 +1,5 @@
 import React from "react";
 import "./BookmarkDetail.css";
-import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 import { getBookmarks, deleteBookmark } from "../api/bookmarks";
 import { getNoticeDetail } from "../api/notices";
@@ -20,18 +19,18 @@ export default function BookmarkDetail({ post, onClose, onToggleBookmark }) {
         <div className="detail-header">
           <div className="detail-title-row">
           <h2 className="detail-title">{post.title}</h2>
-          <button className="detail-bookmark-btn" onClick={() => onToggleBookmark(post.id)}>
+          <button className="detail-bookmark-btn" onClick={() => onToggleBookmark(post.bookmarkId)}>
             <img
-              src={post.isBookmarked ? bookmarkTrueIcon : bookmarkIcon}
+              src={bookmarkTrueIcon}
               alt="북마크"
               className="detail-bookmark-icon"
             />
           </button>
           </div>
           <div className="detail-meta">
-            <span>{post.date}</span>
+            <span>{post.noticedAt}</span>
             <span>|</span>
-            <span>{post.category}</span>
+            <span>{post.keywordName}</span>
           </div>
         </div>
         <hr className="detail-divider" />
