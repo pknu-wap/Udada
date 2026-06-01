@@ -9,7 +9,7 @@ import bookmarkTrueIcon from "../assets/favourite_true.svg";
 function Home({ activeKeywords = [] }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
-  const [loading, setLoading] = useState(new Set());
+  const [loading, setLoading] = useState(true);
 
  useEffect(() => {
   getNotices()
