@@ -9,20 +9,20 @@ import bookmarkTrueIcon from "../assets/favourite_true.svg";
 function Home({ activeKeywords = [] }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(new Set());
 
-  useEffect(() => {
-    getNotices()
-      .then((res) => {
-        setNotices(res.data.notices);
-      })
-      .catch((err) => {
-        console.error("공지사항 불러오기 실패", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+ useEffect(() => {
+  getNotices()
+    .then((res) => {
+      const data = res.data.notices;
+      setNotices(data); // notices 세팅
+      setBookmarked(    // bookmarked도 같이 세팅
+        new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
+      );
+    })
+    .catch((err) => console.error("공지사항 불러오기 실패", err))
+    .finally(() => setLoading(false));
+}, []);
   
   const [bookmarked, setBookmarked] = useState(
     () => new Set(notices.filter((n) => n.isBookmarked).map((n) => n.id))
@@ -42,9 +42,7 @@ function Home({ activeKeywords = [] }) {
   const filtered =
     selectedKeyword === "전체"
       ? notices
-      : notices.filter(
-          (notice) => notice.keywords.includes(selectedKeyword)
-        );
+      : notices.filter((notice) => notice.keywordName === selectedKeyword);
 
   if (loading) return <div>불러오는 중...</div>;
 
@@ -71,9 +69,10 @@ function Home({ activeKeywords = [] }) {
             >
               <span>{notice.id}</span>
               <span className="keywords-badges">
-                {(notice.keywords ?? []).map((kw, idx) => (
+                <span className="keywords-badge">{notice.keywordName}</span>
+                {/* {(notice. ?? []).map((kw, idx) => (
                   <span key={idx} className="keywords-badge">{kw}</span>
-                ))}
+                ))} */}
               </span>
               <span>{notice.title}</span>
               <span>{notice.noticedAt}</span>

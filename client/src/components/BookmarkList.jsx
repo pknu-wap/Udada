@@ -21,13 +21,13 @@ export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }
           {posts.map((post) => (
             <li
               key={post.bookmarkId}
-              className={`bookmark-item ${selectedPost?.id === post.bookmarkId
+              className={`bookmark-item ${selectedPost?.bookmarkId === post.bookmarkId
                   ? "active"
                   : selectedPost
                     ? "inactive"
                     : ""
                 }`}
-              onClick={() => onSelect(selectedPost?.id === post.bookmarkId ? null : post)}
+              onClick={() => onSelect(selectedPost?.bookmarkId === post.bookmarkId ? null : post)}
             >
               <span className="post-keyword">{post.keywordName}</span>
               <span className="post-title">{post.title}</span>
