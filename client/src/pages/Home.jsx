@@ -14,7 +14,7 @@ function Home({ activeKeywords = [] }) {
  useEffect(() => {
   getNotices()
     .then((res) => {
-      const data = res.data.notices;
+      const data = res.data.data.notices ?? [];
       setNotices(data); // notices 세팅
       setBookmarked(    // bookmarked도 같이 세팅
         new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
