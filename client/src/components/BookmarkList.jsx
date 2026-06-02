@@ -20,22 +20,22 @@ export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }
         <ul className="bookmark-list">
           {posts.map((post) => (
             <li
-              key={post.id}
-              className={`bookmark-item ${selectedPost?.id === post.id
+              key={post.bookmarkId}
+              className={`bookmark-item ${selectedPost?.bookmarkId === post.bookmarkId
                   ? "active"
                   : selectedPost
                     ? "inactive"
                     : ""
                 }`}
-              onClick={() => onSelect(selectedPost?.id === post.id ? null : post)}
+              onClick={() => onSelect(selectedPost?.bookmarkId === post.bookmarkId ? null : post)}
             >
-              <span className="post-keyword">{post.category}</span>
+              <span className="post-keyword">{post.keywordName}</span>
               <span className="post-title">{post.title}</span>
               <span
                 className="post-bookmark-icon"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onRemove(post.id);
+                  onRemove(post.bookmarkId);
                 }}
               ><img src={bookmarkTrueIcon} alt="북마크" className="bookmarktrue" /></span>
             </li>
