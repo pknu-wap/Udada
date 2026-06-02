@@ -19,7 +19,6 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
       <div className="sidebar-menu-group">
 
         <Link to="/" className="menu-item home-btn" title="홈">
-          {/* svg파일 교체 예정 */}
           <img src={homeIcon} alt="홈" className="homeIcon" />
         </Link>
 
