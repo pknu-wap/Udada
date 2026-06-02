@@ -5,11 +5,13 @@ import com.pknuwap.udada.common.exception.ErrorCode;
 import com.pknuwap.udada.dto.response.NoticeDetailResponse;
 import com.pknuwap.udada.dto.response.NoticeListResponse;
 import com.pknuwap.udada.entity.Notice;
+import com.pknuwap.udada.repository.BookmarkRepository;
 import com.pknuwap.udada.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,8 +21,9 @@ import java.util.stream.Collectors;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final BookmarkRepository bookmarkRepository;
 
-    public NoticeListResponse getNoticeList(Long keywordId, int page, int size) {
+    public NoticeListResponse getNoticeList(Long userId, Long keywordId, int page, int size) {
         // 최신순 정렬
         Pageable pageable = PageRequest.of(page, size, Sort.by("noticedAt").descending());
 
@@ -31,7 +34,10 @@ public class NoticeService {
 
         // 엔티티 목록을 DTO 목록으로 변환
         List<NoticeListResponse.NoticeDto> noticeDtos = noticePage.getContent().stream()
-                .map(NoticeListResponse.NoticeDto::from)
+                .map(notice -> NoticeListResponse.NoticeDto.from(
+                        notice,
+                        bookmarkRepository.existsByUserIdAndNoticeId(userId, notice.getId())
+                ))
                 .collect(Collectors.toList());
 
         return NoticeListResponse.of(noticeDtos, noticePage.getTotalElements());
@@ -44,7 +50,8 @@ public class NoticeService {
 
         return NoticeDetailResponse.from(notice);
     }
-    public NoticeListResponse searchNoticesByKeywords(List<String> keywords) {
+
+    public NoticeListResponse searchNoticesByKeywords(Long userId, List<String> keywords) {
         List<Notice> notices;
 
         if (keywords == null || keywords.isEmpty()) {
@@ -54,7 +61,10 @@ public class NoticeService {
         }
 
         List<NoticeListResponse.NoticeDto> noticeDtos = notices.stream()
-                .map(NoticeListResponse.NoticeDto::from)
+                .map(notice -> NoticeListResponse.NoticeDto.from(
+                        notice,
+                        bookmarkRepository.existsByUserIdAndNoticeId(userId, notice.getId())
+                ))
                 .collect(Collectors.toList());
 
         return NoticeListResponse.of(noticeDtos, noticeDtos.size());
