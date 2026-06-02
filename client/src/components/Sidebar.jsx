@@ -18,7 +18,7 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
     <aside className="sidebar">
       <div className="sidebar-menu-group">
 
-        <Link to="/" className="menu-item home-btn" title="홈">
+        <Link to="/home" className="menu-item home-btn" title="홈">
           <img src={homeIcon} alt="홈" className="homeIcon" />
         </Link>
 
@@ -34,7 +34,7 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
         <div
           className="menu-item keyword-btn"
           onClick={toggleKeyword}   // ← Link → div로 변경
-          title="설정" title="설정">
+          title="설정">
           <img src={keywordIcon} alt="검색"/>
         </div>
 
