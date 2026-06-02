@@ -14,7 +14,8 @@ function Home({ activeKeywords = [] }) {
   useEffect(() => {
     getNotices()
       .then((res) => {
-        setNotices(res.data.notices);
+        console.log("응답:", res.data);
+        setNotices(res.data.data.notices);
       })
       .catch((err) => {
         console.error("공지사항 불러오기 실패", err);
@@ -71,8 +72,8 @@ function Home({ activeKeywords = [] }) {
             >
               <span>{notice.id}</span>
               <span className="keywords-badges">
-                {(notice.keywords ?? []).map((kw, idx) => (
-                  <span key={idx} className="keywords-badge">{kw}</span>
+                {(notice.keywords ?? []).map((item, idx) => (
+                  <span key={idx} className="keywords-badge">{item.word}</span>
                 ))}
               </span>
               <span>{notice.title}</span>
