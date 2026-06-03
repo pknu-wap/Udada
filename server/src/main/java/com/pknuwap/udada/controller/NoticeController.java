@@ -1,5 +1,6 @@
 package com.pknuwap.udada.controller;
 
+import com.pknuwap.udada.common.jwt.UserPrincipal;
 import com.pknuwap.udada.common.response.ApiResponse;
 import com.pknuwap.udada.common.response.ErrorResponse;
 import com.pknuwap.udada.dto.response.NoticeDetailResponse;
@@ -35,11 +36,14 @@ public class NoticeController {
             )
     })
     public ResponseEntity<ApiResponse<NoticeListResponse>> getNotices(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(required = false) Long keywordId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
-        NoticeListResponse response = noticeService.getNoticeList(keywordId, page, size);
+        Long userId = userPrincipal.getUserId();
+
+        NoticeListResponse response = noticeService.getNoticeList(userId, keywordId, page, size);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 

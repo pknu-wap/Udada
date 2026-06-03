@@ -29,11 +29,14 @@ public class NoticeListResponse {
         private String title;
         private String noticedAt;
 
-        public static NoticeDto from(Notice notice) {
+        private boolean isBookmarked;
+
+        public static NoticeDto from(Notice notice, boolean bookmarked) {
             return NoticeDto.builder()
                     .id(notice.getId())
                     .title(notice.getTitle())
                     .noticedAt(notice.getNoticedAt().toString())
+                    .isBookmarked(bookmarked)
                     .build();
         }
     }
