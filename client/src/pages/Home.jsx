@@ -9,12 +9,18 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bookmarked, setBookmarked] = useState(new Set());
+  const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
   useEffect(() => {
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-        setNotices(res.data.data.notices);
+        const data = res.data.data.notices || [];
+        setNotices(data);
+        setBookmarked(
+          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
+        );
       })
       .catch((err) => {
         console.error("공지사항 불러오기 실패", err);
@@ -23,10 +29,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
         setLoading(false);
       });
   }, []);
-
-  const [bookmarked, setBookmarked] = useState(
-    () => new Set(notices.filter((n) => n.isBookmarked).map((n) => n.id))
-  );
 
   const toggleBookmark = (e, id) => {
     e.stopPropagation();
@@ -37,9 +39,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
     });
   };
 
-  const [selectedKeyword, setSelectedKeyword] = useState("전체");
-
-  // 👇 검색어 + 키워드 필터링
+  // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
       selectedKeyword === "전체" || notice.keywordName === selectedKeyword;
