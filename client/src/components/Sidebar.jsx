@@ -1,18 +1,14 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Sidebar.css";
 import homeIcon from "../assets/home.svg";
 import bookmarkIcon from "../assets/favourite_sidebar.svg";
 import keywordIcon from "../assets/keywordIcon.svg";
 import logoutIcon from "../assets/logout.svg";
+import useAuth from "../hooks/useAuth";
 
 export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    console.log("로그아웃");
-    navigate("/"); // 로그아웃 후 인트로로 이동
-  };
+  const { logout } = useAuth();
 
   return (
     <aside className="sidebar">
@@ -42,7 +38,7 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
       <div className="sidebar-bottom-group">
         <div
           className="menu-item"
-          onClick={handleLogout}
+          onClick={logout}
           title="로그아웃"
         >
           <img src={logoutIcon} alt="로그아웃" className="logout" />

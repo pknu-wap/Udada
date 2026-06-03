@@ -68,7 +68,7 @@ function AppContent() {
                   />
                   <Routes>
                     <Route
-                      path="/home"
+                      path="home"
                       element={
                         <Home
                           activeKeywords={activeKeywords}
@@ -76,7 +76,7 @@ function AppContent() {
                         />
                       }
                     />
-                    <Route path="/post/:id" element={<Postdetail />} />
+                    <Route path="post/:id" element={<Postdetail />} />
                   </Routes>
                 </div>
               </>
