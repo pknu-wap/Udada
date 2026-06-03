@@ -40,7 +40,7 @@
 .bookmark-item {
   padding: 12px 14px;
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: #eeeeee; /* 👈 기본 회색 */
   border: 1.5px solid transparent;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
@@ -53,13 +53,13 @@
 }
 
 .bookmark-item:hover {
-  background-color: #ffffff;
+  background-color: #ffffff; /* 👈 hover 시 흰색 */
   border: 1.5px solid #0d6efd;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .bookmark-item.active {
-  background-color: #ffffff;
+  background-color: #ffffff; /* 👈 클릭 시 흰색 */
   border: 1.5px solid #0d6efd;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -74,8 +74,8 @@
   font-size: 0.7rem;
   font-weight: bold;
   display: inline-block;
-  background-color: #FFC5C5;
-  color: #ffffff;
+  background-color: transparent; /* 👈 핑크 배경 제거 */
+  color: #888; /* 👈 회색 텍스트 */
   padding: 4px 7px;
   border-radius: 13px;
   margin-bottom: 15px;
@@ -98,7 +98,7 @@
 }
 
 .post-bookmark-icon img {
-  width: 25px;   /* 원하는 크기로 조절 */
+  width: 25px;
   height: 25px;
   display: block;
 }
