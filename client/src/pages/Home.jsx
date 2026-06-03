@@ -115,21 +115,21 @@ const toggleBookmark = (e, id) => {
               >
                 <span>{notice.id}</span>
                 {/* 키워드 툴팁 */}
-                <span className="keywords-badges">
+                <div className="keywords-badges">
                   {firstKeyword && (
                     <span className="keywords-badge">{firstKeyword.word}</span>
                   )}
                   {restKeywords.length > 0 && (
-                    <span className="keywords-more">
+                    <div className="keywords-more" onClick={(e) => e.stopPropagation()}>
                       +{restKeywords.length}
                       <div className="keywords-tooltip">
                         {keywords.map((item, idx) => (
                           <span key={idx} className="keywords-badge">{item.word}</span>
                         ))}
                       </div>
-                    </span>
+                    </div>
                   )}
-                </span>
+                </div>
                 <span>{notice.title}</span>
                 <span>{formatDate(notice.noticedAt)}</span>
                 <BookmarkIcon
