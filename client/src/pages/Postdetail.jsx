@@ -20,11 +20,9 @@ const Postdetail = () => {
 
         // 토큰 없으면 로그인 페이지로 튕겨내기
         if (!token) {
-            console.warn("토큰이 없어서 로그인 페이지로 이동합니다.");
             navigate("/login");
             return;
         }
-
     getNoticeDetail(id)
         .then((res) => {
             const data =res.data.data;
@@ -38,7 +36,6 @@ const Postdetail = () => {
             console.error("공지사항 불러오기 실패:", err);
         });
 }, [id]);
-
 
     const toggleBookmark = () => {
         if (isBookmarked) {
@@ -66,7 +63,7 @@ const Postdetail = () => {
         <div className="post-detail-container">
             <div className="post-detail-box">
                 <div className="article-header">
-                    <span className="keyword-tag">{post.keywordName?.[0]?.word || "공지"}</span>
+                    <span className="keyword-tag">{post.keywords?.[0]?.word || "공지"}</span>
                     <div className="header-top">
                         <h1 className="article-title">{post.title}</h1>
                         <button className="bookmark-btn" onClick={toggleBookmark}>

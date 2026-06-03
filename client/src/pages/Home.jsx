@@ -5,36 +5,29 @@ import { getNotices } from "../api/notices";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
-
-function Home({ activeKeywords = [] }) {
+function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookmarked, setBookmarked] = useState(new Set());
 
-
- useEffect(() => {
-  getNotices()
-    .then((res) => {
-
-      const data = res?.data?.data?.notices||[];
-
-      setNotices(data); // notices 세팅
-
-      if (Array.isArray(data)) {
+  useEffect(() => {
+    getNotices()
+      .then((res) => {
+        console.log("응답:", res.data);
+        const data = res.data.data.notices || [];
+        setNotices(data);
         setBookmarked(
-          new Set(data.filter((n) => n && n.isBookmarked).map((n) => n.id))
+          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
         );
-      }
-    })
-    .catch((err) => {
-      console.error("공지사항 불러오기 실패", err);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-}, []);
-  
+      })
+      .catch((err) => {
+        console.error("공지사항 불러오기 실패", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const toggleBookmark = (e, id) => {
     e.stopPropagation();
@@ -45,12 +38,19 @@ function Home({ activeKeywords = [] }) {
     });
   };
 
-  const [selectedKeyword, setSelectedKeyword] = useState("전체");
-
-  const filtered =
-    selectedKeyword === "전체"
-      ? notices
-      : notices.filter((notice) => notice.keywordName === selectedKeyword);
+  // 검색어 + 키워드 필터링
+  const filtered = notices.filter((notice) => {
+    const keywordMatch =
+      activeKeywords.length === 0 ||
+      (notice.keywords ?? []).some((k) => activeKeywords.includes(k.word));
+    const searchMatch =
+      searchQuery === "" ||
+      notice.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (notice.keywords ?? []).some((k) =>
+        k.word?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    return keywordMatch && searchMatch;
+  });
 
   if (loading) return <div>불러오는 중...</div>;
 
