@@ -43,9 +43,7 @@ function Home({ activeKeywords = [] }) {
   const filtered =
     selectedKeyword === "전체"
       ? notices
-      : notices.filter(
-          (notice) => notice.keywords.includes(selectedKeyword)
-        );
+      : notices.filter((notice) => notice.keywordName === selectedKeyword);
 
   if (loading) return <div>불러오는 중...</div>;
 

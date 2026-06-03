@@ -5,7 +5,7 @@ import filterIcon from "../assets/filter_icon.svg";
 import searchIcon from "../assets/search.svg";
 
 export default function Navbar({ keywords = [], onActiveKeysChange }) {
-  // 카테고리 활성화 상태 관리
+  // 키워드 활성화 상태 관리
   const [isActive, setIsActive] = useState(false);
 
   const [activeKeys, setActiveKeys] = useState(

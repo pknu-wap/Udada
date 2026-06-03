@@ -17,8 +17,8 @@ function AppContent() {
   const location = useLocation();
   const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
   const [isKeywordOpen, setIsKeywordOpen] = useState(false);
-  const [keywords, setKeywords] = useState(["도서관", "장학금", "기숙사"]);
-  const [activeKeywords, setActiveKeywords] = useState(["도서관", "장학금", "기숙사"]);
+  const [keywords, setKeywords] = useState([]);
+  const [activeKeywords, setActiveKeywords] = useState([]);
 
   const toggleBookmark = () => setIsBookmarkOpen(!isBookmarkOpen);
   const toggleKeywordPanel = () => setIsKeywordOpen(!isKeywordOpen);
