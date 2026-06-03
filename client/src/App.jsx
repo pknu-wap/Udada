@@ -23,17 +23,18 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn } = useAuth();
 
-  const toggleBookmark = () => setIsBookmarkOpen(!isBookmarkOpen);
-  const toggleKeywordPanel = () => setIsKeywordOpen(!isKeywordOpen);
+  const toggleBookmark = () => setIsBookmarkOpen((prev) => !prev);
+  const toggleKeywordPanel = () => setIsKeywordOpen((prev) => !prev);
   const handleActiveKeysChange = (activeSet, kws) => {
     setActiveKeywords(kws.filter((_, i) => activeSet.has(i)));
   };
 
   const hideSidebar = ["/", "/login", "/oauth/kakao/callback", "/email-input"].includes(location.pathname);
+  const showShell = isLoggedIn() && !hideSidebar;
 
   return (
     <div className="app">
-      {!hideSidebar && (
+      {showShell && (
         <Sidebar
           isOpen={isBookmarkOpen}
           toggleBookmark={toggleBookmark}
@@ -41,53 +42,47 @@ function AppContent() {
         />
       )}
       <div className="main-layout">
-        <Routes>
-          <Route path="/" element={isLoggedIn() ? <Navigate to="/home" /> : <Intro />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
-          <Route path="/email-input" element={<EmailInput />} />
-          <Route
-            path="/*"
-            element={
-              isLoggedIn() ? (
-                <>
-                  <Navbar
-                    keywords={keywords}
-                    onActiveKeysChange={handleActiveKeysChange}
-                    onSearch={setSearchQuery}
-                    searchQuery={searchQuery}
-                  />
-                  <div className="content-area">
-                    <BookmarkPanel
-                      isOpen={isBookmarkOpen}
-                      onClose={() => setIsBookmarkOpen(false)}
-                    />
-                    <KeywordPanel
-                      isOpen={isKeywordOpen}
-                      onClose={() => setIsKeywordOpen(false)}
-                      keywords={keywords}
-                      setKeywords={setKeywords}
-                    />
-                    <Routes>
-                      <Route
-                        path="home"
-                        element={
-                          <Home
-                            activeKeywords={activeKeywords}
-                            searchQuery={searchQuery}
-                          />
-                        }
-                      />
-                      <Route path="post/:id" element={<Postdetail />} />
-                    </Routes>
-                  </div>
-                </>
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-        </Routes>
+        {showShell && (
+          <>
+            <Navbar
+              keywords={keywords}
+              onActiveKeysChange={handleActiveKeysChange}
+              onSearch={setSearchQuery}
+              searchQuery={searchQuery}
+            />
+            <BookmarkPanel
+              isOpen={isBookmarkOpen}
+              onClose={() => setIsBookmarkOpen(false)}
+            />
+            <KeywordPanel
+              isOpen={isKeywordOpen}
+              onClose={() => setIsKeywordOpen(false)}
+              keywords={keywords}
+              setKeywords={setKeywords}
+            />
+          </>
+        )}
+
+        <div className="content-area">
+          <Routes>
+            <Route path="/" element={isLoggedIn() ? <Navigate to="/home" /> : <Intro />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
+            <Route path="/email-input" element={<EmailInput />} />
+
+            {/* 로그인 필요 페이지 */}
+            <Route
+              path="/home"
+              element={isLoggedIn() ? <Home activeKeywords={activeKeywords} searchQuery={searchQuery} /> : <Navigate to="/login" replace />}
+            />
+            <Route
+              path="/post/:id"
+              element={isLoggedIn() ? <Postdetail /> : <Navigate to="/login" replace />}
+            />
+
+            <Route path="*" element={<Navigate to={isLoggedIn() ? "/home" : "/login"} replace />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );
