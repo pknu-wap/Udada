@@ -24,7 +24,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
         const sorted = [...data].sort((a, b) => b.id - a.id); // id 내림차순 정렬
         setNotices(sorted);
         setBookmarked(
-          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
+          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id)),
         );
       })
       .catch((err) => {
@@ -112,6 +112,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                   e.stopPropagation();
                   toggleBookmark(notice.id, notice.bookmarked);
                 }}
+              />
               <span>{formatDate(notice.noticedAt)}</span>
             </div>
           ))}
