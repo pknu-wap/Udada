@@ -5,14 +5,14 @@ import filterIcon from "../assets/filter_icon.svg";
 import searchIcon from "../assets/search.svg";
 import logoIcon from "../assets/logo.svg";
 
-export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) {
+export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, searchQuery: externalQuery = "" }) {
   const [isActive, setIsActive] = useState(false);
 
   const [activeKeys, setActiveKeys] = useState(
     () => new Set(keywords.map((_, i) => i))
   );
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(externalQuery);
 
   const prevLenRef = React.useRef(keywords.length);
   React.useEffect(() => {
@@ -25,6 +25,10 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) 
     }
     prevLenRef.current = keywords.length;
   }, [keywords]);
+
+  React.useEffect(() => {
+    setSearchQuery(externalQuery);
+  }, [externalQuery]);
 
   const handleSearch = () => {
     const trimmed = searchQuery.trim();
@@ -78,9 +82,8 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) 
                 keywords.map((kw, idx) => (
                   <button
                     key={idx}
-                    className={`keyword-dropdown-item ${
-                      activeKeys.has(idx) ? "kd-active" : "kd-inactive"
-                    }`}
+                    className={`keyword-dropdown-item ${activeKeys.has(idx) ? "kd-active" : "kd-inactive"
+                      }`}
                     onClick={() => toggleKey(idx)}
                   >
                     {kw}

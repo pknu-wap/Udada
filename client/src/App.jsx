@@ -52,7 +52,8 @@ function AppContent() {
                 <Navbar
                   keywords={keywords}
                   onActiveKeysChange={handleActiveKeysChange}
-                  onSearch={setSearchQuery} // 👈 추가
+                  onSearch={setSearchQuery}
+                  searchQuery={searchQuery}
                 />
                 <div className="content-area">
                   <BookmarkPanel
