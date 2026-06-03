@@ -12,6 +12,7 @@ function Home({ activeKeywords = [] }) {
   const [loading, setLoading] = useState(true);
   const [bookmarked, setBookmarked] = useState(new Set());
 
+
  useEffect(() => {
   getNotices()
     .then((res) => {
@@ -76,10 +77,9 @@ function Home({ activeKeywords = [] }) {
             >
               <span>{notice.id}</span>
               <span className="keywords-badges">
-                <span className="keywords-badge">{notice.keywordName}</span>
-                {/* {(notice. ?? []).map((kw, idx) => (
-                  <span key={idx} className="keywords-badge">{kw}</span>
-                ))} */}
+                {(notice.keywords ?? []).map((item, idx) => (
+                  <span key={idx} className="keywords-badge">{item.word}</span>
+                ))}
               </span>
               <span>{notice.title}</span>
               <span>{notice.noticedAt}</span>
