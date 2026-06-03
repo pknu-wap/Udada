@@ -21,8 +21,8 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-        const data = res?.data?.data?.notices || [];
-        const sorted = [...data].sort((a, b) => b.id - a.id); // id 내림차순 정렬
+const data = res?.data?.data?.notices || [];
+const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
         setNotices(sorted);
         setBookmarked(
           new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
