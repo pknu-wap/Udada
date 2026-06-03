@@ -6,6 +6,11 @@ import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+  return dateStr.split("T")[0].replace(/-/g, ".");
+};
 const Postdetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -15,14 +20,7 @@ const Postdetail = () => {
     const [bookmarkId, setBookmarkId] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
         
-
-        // 토큰 없으면 로그인 페이지로 튕겨내기
-        if (!token) {
-            navigate("/login");
-            return;
-        }
     getNoticeDetail(id)
         .then((res) => {
             const data =res.data.data;
@@ -75,8 +73,7 @@ const Postdetail = () => {
                         </button>
                     </div>
                     <div className="header-bottom">
-                        <span>{post.noticedAt}</span>
-                    </div>
+                        <span>{formatDate(post.noticedAt)}</span>                    </div>
                 </div>
 
                 <hr className="content-divider" />

@@ -6,7 +6,6 @@ import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import BookmarkIcon from "../components/BookmarkIcon";
 import useAuth from "../hooks/useAuth";
 
-// 날짜 형식 변환 함수 (2026-04-05T09:00 → 2026-04-05)
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
   return dateStr.split("T")[0];
@@ -16,8 +15,8 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { getToken } = useAuth();
 
+  const { getToken } = useAuth();
   useEffect(() => {
     const token = getToken();
     if (!token) {
@@ -40,6 +39,8 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       });
   }, []);
 
+  const [selectedKeyword, setSelectedKeyword] = useState("전체");
+
   // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
@@ -49,7 +50,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       searchQuery === "" ||
       notice.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (notice.keywords ?? []).some((k) =>
-        k.word?.toLowerCase().includes(searchQuery.toLowerCase()),
+        k.word?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     return keywordMatch && searchMatch;
   });
@@ -61,16 +62,12 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       } else {
         await addBookmark(noticeId);
       }
-
       setNotices((prev) =>
         prev.map((notice) =>
           notice.id === noticeId
-            ? {
-                ...notice,
-                bookmarked: !notice.bookmarked,
-              }
-            : notice,
-        ),
+            ? { ...notice, bookmarked: !notice.bookmarked }
+            : notice
+        )
       );
     } catch (err) {
       console.error("북마크 처리 실패", err);
@@ -93,31 +90,45 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
 
         {/* 공지 리스트 */}
         <div className="notice-list">
-          {filtered.map((notice) => (
-            <div
-              key={notice.id}
-              className="notice-row"
-              onClick={() => navigate(`/post/${notice.id}`)}
-            >
-              <span>{notice.id}</span>
-              <span className="keywords-badges">
-                {(notice.keywords ?? []).map((item, idx) => (
-                  <span key={idx} className="keywords-badge">
-                    {item.word}
-                  </span>
-                ))}
-              </span>
-              <span>{notice.title}</span>
-              <span>{formatDate(notice.noticedAt)}</span>
-              <BookmarkIcon
-                bookmarked={notice.bookmarked}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleBookmark(notice.id, notice.bookmarked);
-                }}
-              />
-            </div>
-          ))}
+          {filtered.map((notice) => {
+            const keywords = notice.keywords ?? [];
+            const firstKeyword = keywords[0];
+            const restKeywords = keywords.slice(1);
+            return (
+              <div
+                key={notice.id}
+                className="notice-row"
+                onClick={() => navigate(`/post/${notice.id}`)}
+              >
+                <span>{notice.id}</span>
+                {/* 키워드 툴팁 */}
+                <span className="keywords-badges">
+                  {firstKeyword && (
+                    <span className="keywords-badge">{firstKeyword.word}</span>
+                  )}
+                  {restKeywords.length > 0 && (
+                    <span className="keywords-more" onClick={(e) => e.stopPropagation()}>
+                      +{restKeywords.length}
+                      <div className="keywords-tooltip">
+                        {keywords.map((item, idx) => (
+                          <span key={idx} className="keywords-badge">{item.word}</span>
+                        ))}
+                      </div>
+                    </span>
+                  )}
+                </span>
+                <span>{notice.title}</span>
+                <span>{formatDate(notice.noticedAt)}</span>
+                <BookmarkIcon
+                  bookmarked={notice.bookmarked}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleBookmark(notice.id, notice.bookmarked);
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
