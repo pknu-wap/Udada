@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
+import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
-import useAuth from "../hooks/useAuth";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
@@ -15,25 +15,21 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [bookmarked, setBookmarked] = useState(new Set());
-  const { getToken } = useAuth();
 
+  const [bookmarked, setBookmarked] = useState(new Set());
+const { getToken } = useAuth();
   useEffect(() => {
     const token = getToken();
     if (!token) {
       navigate("/login");
       return;
     }
-
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
         const data = res?.data?.data?.notices || [];
-        const sorted = [...data].sort((a, b) => a.id - b.id);
+const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
         setNotices(sorted);
-        setBookmarked(
-          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
-        );
       })
       .catch((err) => {
         console.error("공지사항 불러오기 실패", err);
@@ -43,7 +39,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       });
   }, []);
 
-  const toggleBookmark = (e, id) => {
+const toggleBookmark = (e, id) => {
     e.stopPropagation();
     setBookmarked((prev) => {
       const next = new Set(prev);
@@ -54,6 +50,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
 
   const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
+  // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
       activeKeywords.length === 0 ||
@@ -62,17 +59,39 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       searchQuery === "" ||
       notice.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (notice.keywords ?? []).some((k) =>
-        k.word?.toLowerCase().includes(searchQuery.toLowerCase())
+        k.word?.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     return keywordMatch && searchMatch;
   });
+
+  const toggleBookmark = async (noticeId, isBookmarked) => {
+    try {
+      if (isBookmarked) {
+        await deleteBookmark(noticeId);
+      } else {
+        await addBookmark(noticeId);
+      }
+
+      setNotices((prev) =>
+        prev.map((notice) =>
+          notice.id === noticeId
+            ? {
+                ...notice,
+                bookmarked: !notice.bookmarked,
+              }
+            : notice,
+        ),
+      );
+    } catch (err) {
+      console.error("북마크 처리 실패", err);
+    }
+  };
 
   if (loading) return <div>불러오는 중...</div>;
 
   return (
     <div className="home">
       <div className="content">
-
         {/* 테이블 헤더 */}
         <div className="notice-header">
           <span>번호</span>
@@ -84,11 +103,10 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
 
         {/* 공지 리스트 */}
         <div className="notice-list">
-          {filtered.map((notice) => {
+{filtered.map((notice) => {
             const keywords = notice.keywords ?? [];
             const firstKeyword = keywords[0];
             const restKeywords = keywords.slice(1);
-
             return (
               <div
                 key={notice.id}
@@ -96,8 +114,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                 onClick={() => navigate(`/post/${notice.id}`)}
               >
                 <span>{notice.id}</span>
-
-                {/* 👇 키워드 툴팁 */}
+                {/* 키워드 툴팁 */}
                 <span className="keywords-badges">
                   {firstKeyword && (
                     <span className="keywords-badge">{firstKeyword.word}</span>
@@ -113,14 +130,14 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                     </span>
                   )}
                 </span>
-
                 <span>{notice.title}</span>
                 <span>{formatDate(notice.noticedAt)}</span>
-                <img
-                  src={bookmarked.has(notice.id) ? bookmarkTrueIcon : bookmarkIcon}
-                  alt="북마크"
-                  className="bookmark-icon"
-                  onClick={(e) => toggleBookmark(e, notice.id)}
+                <BookmarkIcon
+                  bookmarked={notice.bookmarked}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleBookmark(notice.id, notice.bookmarked);
+                  }}
                 />
               </div>
             );
