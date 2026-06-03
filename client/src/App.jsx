@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Intro from "./pages/Intro";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -9,6 +10,7 @@ import Login from "./pages/Login";
 import KakaoCallback from "./pages/KaKaoCallback";
 import Postdetail from "./pages/Postdetail";
 import EmailInput from "./pages/EmailInput";
+import useAuth from "./hooks/useAuth";
 
 import KeywordPanel from "./components/KeywordPanel";
 import "./App.css";
@@ -19,7 +21,8 @@ function AppContent() {
   const [isKeywordOpen, setIsKeywordOpen] = useState(false);
   const [keywords, setKeywords] = useState([]);
   const [activeKeywords, setActiveKeywords] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // 👈 추가
+  const [searchQuery, setSearchQuery] = useState("");
+  const { isLoggedIn } = useAuth();
 
   const toggleBookmark = () => setIsBookmarkOpen(!isBookmarkOpen);
   const toggleKeywordPanel = () => setIsKeywordOpen(!isKeywordOpen);
@@ -41,7 +44,7 @@ function AppContent() {
       )}
       <div className="main-layout">
         <Routes>
-          <Route path="/" element={<Intro />} />
+          <Route path="/" element={isLoggedIn() ? <Navigate to="/home" /> : <Intro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
           <Route path="/email-input" element={<EmailInput />} />
@@ -68,7 +71,7 @@ function AppContent() {
                   />
                   <Routes>
                     <Route
-                      path="/home"
+                      path="home"
                       element={
                         <Home
                           activeKeywords={activeKeywords}
@@ -76,7 +79,7 @@ function AppContent() {
                         />
                       }
                     />
-                    <Route path="/post/:id" element={<Postdetail />} />
+                    <Route path="post/:id" element={<Postdetail />} />
                   </Routes>
                 </div>
               </>
