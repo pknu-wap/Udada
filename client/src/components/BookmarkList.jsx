@@ -1,11 +1,13 @@
 import React from "react";
 import "./BookmarkList.css";
-import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
-import { getBookmarks, deleteBookmark } from "../api/bookmarks";
-import { getNoticeDetail } from "../api/notices";
 
-export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }) {
+export default function BookmarkList({
+  posts,
+  selectedPost,
+  onSelect,
+  onRemove,
+}) {
   return (
     <div className="bookmark-list-box">
       <div className="bookmark-list-header">
@@ -21,13 +23,18 @@ export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }
           {posts.map((post) => (
             <li
               key={post.bookmarkId}
-              className={`bookmark-item ${selectedPost?.bookmarkId === post.bookmarkId
+              className={`bookmark-item ${
+                selectedPost?.bookmarkId === post.bookmarkId
                   ? "active"
                   : selectedPost
                     ? "inactive"
                     : ""
-                }`}
-              onClick={() => onSelect(selectedPost?.bookmarkId === post.bookmarkId ? null : post)}
+              }`}
+              onClick={() =>
+                onSelect(
+                  selectedPost?.bookmarkId === post.bookmarkId ? null : post,
+                )
+              }
             >
               <span className="post-keyword">{post.keywordName}</span>
               <span className="post-title">{post.title}</span>
@@ -35,9 +42,15 @@ export default function BookmarkList({ posts, selectedPost, onSelect, onRemove }
                 className="post-bookmark-icon"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onRemove(post.bookmarkId);
+                  onRemove(post.noticeId);
                 }}
-              ><img src={bookmarkTrueIcon} alt="북마크" className="bookmarktrue" /></span>
+              >
+                <img
+                  src={bookmarkTrueIcon}
+                  alt="북마크"
+                  className="bookmarktrue"
+                />
+              </span>
             </li>
           ))}
         </ul>

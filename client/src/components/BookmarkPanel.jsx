@@ -3,7 +3,6 @@ import BookmarkList from "./BookmarkList";
 import BookmarkDetail from "./BookmarkDetail";
 import "./BookmarkPanel.css";
 import { getBookmarks, deleteBookmark } from "../api/bookmarks";
-import { getNoticeDetail } from "../api/notices";
 import { debug } from "../utils/log";
 
 export default function BookmarkPanel({ isOpen }) {
@@ -21,11 +20,11 @@ export default function BookmarkPanel({ isOpen }) {
       .catch((err) => console.error("북마크 불러오기 실패:", err));
   }, [isOpen]);
 
-  const handleRemoveBookmark = (postId) => {
-    deleteBookmark(postId)
+  const handleRemoveBookmark = (noticeId) => {
+    deleteBookmark(noticeId)
       .then(() => {
-        setPosts((prev) => prev.filter((p) => p.id !== postId));
-        if (selectedPost?.id === postId) setSelectedPost(null);
+        setPosts((prev) => prev.filter((p) => p.id !== noticeId));
+        if (selectedPost?.id === noticeId) setSelectedPost(null);
       })
       .catch((err) => console.error("북마크 삭제 실패:", err));
   };

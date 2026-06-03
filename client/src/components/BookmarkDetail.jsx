@@ -1,8 +1,6 @@
 import React from "react";
 import "./BookmarkDetail.css";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
-import { getBookmarks, deleteBookmark } from "../api/bookmarks";
-import { getNoticeDetail } from "../api/notices";
 
 export default function BookmarkDetail({ post, onClose, onToggleBookmark }) {
   if (!post) {
@@ -18,14 +16,17 @@ export default function BookmarkDetail({ post, onClose, onToggleBookmark }) {
       <div className="detail-card">
         <div className="detail-header">
           <div className="detail-title-row">
-          <h2 className="detail-title">{post.title}</h2>
-          <button className="detail-bookmark-btn" onClick={() => onToggleBookmark(post.bookmarkId)}>
-            <img
-              src={bookmarkTrueIcon}
-              alt="북마크"
-              className="detail-bookmark-icon"
-            />
-          </button>
+            <h2 className="detail-title">{post.title}</h2>
+            <button
+              className="detail-bookmark-btn"
+              onClick={() => onToggleBookmark(post.noticeId)}
+            >
+              <img
+                src={bookmarkTrueIcon}
+                alt="북마크"
+                className="detail-bookmark-icon"
+              />
+            </button>
           </div>
           <div className="detail-meta">
             <span>{post.noticedAt}</span>
@@ -34,12 +35,12 @@ export default function BookmarkDetail({ post, onClose, onToggleBookmark }) {
           </div>
         </div>
         <hr className="detail-divider" />
-        <div className="detail-body">
-          {post.content}
-        </div>
+        <div className="detail-body">{post.content}</div>
         <hr className="detail-divider" />
         <div className="detail-footer">
-          <button className="detail-link-btn" onClick={onClose}>목록으로</button>
+          <button className="detail-link-btn" onClick={onClose}>
+            목록으로
+          </button>
         </div>
       </div>
     </div>
