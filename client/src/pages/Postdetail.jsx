@@ -17,25 +17,28 @@ const Postdetail = () => {
     const token = localStorage.getItem("accessToken");
 
     useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        console.log("현재 토큰 확인:", token);
 
-    // 토큰 없으면 로그인 페이지로 튕겨내기
-    if (!token) {
-        navigate("/login");
-        return;
-    }
+        // 토큰 없으면 로그인 페이지로 튕겨내기
+        if (!token) {
+            console.warn("토큰이 없어서 로그인 페이지로 이동합니다.");
+            navigate("/login");
+            return;
+        }
 
-    getNoticeDetail(id)
-        .then((res) => {
-            setPost(res.data);
-            setIsBookmarked(res.data.isBookmarked);
-            if (res.data.isBookmarked && res.data.bookmarkId) {
-                setBookmarkId(res.data.bookmarkId);
-            }
-        })
-        .catch((err) => {
-            console.error("공지사항 불러오기 실패:", err);
-        });
-}, [id]);
+        getNoticeDetail(id)
+            .then((res) => {
+                setPost(res.data.data.notices);
+                setIsBookmarked(res.data.isBookmarked);
+                if (res.data.isBookmarked && res.data.bookmarkId) {
+                    setBookmarkId(res.data.bookmarkId);
+                }
+            })
+            .catch((err) => {
+                console.error("공지사항 불러오기 실패:", err);
+            });
+    }, [id]);
 
 
     const toggleBookmark = () => {
