@@ -14,8 +14,6 @@ const Postdetail = () => {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [bookmarkId, setBookmarkId] = useState(null);
 
-    const token = localStorage.getItem("accessToken");
-
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
         
