@@ -64,17 +64,13 @@ public class BookmarkService {
         return BookmarkResponse.CreateResponse.from(bookmark);
     }
 
-    // 북마크 삭제
     @Transactional
-    public void deleteBookmark(Long userId, Long bookmarkId) {
+    public void deleteBookmark(Long userId, Long noticeId) {
         Exceptions.getInstance().requireUserId(userId);
 
-        Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
+        Bookmark bookmark = bookmarkRepository
+                .findByUserIdAndNoticeId(userId, noticeId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOOKMARK_INVALID));
-
-        if (!bookmark.getUser().getId().equals(userId)) {
-            throw new BusinessException(ErrorCode.BOOKMARK_NOT_OWNED);
-        }
 
         bookmarkRepository.delete(bookmark);
     }

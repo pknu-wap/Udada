@@ -15,7 +15,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -36,14 +38,12 @@ public class NoticeController {
             )
     })
     public ResponseEntity<ApiResponse<NoticeListResponse>> getNotices(
-            @org.springframework.security.core.annotation.AuthenticationPrincipal UserPrincipal userPrincipal,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(required = false) Long keywordId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
-        Long userId = userPrincipal.getUserId();
-
-        NoticeListResponse response = noticeService.getNoticeList(userId, keywordId, page, size);
+        NoticeListResponse response = noticeService.getNoticeList(userPrincipal.getUserId(), keywordId, page, size);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -69,9 +69,10 @@ public class NoticeController {
 
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<NoticeListResponse>> searchNoticesByKeywords(
-            @RequestParam(value = "keywords", required = false) List<String> keywords) {
-
-        NoticeListResponse response = noticeService.searchNoticesByKeywords(keywords);
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam(value = "keywords", required = false) List<String> keywords
+    ) {
+        NoticeListResponse response = noticeService.searchNoticesByKeywords(userPrincipal.getUserId(), keywords);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

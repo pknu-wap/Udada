@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,7 +60,8 @@ public class NoticeService {
 
         return NoticeDetailResponse.from(notice);
     }
-    public NoticeListResponse searchNoticesByKeywords(List<String> keywords) {
+
+    public NoticeListResponse searchNoticesByKeywords(Long userId, List<String> keywords) {
         List<Notice> notices;
 
         if (keywords == null || keywords.isEmpty()) {
@@ -70,8 +70,21 @@ public class NoticeService {
             notices = noticeRepository.findByKeywordWordsIn(keywords);
         }
 
+        List<Long> noticeIds = notices.stream()
+                .map(Notice::getId)
+                .collect(Collectors.toList());
+
+
+        Set<Long> bookmarkedNoticeIds = new HashSet<>();
+        if (userId != null && !noticeIds.isEmpty()) {
+            bookmarkedNoticeIds.addAll(bookmarkRepository.findBookmarkedNoticeIds(userId, noticeIds));
+        }
+
         List<NoticeListResponse.NoticeDto> noticeDtos = notices.stream()
-                .map(notice -> NoticeListResponse.NoticeDto.from(notice, false))
+                .map(notice -> {
+                    boolean isBookmarked = bookmarkedNoticeIds.contains(notice.getId());
+                    return NoticeListResponse.NoticeDto.from(notice, isBookmarked);
+                })
                 .collect(Collectors.toList());
 
         return NoticeListResponse.of(noticeDtos, noticeDtos.size());
