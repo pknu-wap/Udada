@@ -15,10 +15,12 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const [bookmarked, setBookmarked] = useState(new Set());
 
 
   useEffect(() => {
+
 
     getNotices()
       .then((res) => {
@@ -26,9 +28,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
         const data = res?.data?.data?.notices || [];
         const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
         setNotices(sorted);
-        setBookmarked(
-          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
-        );
       })
       .catch((err) => {
         console.error("공지사항 불러오기 실패", err);
@@ -37,7 +36,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
         setLoading(false);
       });
   }, []);
-
   const toggleBookmark = (e, id) => {
     e.stopPropagation();
     setBookmarked((prev) => {
@@ -56,17 +54,39 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       searchQuery === "" ||
       notice.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (notice.keywords ?? []).some((k) =>
-        k.word?.toLowerCase().includes(searchQuery.toLowerCase())
+        k.word?.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     return keywordMatch && searchMatch;
   });
+
+  const toggleBookmark = async (noticeId, isBookmarked) => {
+    try {
+      if (isBookmarked) {
+        await deleteBookmark(noticeId);
+      } else {
+        await addBookmark(noticeId);
+      }
+
+      setNotices((prev) =>
+        prev.map((notice) =>
+          notice.id === noticeId
+            ? {
+                ...notice,
+                bookmarked: !notice.bookmarked,
+              }
+            : notice,
+        ),
+      );
+    } catch (err) {
+      console.error("북마크 처리 실패", err);
+    }
+  };
 
   if (loading) return <div>불러오는 중...</div>;
 
   return (
     <div className="home">
       <div className="content">
-
         {/* 테이블 헤더 */}
         <div className="notice-header">
           <span>번호</span>
@@ -87,16 +107,19 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
               <span>{notice.id}</span>
               <span className="keywords-badges">
                 {(notice.keywords ?? []).map((item, idx) => (
-                  <span key={idx} className="keywords-badge">{item.word}</span>
+                  <span key={idx} className="keywords-badge">
+                    {item.word}
+                  </span>
                 ))}
               </span>
               <span>{notice.title}</span>
-              <span>{formatDate(notice.noticedAt)}</span> {/* 👈 날짜 포맷 적용 */}
-              <img
-                src={bookmarked.has(notice.id) ? bookmarkTrueIcon : bookmarkIcon}
-                alt="북마크"
-                className="bookmark-icon"
-                onClick={(e) => toggleBookmark(e, notice.id)}
+              <span>{formatDate(notice.noticedAt)}</span>
+              <BookmarkIcon
+                bookmarked={notice.bookmarked}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleBookmark(notice.id, notice.bookmarked);
+                }}
               />
             </div>
           ))}
