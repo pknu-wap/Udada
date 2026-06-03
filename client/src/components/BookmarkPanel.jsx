@@ -14,7 +14,7 @@ export default function BookmarkPanel({ isOpen }) {
 
     getBookmarks()
       .then((res) => {
-        setPosts(res.data.bookmarks);
+        setPosts(res.data.data.bookmarks||[]);
       })
       .catch((err) => console.error("북마크 불러오기 실패:", err));
   }, [isOpen]);
