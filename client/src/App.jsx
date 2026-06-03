@@ -56,8 +56,7 @@ function AppContent() {
             <KeywordPanel
               isOpen={isKeywordOpen}
               onClose={() => setIsKeywordOpen(false)}
-              keywords={keywords}
-              setKeywords={setKeywords}
+              onUserKeywordsChange={setKeywords}
             />
           </>
         )}

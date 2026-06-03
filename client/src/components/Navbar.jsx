@@ -8,15 +8,19 @@ import logoIcon from "../assets/logo.svg";
 export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, searchQuery: externalQuery = "" }) {
   const [isActive, setIsActive] = useState(false);
 
-  const [activeKeys, setActiveKeys] = useState(
-    () => new Set(keywords.map((_, i) => i))
-  );
+  const [activeKeys, setActiveKeys] = useState(() => new Set());
 
   const [searchQuery, setSearchQuery] = useState(externalQuery);
 
   const prevLenRef = React.useRef(keywords.length);
   React.useEffect(() => {
-    if (keywords.length > prevLenRef.current) {
+    if (prevLenRef.current === 0 && keywords.length > 0) {
+      // 최초 로딩: 전부 활성화 + App에도 알려줌
+      const allActive = new Set(keywords.map((_, i) => i));
+      setActiveKeys(allActive);
+      onActiveKeysChange?.(allActive, keywords);
+    } else if (keywords.length > prevLenRef.current) {
+      // 이후 키워드 추가: 새 것만 활성화
       setActiveKeys((prev) => {
         const next = new Set(prev);
         next.add(keywords.length - 1);

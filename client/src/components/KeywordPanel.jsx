@@ -3,7 +3,7 @@ import "./KeywordPanel.css";
 import { getKeywords } from "../api/keywords";
 import { getUserKeywords, addUserKeyword, deleteUserKeyword } from "../api/userKeywords";
 
-export default function KeywordPanel({ isOpen, onClose }) {
+export default function KeywordPanel({ isOpen, onClose, onUserKeywordsChange }) {
   const [keywords, setKeywords] = useState([]);       // 기본 제공 키워드 목록
   const [userKeywords, setUserKeywords] = useState([]); // 내가 설정한 키워드 목록
 
@@ -25,24 +25,23 @@ export default function KeywordPanel({ isOpen, onClose }) {
   }, [isOpen]);
 
   const toggleKeyword = async (keywordId) => {
-    // 이미 설정한 키워드인지 확인
     const existing = userKeywords.find(uk => uk.keywordId === keywordId);
-
     try {
       if (existing) {
-        // 선택 해제
         await deleteUserKeyword(existing.id);
-        setUserKeywords(prev => prev.filter(uk => uk.keywordId !== keywordId));
+        const next = userKeywords.filter(uk => uk.keywordId !== keywordId);
+        setUserKeywords(next);
+        onUserKeywordsChange?.(next.map(uk => uk.word).filter(Boolean));
       } else {
-        // 선택 추가
         const res = await addUserKeyword(keywordId);
-        setUserKeywords(prev => [
-          ...prev,
-          {
-            id: res.data.data.userKeywordId,
-            keywordId,
-          }
-        ]);
+        const word = keywords.find(kw => kw.id === keywordId)?.word;
+        const next = [...userKeywords, {
+          id: res.data.data.userKeywordId,
+          keywordId,
+          word
+        }];
+        setUserKeywords(next);
+        onUserKeywordsChange?.(next.map(uk => uk.word).filter(Boolean));
       }
     } catch (err) {
       console.error("키워드 토글 실패:", err);
