@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import BookmarkList from "./BookmarkList";
 import BookmarkDetail from "./BookmarkDetail";
-import "./BookmarkPanel.css";
+import "./BookmarkPage.css";
 import { getBookmarks, deleteBookmark } from "../api/bookmarks";
 import { debug } from "../utils/log";
 
-export default function BookmarkPanel({ isOpen }) {
+export default function BookmarkPage({ isOpen }) {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -15,7 +15,7 @@ export default function BookmarkPanel({ isOpen }) {
     getBookmarks()
       .then((res) => {
         debug("응답:", res.data);
-        setPosts(res.data.data.bookmarks||[]);
+        setPosts(res.data.data.bookmarks || []);
       })
       .catch((err) => console.error("북마크 불러오기 실패:", err));
   }, [isOpen]);
