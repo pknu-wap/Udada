@@ -27,8 +27,9 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) 
   }, [keywords]);
 
   const handleSearch = () => {
-    console.log("검색어:", searchQuery);
-    onSearch?.(searchQuery); // 👈 Home.jsx로 검색어 전달
+    const trimmed = searchQuery.trim();
+    console.log("검색어:", trimmed);
+    onSearch?.(trimmed);
   };
 
   const toggleKey = (idx) => {
