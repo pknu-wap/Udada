@@ -64,7 +64,7 @@ public class BookmarkController {
     }
 
     // 북마크 삭제
-    @DeleteMapping("/{bookmarkId}")
+    @DeleteMapping("/{noticeId}")
     @Operation(summary = "북마크 삭제", description = "북마크를 삭제합니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
@@ -73,15 +73,15 @@ public class BookmarkController {
             ),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "400",
-                    description = "잘못된 북마크 ID 전달",
+                    description = "잘못된 공지사항 ID 전달",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))
             )
     })
     public ResponseEntity<ApiResponse<Void>> deleteBookmark(
             @AuthenticationPrincipal UserPrincipal principal,
-            @Parameter(name = "bookmarkId", description = "북마크 ID") @PathVariable Long bookmarkId
+            @Parameter(name = "noticeId", description = "공지사항 ID") @PathVariable Long noticeId
     ) {
-        bookmarkService.deleteBookmark(principal.getUserId(), bookmarkId);
+        bookmarkService.deleteBookmark(principal.getUserId(), noticeId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 

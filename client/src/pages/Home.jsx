@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
-import bookmarkIcon from "../assets/favourite_false.svg";
-import bookmarkTrueIcon from "../assets/favourite_true.svg";
+import { addBookmark, deleteBookmark } from "../api/bookmarks";
+import BookmarkIcon from "../components/BookmarkIcon";
 import useAuth from "../hooks/useAuth";
 
 // 날짜 형식 변환 함수 (2026-04-05T09:00 → 2026-04-05)
@@ -16,26 +16,21 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [bookmarked, setBookmarked] = useState(new Set());
   const { getToken } = useAuth();
-  
 
   useEffect(() => {
     const token = getToken();
     if (!token) {
-        navigate("/login");
-        return;
+      navigate("/login");
+      return;
     }
 
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-const data = res?.data?.data?.notices || [];
-const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
+        const data = res?.data?.data?.notices || [];
+        const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
         setNotices(sorted);
-        setBookmarked(
-          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
-        );
       })
       .catch((err) => {
         console.error("공지사항 불러오기 실패", err);
@@ -44,17 +39,6 @@ const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
         setLoading(false);
       });
   }, []);
-
-  const toggleBookmark = (e, id) => {
-    e.stopPropagation();
-    setBookmarked((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  };
-
-  const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
   // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
@@ -65,17 +49,39 @@ const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
       searchQuery === "" ||
       notice.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (notice.keywords ?? []).some((k) =>
-        k.word?.toLowerCase().includes(searchQuery.toLowerCase())
+        k.word?.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     return keywordMatch && searchMatch;
   });
+
+  const toggleBookmark = async (noticeId, isBookmarked) => {
+    try {
+      if (isBookmarked) {
+        await deleteBookmark(noticeId);
+      } else {
+        await addBookmark(noticeId);
+      }
+
+      setNotices((prev) =>
+        prev.map((notice) =>
+          notice.id === noticeId
+            ? {
+                ...notice,
+                bookmarked: !notice.bookmarked,
+              }
+            : notice,
+        ),
+      );
+    } catch (err) {
+      console.error("북마크 처리 실패", err);
+    }
+  };
 
   if (loading) return <div>불러오는 중...</div>;
 
   return (
     <div className="home">
       <div className="content">
-
         {/* 테이블 헤더 */}
         <div className="notice-header">
           <span>번호</span>
@@ -96,17 +102,21 @@ const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
               <span>{notice.id}</span>
               <span className="keywords-badges">
                 {(notice.keywords ?? []).map((item, idx) => (
-                  <span key={idx} className="keywords-badge">{item.word}</span>
+                  <span key={idx} className="keywords-badge">
+                    {item.word}
+                  </span>
                 ))}
               </span>
               <span>{notice.title}</span>
-              <span>{formatDate(notice.noticedAt)}</span> {/* 👈 날짜 포맷 적용 */}
-              <img
-                src={bookmarked.has(notice.id) ? bookmarkTrueIcon : bookmarkIcon}
-                alt="북마크"
-                className="bookmark-icon"
-                onClick={(e) => toggleBookmark(e, notice.id)}
+              <span>{notice.noticedAt}</span>
+              <BookmarkIcon
+                bookmarked={notice.bookmarked}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleBookmark(notice.id, notice.bookmarked);
+                }}
               />
+              <span>{formatDate(notice.noticedAt)}</span>
             </div>
           ))}
         </div>
