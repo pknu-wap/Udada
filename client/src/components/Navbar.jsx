@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import filterIcon from "../assets/filter_icon.svg";
 import searchIcon from "../assets/search.svg";
+import logoIcon from "../assets/logo.svg";
 
-export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) {
+export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, searchQuery: externalQuery = "" }) {
   const [isActive, setIsActive] = useState(false);
 
   const [activeKeys, setActiveKeys] = useState(
     () => new Set(keywords.map((_, i) => i))
   );
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(externalQuery);
 
   const prevLenRef = React.useRef(keywords.length);
   React.useEffect(() => {
@@ -25,9 +26,14 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) 
     prevLenRef.current = keywords.length;
   }, [keywords]);
 
+  React.useEffect(() => {
+    setSearchQuery(externalQuery);
+  }, [externalQuery]);
+
   const handleSearch = () => {
-    console.log("검색어:", searchQuery);
-    onSearch?.(searchQuery); // 👈 Home.jsx로 검색어 전달
+    const trimmed = searchQuery.trim();
+    console.log("검색어:", trimmed);
+    onSearch?.(trimmed);
   };
 
   const toggleKey = (idx) => {
@@ -41,7 +47,7 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) 
     <nav className="navbar-container">
       <div className="navbar-left">
         <Link to="/home" className="logo-container">
-          <img src="/logo.svg" alt="UDADA 로고" className="logo-svg" />
+          <img src={logoIcon} alt="홈" className="logoIcon" />
         </Link>
       </div>
 
@@ -76,9 +82,8 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) 
                 keywords.map((kw, idx) => (
                   <button
                     key={idx}
-                    className={`keyword-dropdown-item ${
-                      activeKeys.has(idx) ? "kd-active" : "kd-inactive"
-                    }`}
+                    className={`keyword-dropdown-item ${activeKeys.has(idx) ? "kd-active" : "kd-inactive"
+                      }`}
                     onClick={() => toggleKey(idx)}
                   >
                     {kw}
