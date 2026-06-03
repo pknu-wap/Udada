@@ -11,18 +11,19 @@ function Home({ activeKeywords = [] }) {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  getNotices()
-    .then((res) => {
-      const data = res.data.notices;
-      setNotices(data); // notices 세팅
-      setBookmarked(    // bookmarked도 같이 세팅
-        new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
-      );
-    })
-    .catch((err) => console.error("공지사항 불러오기 실패", err))
-    .finally(() => setLoading(false));
-}, []);
+  useEffect(() => {
+    getNotices()
+      .then((res) => {
+        console.log("응답:", res.data);
+        setNotices(res.data.data.notices);
+      })
+      .catch((err) => {
+        console.error("공지사항 불러오기 실패", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
   
   const [bookmarked, setBookmarked] = useState(
     () => new Set(notices.filter((n) => n.isBookmarked).map((n) => n.id))
@@ -69,10 +70,9 @@ function Home({ activeKeywords = [] }) {
             >
               <span>{notice.id}</span>
               <span className="keywords-badges">
-                <span className="keywords-badge">{notice.keywordName}</span>
-                {/* {(notice. ?? []).map((kw, idx) => (
-                  <span key={idx} className="keywords-badge">{kw}</span>
-                ))} */}
+                {(notice.keywords ?? []).map((item, idx) => (
+                  <span key={idx} className="keywords-badge">{item.word}</span>
+                ))}
               </span>
               <span>{notice.title}</span>
               <span>{notice.noticedAt}</span>
