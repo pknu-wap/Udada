@@ -18,8 +18,7 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
     <aside className="sidebar">
       <div className="sidebar-menu-group">
 
-        <Link to="/" className="menu-item home-btn" title="홈">
-          {/* svg파일 교체 예정 */}
+        <Link to="/home" className="menu-item home-btn" title="홈">
           <img src={homeIcon} alt="홈" className="homeIcon" />
         </Link>
 
@@ -35,8 +34,8 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
         <div
           className="menu-item keyword-btn"
           onClick={toggleKeyword}   // ← Link → div로 변경
-          title="설정" title="설정">
-          <img src={keywordIcon} alt="검색"/>
+          title="설정">
+          <img src={keywordIcon} alt="키워드설정"/>
         </div>
 
       </div>
@@ -46,7 +45,7 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
           onClick={handleLogout}
           title="로그아웃"
         >
-          <img src={logoutIcon} alt="검색" className="logout" />
+          <img src={logoutIcon} alt="로그아웃" className="logout" />
         </div>
       </div>
     </aside>
