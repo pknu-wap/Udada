@@ -21,12 +21,12 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-const data = res.data.data.notices || [];
-const sorted = [...data].sort((a, b) => b.id - a.id); // id 내림차순 정렬
-setNotices(sorted);
-setBookmarked(
-  new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
-);
+        const data = res?.data?.data?.notices || [];
+        const sorted = [...data].sort((a, b) => b.id - a.id); // id 내림차순 정렬
+        setNotices(sorted);
+        setBookmarked(
+          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
+        );
       })
       .catch((err) => {
         console.error("공지사항 불러오기 실패", err);
@@ -45,9 +45,9 @@ setBookmarked(
     });
   };
 
-const [selectedKeyword, setSelectedKeyword] = useState("전체");
+  const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
-// 검색어 + 키워드 필터링
+  // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
       activeKeywords.length === 0 ||
