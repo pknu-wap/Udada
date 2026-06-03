@@ -35,7 +35,7 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
           className="menu-item keyword-btn"
           onClick={toggleKeyword}   // ← Link → div로 변경
           title="설정">
-          <img src={keywordIcon} alt="검색"/>
+          <img src={keywordIcon} alt="키워드설정"/>
         </div>
 
       </div>
@@ -45,7 +45,7 @@ export default function Sidebar({ toggleBookmark, isOpen, toggleKeyword }) {
           onClick={handleLogout}
           title="로그아웃"
         >
-          <img src={logoutIcon} alt="검색" className="logout" />
+          <img src={logoutIcon} alt="로그아웃" className="logout" />
         </div>
       </div>
     </aside>
