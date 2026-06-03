@@ -18,12 +18,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
 
   const { getToken } = useAuth();
   useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
