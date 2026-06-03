@@ -108,7 +108,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                 ))}
               </span>
               <span>{notice.title}</span>
-              <span>{notice.noticedAt}</span>
+              <span>{formatDate(notice.noticedAt)}</span>
               <BookmarkIcon
                 bookmarked={notice.bookmarked}
                 onClick={(e) => {
@@ -116,7 +116,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                   toggleBookmark(notice.id, notice.bookmarked);
                 }}
               />
-              <span>{formatDate(notice.noticedAt)}</span>
             </div>
           ))}
         </div>
