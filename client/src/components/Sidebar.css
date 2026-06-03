@@ -1,7 +1,7 @@
 /* sidebar.css */
 .sidebar {
   position: relative;
-  z-index: 200;
+  z-index: 1000;
   width: 70px;
   height: 100vh;
   background-color: #00489F;
