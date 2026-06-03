@@ -120,13 +120,13 @@ const toggleBookmark = (e, id) => {
                     <span className="keywords-badge">{firstKeyword.word}</span>
                   )}
                   {restKeywords.length > 0 && (
-                    <span className="keywords-more">
+                    <span className="keywords-more" onClick={(e) => e.stopPropagation()}>
                       +{restKeywords.length}
-                      <div className="keywords-tooltip">
+                      <span className="keywords-tooltip">
                         {keywords.map((item, idx) => (
                           <span key={idx} className="keywords-badge">{item.word}</span>
                         ))}
-                      </div>
+                      </span>
                     </span>
                   )}
                 </span>
