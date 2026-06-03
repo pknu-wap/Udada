@@ -21,14 +21,12 @@ import "./App.css";
 
 function AppContent() {
   const location = useLocation();
-  const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
   const [isKeywordOpen, setIsKeywordOpen] = useState(false);
   const [keywords, setKeywords] = useState([]);
   const [activeKeywords, setActiveKeywords] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn } = useAuth();
 
-  const toggleBookmark = () => setIsBookmarkOpen((prev) => !prev);
   const toggleKeywordPanel = () => setIsKeywordOpen((prev) => !prev);
   const handleActiveKeysChange = (activeSet, kws) => {
     setActiveKeywords(kws.filter((_, i) => activeSet.has(i)));
@@ -44,13 +42,7 @@ function AppContent() {
 
   return (
     <div className="app">
-      {showShell && (
-        <Sidebar
-          isOpen={isBookmarkOpen}
-          toggleBookmark={toggleBookmark}
-          toggleKeyword={toggleKeywordPanel}
-        />
-      )}
+      {showShell && <Sidebar toggleKeyword={toggleKeywordPanel} />}
       <div className="main-layout">
         {showShell && (
           <>
@@ -59,10 +51,6 @@ function AppContent() {
               onActiveKeysChange={handleActiveKeysChange}
               onSearch={setSearchQuery}
               searchQuery={searchQuery}
-            />
-            <BookmarkPage
-              isOpen={isBookmarkOpen}
-              onClose={() => setIsBookmarkOpen(false)}
             />
             <KeywordPanel
               isOpen={isKeywordOpen}
@@ -101,6 +89,17 @@ function AppContent() {
               path="/post/:id"
               element={
                 isLoggedIn() ? <Postdetail /> : <Navigate to="/login" replace />
+              }
+            />
+
+            <Route
+              path="/bookmarks"
+              element={
+                isLoggedIn() ? (
+                  <BookmarkPage />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
               }
             />
 
