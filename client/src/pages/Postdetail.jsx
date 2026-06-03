@@ -18,7 +18,7 @@ const Postdetail = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        console.log("현재 토큰 확인:", token);
+        
 
         // 토큰 없으면 로그인 페이지로 튕겨내기
         if (!token) {
