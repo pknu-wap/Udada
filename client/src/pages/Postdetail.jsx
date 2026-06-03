@@ -26,10 +26,11 @@ const Postdetail = () => {
 
     getNoticeDetail(id)
         .then((res) => {
-            setPost(res.data);
-            setIsBookmarked(res.data.isBookmarked);
-            if (res.data.isBookmarked && res.data.bookmarkId) {
-                setBookmarkId(res.data.bookmarkId);
+            const data =res.data.data;
+            setPost(data);
+            setIsBookmarked(data.isBookmarked??false);
+            if (data.isBookmarked && data.bookmarkId) {
+                setBookmarkId(data.bookmarkId);
             }
         })
         .catch((err) => {
@@ -64,7 +65,7 @@ const Postdetail = () => {
         <div className="post-detail-container">
             <div className="post-detail-box">
                 <div className="article-header">
-                    <span className="keyword-tag">{post.keywordName || "공지"}</span>
+                    <span className="keyword-tag">{post.keywordName?.[0]?.word || "공지"}</span>
                     <div className="header-top">
                         <h1 className="article-title">{post.title}</h1>
                         <button className="bookmark-btn" onClick={toggleBookmark}>
