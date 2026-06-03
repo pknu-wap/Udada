@@ -29,10 +29,13 @@ const Postdetail = () => {
 
         getNoticeDetail(id)
             .then((res) => {
-                setPost(res.data.data.notices);
-                setIsBookmarked(res.data.isBookmarked);
-                if (res.data.isBookmarked && res.data.bookmarkId) {
-                    setBookmarkId(res.data.bookmarkId);
+                const noticeData = res?.data?.data?.notices;
+                setPost(noticeData);
+                if (noticeData) {
+                    setIsBookmarked(noticeData.isBookmarked);
+                    if (noticeData.isBookmarked && noticeData.bookmarkId) {
+                        setBookmarkId(noticeData.bookmarkId);
+                    }
                 }
             })
             .catch((err) => {
