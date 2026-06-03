@@ -10,24 +10,31 @@ function Home({ activeKeywords = [] }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bookmarked, setBookmarked] = useState(new Set());
 
-  useEffect(() => {
-    getNotices()
-      .then((res) => {
-        console.log("응답:", res.data);
-        setNotices(res.data.data.notices);
-      })
-      .catch((err) => {
-        console.error("공지사항 불러오기 실패", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+
+ useEffect(() => {
+  getNotices()
+    .then((res) => {
+
+      const data = res?.data?.data?.notices||[];
+
+      setNotices(data); // notices 세팅
+
+      if (Array.isArray(data)) {
+        setBookmarked(
+          new Set(data.filter((n) => n && n.isBookmarked).map((n) => n.id))
+        );
+      }
+    })
+    .catch((err) => {
+      console.error("공지사항 불러오기 실패", err);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}, []);
   
-  const [bookmarked, setBookmarked] = useState(
-    () => new Set(notices.filter((n) => n.isBookmarked).map((n) => n.id))
-  );
 
   const toggleBookmark = (e, id) => {
     e.stopPropagation();

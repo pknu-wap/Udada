@@ -14,15 +14,16 @@ const Postdetail = () => {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [bookmarkId, setBookmarkId] = useState(null);
 
-    const token = localStorage.getItem("accessToken");
-
     useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        
 
-    // 토큰 없으면 로그인 페이지로 튕겨내기
-    if (!token) {
-        navigate("/login");
-        return;
-    }
+        // 토큰 없으면 로그인 페이지로 튕겨내기
+        if (!token) {
+            console.warn("토큰이 없어서 로그인 페이지로 이동합니다.");
+            navigate("/login");
+            return;
+        }
 
     getNoticeDetail(id)
         .then((res) => {
@@ -36,7 +37,7 @@ const Postdetail = () => {
         .catch((err) => {
             console.error("공지사항 불러오기 실패:", err);
         });
-}, [id, token]);
+}, [id]);
 
 
     const toggleBookmark = () => {
