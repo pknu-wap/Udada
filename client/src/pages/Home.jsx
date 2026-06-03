@@ -6,7 +6,6 @@ import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 import useAuth from "../hooks/useAuth";
 
-// 날짜 형식 변환 함수 (2026-04-05T09:00 → 2026-04-05)
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
   return dateStr.split("T")[0];
@@ -18,20 +17,19 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const [loading, setLoading] = useState(true);
   const [bookmarked, setBookmarked] = useState(new Set());
   const { getToken } = useAuth();
-  
 
   useEffect(() => {
     const token = getToken();
     if (!token) {
-        navigate("/login");
-        return;
+      navigate("/login");
+      return;
     }
 
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-const data = res?.data?.data?.notices || [];
-const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
+        const data = res?.data?.data?.notices || [];
+        const sorted = [...data].sort((a, b) => a.id - b.id);
         setNotices(sorted);
         setBookmarked(
           new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
@@ -56,7 +54,6 @@ const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
 
   const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
-  // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
       activeKeywords.length === 0 ||
@@ -87,28 +84,47 @@ const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
 
         {/* 공지 리스트 */}
         <div className="notice-list">
-          {filtered.map((notice) => (
-            <div
-              key={notice.id}
-              className="notice-row"
-              onClick={() => navigate(`/post/${notice.id}`)}
-            >
-              <span>{notice.id}</span>
-              <span className="keywords-badges">
-                {(notice.keywords ?? []).map((item, idx) => (
-                  <span key={idx} className="keywords-badge">{item.word}</span>
-                ))}
-              </span>
-              <span>{notice.title}</span>
-              <span>{formatDate(notice.noticedAt)}</span> {/* 👈 날짜 포맷 적용 */}
-              <img
-                src={bookmarked.has(notice.id) ? bookmarkTrueIcon : bookmarkIcon}
-                alt="북마크"
-                className="bookmark-icon"
-                onClick={(e) => toggleBookmark(e, notice.id)}
-              />
-            </div>
-          ))}
+          {filtered.map((notice) => {
+            const keywords = notice.keywords ?? [];
+            const firstKeyword = keywords[0];
+            const restKeywords = keywords.slice(1);
+
+            return (
+              <div
+                key={notice.id}
+                className="notice-row"
+                onClick={() => navigate(`/post/${notice.id}`)}
+              >
+                <span>{notice.id}</span>
+
+                {/* 👇 키워드 툴팁 */}
+                <span className="keywords-badges">
+                  {firstKeyword && (
+                    <span className="keywords-badge">{firstKeyword.word}</span>
+                  )}
+                  {restKeywords.length > 0 && (
+                    <span className="keywords-more">
+                      +{restKeywords.length}
+                      <div className="keywords-tooltip">
+                        {keywords.map((item, idx) => (
+                          <span key={idx} className="keywords-badge">{item.word}</span>
+                        ))}
+                      </div>
+                    </span>
+                  )}
+                </span>
+
+                <span>{notice.title}</span>
+                <span>{formatDate(notice.noticedAt)}</span>
+                <img
+                  src={bookmarked.has(notice.id) ? bookmarkTrueIcon : bookmarkIcon}
+                  alt="북마크"
+                  className="bookmark-icon"
+                  onClick={(e) => toggleBookmark(e, notice.id)}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
