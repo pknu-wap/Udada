@@ -75,7 +75,7 @@ function AppContent() {
                       element={
                         <Home
                           activeKeywords={activeKeywords}
-                          searchQuery={searchQuery} // 👈 추가
+                          searchQuery={searchQuery}
                         />
                       }
                     />
