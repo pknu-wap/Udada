@@ -15,8 +15,6 @@ function Home({ activeKeywords = [] }) {
  useEffect(() => {
   getNotices()
     .then((res) => {
-      console.log("백엔드 API 전체 응답 데이터:", res);
-      console.log("res.data.data.notices 데이터:", res?.data);
 
       const data = res?.data?.data?.notices||[];
 
