@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import filterIcon from "../assets/filter_icon.svg";
 import searchIcon from "../assets/search.svg";
+import logoIcon from "../assets/logo.svg";
 
-export default function Navbar({ keywords = [], onActiveKeysChange }) {
-  // 키워드 활성화 상태 관리
+export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, searchQuery: externalQuery = "" }) {
   const [isActive, setIsActive] = useState(false);
 
   const [activeKeys, setActiveKeys] = useState(
     () => new Set(keywords.map((_, i) => i))
   );
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(externalQuery);
 
   const prevLenRef = React.useRef(keywords.length);
   React.useEffect(() => {
@@ -26,30 +26,34 @@ export default function Navbar({ keywords = [], onActiveKeysChange }) {
     prevLenRef.current = keywords.length;
   }, [keywords]);
 
+  React.useEffect(() => {
+    setSearchQuery(externalQuery);
+  }, [externalQuery]);
+
   const handleSearch = () => {
-      console.log("검색어:", searchQuery);
-    };
+    const trimmed = searchQuery.trim();
+    console.log("검색어:", trimmed);
+    onSearch?.(trimmed);
+  };
 
   const toggleKey = (idx) => {
     const next = new Set(activeKeys);
     next.has(idx) ? next.delete(idx) : next.add(idx);
-    setActiveKeys(next);                       
-    onActiveKeysChange?.(next, keywords);       
-};
+    setActiveKeys(next);
+    onActiveKeysChange?.(next, keywords);
+  };
+
   return (
     <nav className="navbar-container">
-      {/* 로고 왼쪽 배치 */}
       <div className="navbar-left">
         <Link to="/home" className="logo-container">
-          <img src="/logo.svg" alt="UDADA 로고" className="logo-svg" />
+          <img src={logoIcon} alt="홈" className="logoIcon" />
         </Link>
       </div>
 
       <div className="navbar-center">
         <div className="search-section">
           <div className={`search-wrapper ${isActive ? "active" : ""}`}>
-
-            {/* 필터링 버튼 (회색 -> 클릭 시 붉은색) */}
             <button
               className={`Filter-btn ${isActive ? "active" : ""}`}
               onClick={() => setIsActive(!isActive)}
@@ -57,11 +61,15 @@ export default function Navbar({ keywords = [], onActiveKeysChange }) {
               <img src={filterIcon} alt="필터" className="filter-icon" />
               필터링
             </button>
-            {/* 검색바 */}
             <div className="divider" />
-            <input type="text" className="search-input" placeholder="검색어를 입력" value={searchQuery}
+            <input
+              type="text"
+              className="search-input"
+              placeholder="검색어를 입력"
+              value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()} />
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            />
             <button className="search-icon-btn" onClick={handleSearch}>
               <img src={searchIcon} alt="검색" className="search-icon" />
             </button>
@@ -89,5 +97,3 @@ export default function Navbar({ keywords = [], onActiveKeysChange }) {
     </nav>
   );
 }
-
-//기능 좀 더 손보기

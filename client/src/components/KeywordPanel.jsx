@@ -10,7 +10,7 @@ export default function KeywordPanel({ isOpen, onClose, keywords, setKeywords })
     if (!isOpen) return;
     getKeywords()
       .then((res) => {
-        setApiKeywords(res.data.keywords);
+        setApiKeywords(res.data.data.keywords||[]);
       })
       .catch((err) => console.error("키워드 불러오기 실패:", err));
   }, [isOpen]);
