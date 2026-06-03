@@ -48,41 +48,45 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
           <Route path="/email-input" element={<EmailInput />} />
-          <Route
+            <Route
             path="/*"
             element={
-              <>
-                <Navbar
-                  keywords={keywords}
-                  onActiveKeysChange={handleActiveKeysChange}
-                  onSearch={setSearchQuery}
-                  searchQuery={searchQuery}
-                />
-                <div className="content-area">
-                  <BookmarkPanel
-                    isOpen={isBookmarkOpen}
-                    onClose={() => setIsBookmarkOpen(false)}
-                  />
-                  <KeywordPanel
-                    isOpen={isKeywordOpen}
-                    onClose={() => setIsKeywordOpen(false)}
+              isLoggedIn() ? (
+                <>
+                  <Navbar
                     keywords={keywords}
-                    setKeywords={setKeywords}
+                    onActiveKeysChange={handleActiveKeysChange}
+                    onSearch={setSearchQuery}
+                    searchQuery={searchQuery}
                   />
-                  <Routes>
-                    <Route
-                      path="home"
-                      element={
-                        <Home
-                          activeKeywords={activeKeywords}
-                          searchQuery={searchQuery} // 👈 추가
-                        />
-                      }
+                  <div className="content-area">
+                    <BookmarkPanel
+                      isOpen={isBookmarkOpen}
+                      onClose={() => setIsBookmarkOpen(false)}
                     />
-                    <Route path="post/:id" element={<Postdetail />} />
-                  </Routes>
-                </div>
-              </>
+                    <KeywordPanel
+                      isOpen={isKeywordOpen}
+                      onClose={() => setIsKeywordOpen(false)}
+                      keywords={keywords}
+                      setKeywords={setKeywords}
+                    />
+                    <Routes>
+                      <Route
+                        path="home"
+                        element={
+                          <Home
+                            activeKeywords={activeKeywords}
+                            searchQuery={searchQuery}
+                          />
+                        }
+                      />
+                      <Route path="post/:id" element={<Postdetail />} />
+                    </Routes>
+                  </div>
+                </>
+              ) : (
+                <Navigate to="/login" replace />
+              )
             }
           />
         </Routes>
