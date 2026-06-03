@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
+import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
@@ -36,14 +37,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
         setLoading(false);
       });
   }, []);
-  const toggleBookmark = (e, id) => {
-    e.stopPropagation();
-    setBookmarked((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  };
 
   // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
