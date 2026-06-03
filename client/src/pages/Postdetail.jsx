@@ -35,7 +35,7 @@ const Postdetail = () => {
         .catch((err) => {
             console.error("공지사항 불러오기 실패:", err);
         });
-}, [id]);
+}, [id, token]);
 
 
     const toggleBookmark = () => {
