@@ -4,15 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
+import useAuth from "../hooks/useAuth";
 
 function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookmarked, setBookmarked] = useState(new Set());
-  const token = localStorage.getItem("accessToken");
+  const { getToken } = useAuth();
+  
 
   useEffect(() => {
+    const token = getToken();
     if (!token) {
         navigate("/login");
         return;
