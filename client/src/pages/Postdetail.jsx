@@ -25,21 +25,19 @@ const Postdetail = () => {
             return;
         }
 
-        getNoticeDetail(id)
-            .then((res) => {
-                const noticeData = res?.data?.data?.notices;
-                setPost(noticeData);
-                if (noticeData) {
-                    setIsBookmarked(noticeData.isBookmarked);
-                    if (noticeData.isBookmarked && noticeData.bookmarkId) {
-                        setBookmarkId(noticeData.bookmarkId);
-                    }
-                }
-            })
-            .catch((err) => {
-                console.error("공지사항 불러오기 실패:", err);
-            });
-    }, [id]);
+    getNoticeDetail(id)
+        .then((res) => {
+            const data =res.data.data;
+            setPost(data);
+            setIsBookmarked(data.isBookmarked??false);
+            if (data.isBookmarked && data.bookmarkId) {
+                setBookmarkId(data.bookmarkId);
+            }
+        })
+        .catch((err) => {
+            console.error("공지사항 불러오기 실패:", err);
+        });
+}, [id]);
 
 
     const toggleBookmark = () => {
@@ -68,7 +66,7 @@ const Postdetail = () => {
         <div className="post-detail-container">
             <div className="post-detail-box">
                 <div className="article-header">
-                    <span className="keyword-tag">{post.keywordName || "공지"}</span>
+                    <span className="keyword-tag">{post.keywordName?.[0]?.word || "공지"}</span>
                     <div className="header-top">
                         <h1 className="article-title">{post.title}</h1>
                         <button className="bookmark-btn" onClick={toggleBookmark}>
