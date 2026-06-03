@@ -5,6 +5,12 @@ import { getNotices } from "../api/notices";
 import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import BookmarkIcon from "../components/BookmarkIcon";
 
+// 날짜 형식 변환 함수 (2026-04-05T09:00 → 2026-04-05)
+const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+  return dateStr.split("T")[0];
+};
+
 function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
@@ -14,8 +20,12 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-        const data = res.data.data.notices || [];
-        setNotices(data);
+        const data = res?.data?.data?.notices || [];
+        const sorted = [...data].sort((a, b) => b.id - a.id); // id 내림차순 정렬
+        setNotices(sorted);
+        setBookmarked(
+          new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
+        );
       })
       .catch((err) => {
         console.error("공지사항 불러오기 실패", err);
@@ -24,6 +34,8 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
         setLoading(false);
       });
   }, []);
+
+  const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
   // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
@@ -100,7 +112,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                   e.stopPropagation();
                   toggleBookmark(notice.id, notice.bookmarked);
                 }}
-              />
+              <span>{formatDate(notice.noticedAt)}</span>
             </div>
           ))}
         </div>
