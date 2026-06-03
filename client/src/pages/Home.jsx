@@ -5,8 +5,7 @@ import { getNotices } from "../api/notices";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
-
-function Home({ activeKeywords = [] }) {
+function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +23,7 @@ function Home({ activeKeywords = [] }) {
         setLoading(false);
       });
   }, []);
-  
+
   const [bookmarked, setBookmarked] = useState(
     () => new Set(notices.filter((n) => n.isBookmarked).map((n) => n.id))
   );
@@ -40,10 +39,16 @@ function Home({ activeKeywords = [] }) {
 
   const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
-  const filtered =
-    selectedKeyword === "전체"
-      ? notices
-      : notices.filter((notice) => notice.keywordName === selectedKeyword);
+  // 👇 검색어 + 키워드 필터링
+  const filtered = notices.filter((notice) => {
+    const keywordMatch =
+      selectedKeyword === "전체" || notice.keywordName === selectedKeyword;
+    const searchMatch =
+      searchQuery === "" ||
+      notice.title.includes(searchQuery) ||
+      (notice.keywords ?? []).some((k) => k.word.includes(searchQuery));
+    return keywordMatch && searchMatch;
+  });
 
   if (loading) return <div>불러오는 중...</div>;
 

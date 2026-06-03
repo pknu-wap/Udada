@@ -19,6 +19,7 @@ function AppContent() {
   const [isKeywordOpen, setIsKeywordOpen] = useState(false);
   const [keywords, setKeywords] = useState([]);
   const [activeKeywords, setActiveKeywords] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // 👈 추가
 
   const toggleBookmark = () => setIsBookmarkOpen(!isBookmarkOpen);
   const toggleKeywordPanel = () => setIsKeywordOpen(!isKeywordOpen);
@@ -48,7 +49,11 @@ function AppContent() {
             path="/*"
             element={
               <>
-                <Navbar keywords={keywords} onActiveKeysChange={handleActiveKeysChange} />
+                <Navbar
+                  keywords={keywords}
+                  onActiveKeysChange={handleActiveKeysChange}
+                  onSearch={setSearchQuery} // 👈 추가
+                />
                 <div className="content-area">
                   <BookmarkPanel
                     isOpen={isBookmarkOpen}
@@ -61,7 +66,15 @@ function AppContent() {
                     setKeywords={setKeywords}
                   />
                   <Routes>
-                    <Route path="/home" element={<Home activeKeywords={activeKeywords} />} />
+                    <Route
+                      path="/home"
+                      element={
+                        <Home
+                          activeKeywords={activeKeywords}
+                          searchQuery={searchQuery} // 👈 추가
+                        />
+                      }
+                    />
                     <Route path="/post/:id" element={<Postdetail />} />
                   </Routes>
                 </div>
