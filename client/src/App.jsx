@@ -11,7 +11,6 @@ import KakaoCallback from "./pages/KaKaoCallback";
 import Postdetail from "./pages/Postdetail";
 import EmailInput from "./pages/EmailInput";
 import useAuth from "./hooks/useAuth";
-
 import KeywordPanel from "./components/KeywordPanel";
 import "./App.css";
 
@@ -30,7 +29,6 @@ function AppContent() {
     setActiveKeywords(kws.filter((_, i) => activeSet.has(i)));
   };
 
-  // 사이드바 숨길 페이지
   const hideSidebar = ["/", "/login", "/oauth/kakao/callback", "/email-input"].includes(location.pathname);
 
   return (
@@ -48,7 +46,7 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
           <Route path="/email-input" element={<EmailInput />} />
-            <Route
+          <Route
             path="/*"
             element={
               isLoggedIn() ? (
