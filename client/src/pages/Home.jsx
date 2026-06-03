@@ -10,7 +10,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookmarked, setBookmarked] = useState(new Set());
-  const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
   useEffect(() => {
     getNotices()
@@ -42,11 +41,14 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
-      selectedKeyword === "전체" || notice.keywordName === selectedKeyword;
+      activeKeywords.length === 0 ||
+      (notice.keywords ?? []).some((k) => activeKeywords.includes(k.word));
     const searchMatch =
       searchQuery === "" ||
-      notice.title.includes(searchQuery) ||
-      (notice.keywords ?? []).some((k) => k.word.includes(searchQuery));
+      notice.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (notice.keywords ?? []).some((k) =>
+        k.word?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     return keywordMatch && searchMatch;
   });
 
