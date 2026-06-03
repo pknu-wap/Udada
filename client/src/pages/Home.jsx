@@ -16,15 +16,8 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { getToken } = useAuth();
 
   useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);

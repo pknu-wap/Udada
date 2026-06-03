@@ -15,15 +15,7 @@ const Postdetail = () => {
     const [bookmarkId, setBookmarkId] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        
-
-        // 토큰 없으면 로그인 페이지로 튕겨내기
-        if (!token) {
-            navigate("/login");
-            return;
-        }
-    getNoticeDetail(id)
+        getNoticeDetail(id)
         .then((res) => {
             const data =res.data.data;
             setPost(data);
