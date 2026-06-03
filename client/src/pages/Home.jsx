@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
+import useAuth from "../hooks/useAuth";
 
 // 날짜 형식 변환 함수 (2026-04-05T09:00 → 2026-04-05)
 const formatDate = (dateStr) => {
@@ -16,8 +17,16 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookmarked, setBookmarked] = useState(new Set());
+  const { getToken } = useAuth();
+  
 
   useEffect(() => {
+    const token = getToken();
+    if (!token) {
+        navigate("/login");
+        return;
+    }
+
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
