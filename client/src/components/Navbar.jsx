@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import filterIcon from "../assets/filter_icon.svg";
 import searchIcon from "../assets/search.svg";
+import logoIcon from "../assets/logo.svg";
 
 export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) {
   const [isActive, setIsActive] = useState(false);
@@ -41,7 +42,7 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch }) 
     <nav className="navbar-container">
       <div className="navbar-left">
         <Link to="/home" className="logo-container">
-          <img src="/logo.svg" alt="UDADA 로고" className="logo-svg" />
+          <img src={logoIcon} alt="홈" className="logoIcon" />
         </Link>
       </div>
 
