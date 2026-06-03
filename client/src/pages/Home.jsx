@@ -5,6 +5,12 @@ import { getNotices } from "../api/notices";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
+// 날짜 형식 변환 함수 (2026-04-05T09:00 → 2026-04-05)
+const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+  return dateStr.split("T")[0];
+};
+
 function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
@@ -15,8 +21,9 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-        const data = res.data.data.notices || [];
-        setNotices(data);
+        const data = res?.data?.data?.notices || [];
+        const sorted = [...data].sort((a, b) => b.id - a.id); // id 내림차순 정렬
+        setNotices(sorted);
         setBookmarked(
           new Set(data.filter((n) => n.isBookmarked).map((n) => n.id))
         );
@@ -37,6 +44,8 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       return next;
     });
   };
+
+  const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
   // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
@@ -82,7 +91,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                 ))}
               </span>
               <span>{notice.title}</span>
-              <span>{notice.noticedAt}</span>
+              <span>{formatDate(notice.noticedAt)}</span> {/* 👈 날짜 포맷 적용 */}
               <img
                 src={bookmarked.has(notice.id) ? bookmarkTrueIcon : bookmarkIcon}
                 alt="북마크"
