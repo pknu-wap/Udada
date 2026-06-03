@@ -20,7 +20,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
-        const sorted = [...res.data.data.notices].sort((a, b) => b.id - a.id); // 👈 id 내림차순 정렬
+        const sorted = [...res.data.data.notices].sort((a, b) => a.id - b.id); // 👈 id 내림차순 정렬
         setNotices(sorted);
       })
       .catch((err) => {
