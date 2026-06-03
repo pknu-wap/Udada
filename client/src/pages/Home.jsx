@@ -3,8 +3,8 @@ import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
 import { addBookmark, deleteBookmark } from "../api/bookmarks";
-import bookmarkIcon from "../assets/favourite_false.svg";
-import bookmarkTrueIcon from "../assets/favourite_true.svg";
+import BookmarkIcon from "../components/BookmarkIcon";
+import useAuth from "../hooks/useAuth";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
