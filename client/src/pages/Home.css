@@ -2,22 +2,14 @@
   width: 100%;
   min-height: 100vh;
   background: #F8F9FA;
-  box-sizing: border-box; /* 👈 추가 */
-}
-
-/* 전체 페이지 배경 보장 */
-html, body, #root {
-  min-height: 100%;
-  background: #F8F9FA; /* 👈 추가 */
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box;
 }
 
 .content {
   width: 80%;
   margin: 0 auto;
   padding-top: 40px;
-  padding-bottom: 40px; /* 👈 추가 */
+  padding-bottom: 40px;
 }
 
 /* 헤더 */

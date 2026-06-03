@@ -3,6 +3,10 @@
   font-weight: 700;
 }
 
+html {
+  min-height: 100%;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -61,12 +65,15 @@
 
 body {
   margin: 0;
+  background: #F8F9FA;
+  min-height: 100%;
 }
 
 #root {
   width: 100%;
   margin: 0;
   display: block;
+  min-height: 100%;
 }
 
 h1,
