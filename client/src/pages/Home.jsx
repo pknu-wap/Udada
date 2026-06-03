@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
 import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import BookmarkIcon from "../components/BookmarkIcon";
-import useAuth from "../hooks/useAuth";
 
 // 날짜 형식 변환 함수 (2026-04-05T09:00 → 2026-04-05)
 const formatDate = (dateStr) => {
