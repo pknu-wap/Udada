@@ -15,8 +15,7 @@ const Postdetail = () => {
     const [bookmarkId, setBookmarkId] = useState(null);
 
     useEffect(() => {
-    
-    getNoticeDetail(id)
+        getNoticeDetail(id)
         .then((res) => {
             const data =res.data.data;
             setPost(data);
