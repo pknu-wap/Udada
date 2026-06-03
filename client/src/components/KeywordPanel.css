@@ -119,3 +119,9 @@
   from { transform: translateY(16px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
+
+.kp-tag--active {
+  background-color: #00489F;
+  color: white;
+  border-color: #00489F;
+}
