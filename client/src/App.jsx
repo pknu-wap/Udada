@@ -9,7 +9,7 @@ import {
 import Intro from "./pages/Intro";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import BookmarkPage from "./components/BookmarkPage";
+import BookmarkPage from "./pages/BookmarkPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import KakaoCallback from "./pages/KaKaoCallback";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import BookmarkList from "./BookmarkList";
-import BookmarkDetail from "./BookmarkDetail";
+import BookmarkList from "../components/BookmarkList";
+import BookmarkDetail from "../components/BookmarkDetail";
 import "./BookmarkPage.css";
 import { getBookmarks, deleteBookmark } from "../api/bookmarks";
 import { debug } from "../utils/log";
