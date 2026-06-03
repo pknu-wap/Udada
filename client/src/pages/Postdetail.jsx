@@ -6,6 +6,11 @@ import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
+const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+  return dateStr.split("T")[0].replace(/-/g, ".");
+};
+
 const Postdetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -68,7 +73,7 @@ const Postdetail = () => {
                         </button>
                     </div>
                     <div className="header-bottom">
-                        <span>{post.noticedAt}</span>
+                        <span>{formatDate(post.noticedAt)}</span>
                     </div>
                 </div>
 
