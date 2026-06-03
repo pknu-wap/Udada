@@ -10,8 +10,14 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookmarked, setBookmarked] = useState(new Set());
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
+    if (!token) {
+        navigate("/login");
+        return;
+    }
+
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
