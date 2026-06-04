@@ -18,6 +18,12 @@ export default function BookmarkPage() {
       .catch((err) => console.error("북마크 불러오기 실패:", err));
   }, []);
 
+  // 페이지 열릴 때 맨 위로 스크롤
+  useEffect(() => {
+    const el = document.querySelector('.content-area');
+    if (el) el.scrollTop = 0;
+  }, []);
+
   const handleRemoveBookmark = (noticeId) => {
     deleteBookmark(noticeId)
       .then(() => {

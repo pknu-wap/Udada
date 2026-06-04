@@ -13,17 +13,33 @@ export default function Sidebar({ toggleKeyword }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-menu-group">
-        <Link to="/home" className="menu-item home-btn" title="홈">
+        <Link
+          to="/home"
+          className="menu-item home-btn"
+          title="홈"
+          onClick={() => {
+            const el = document.querySelector('.content-area');
+            if (el) el.scrollTop = 0;
+          }}
+        >
           <img src={homeIcon} alt="홈" className="homeIcon" />
         </Link>
 
-        <Link to="/bookmarks" className="menu-item" title="북마크">
+        <Link
+          to="/bookmarks"
+          className="menu-item"
+          title="북마크"
+          onClick={() => {
+            const el = document.querySelector('.content-area');
+            if (el) el.scrollTop = 0;
+          }}
+        >
           <img src={bookmarkIcon} alt="북마크" className="bookmark" />
         </Link>
 
         <div
           className="menu-item keyword-btn"
-          onClick={toggleKeyword} // ← Link → div로 변경
+          onClick={toggleKeyword}
           title="설정"
         >
           <img src={keywordIcon} alt="키워드설정" />
