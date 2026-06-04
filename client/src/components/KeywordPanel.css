@@ -62,22 +62,33 @@
 .kp-tag {
   padding: 10px 20px;
   border-radius: 30px;
-  border: 1.5px solid #ccc;
-  background: #f5f5f5;
+  border: 1.5px solid #868E96;
+  background: #DEE2E6;
   color: #333;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .kp-tag:hover {
-  border-color: #004695;
+  border-color: #00489F;
   color: #004695;
 }
 
+.kp-tag--active {
+  background-color: #00489F;
+  color: white;
+  border-color: #00489F;
+}
+
+.kp-tag--active:hover {
+  border-color: #333;
+}
+
 /* 입력창 */
-.kp-input-row {
+/* .kp-input-row {
   display: flex;
   align-items: center;
   border: 1.5px solid #ddd;
@@ -107,7 +118,7 @@
   cursor: pointer;
   line-height: 1;
 }
-.kp-add-btn:hover { color: #004695; }
+.kp-add-btn:hover { color: #004695; } */
 
 /* 애니메이션 */
 @keyframes kp-fadeIn {
@@ -120,8 +131,3 @@
   to   { transform: translateY(0);    opacity: 1; }
 }
 
-.kp-tag--active {
-  background-color: #00489F;
-  color: white;
-  border-color: #00489F;
-}
