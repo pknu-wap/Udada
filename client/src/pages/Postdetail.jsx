@@ -77,9 +77,10 @@ const Postdetail = () => {
 
                 <hr className="content-divider" />
 
-                <div className="article-body">
-                    <p>{post.content}</p>
-                </div>
+                <div 
+                    className="article-body" 
+                    dangerouslySetInnerHTML={{ __html: post.content }} 
+                />
 
                 <hr className="content-divider" />
                 <div className="button-group">
