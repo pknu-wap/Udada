@@ -37,8 +37,9 @@ function AppContent() {
     getKeywords().then(res => {
       const defaultKeywords = (res.data.data || []).filter(kw => kw.default === true);
       setKeywords(defaultKeywords.map(kw => kw.word));
-    });
-  }, []);
+    })
+    .catch(err => console.error("기본 제공 키워드 불러오기 실패:", err));
+  }, [loggedIn]);
 
   return (
     <div className="app">
