@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./EmailInput.css";
 import { useNavigate } from "react-router-dom";
 import api from "../api/instance";
+import logoIcon from "../assets/logo.svg";
 
 const EmailInput = () => {
   const [email, setEmail] = useState("");
@@ -30,9 +31,9 @@ const EmailInput = () => {
 
     setLoading(true);
     try {
-    await api.post("/users/email", { email });
+      await api.post("/users/email", { email });
       console.log("이메일 저장:", email);
-        navigate("/home"); 
+      navigate("/home");
     } catch (err) {
       setError("오류가 발생했어요. 다시 시도해주세요.");
     } finally {
@@ -43,13 +44,11 @@ const EmailInput = () => {
   return (
     <div className="email-container">
       <div className="email-box">
-        <img src="/logo.svg" alt="UDADA 로고" className="logo-svg" />
- 
+        <img src={logoIcon} alt="홈" className="logoIcon" />
+
         <h1 className="email-title">이메일을 알려주세요.</h1>
-        <p className="email-sub">
-          알림을 받기 위해선 이메일 주소가 필요해요!
-        </p>
- 
+        <p className="email-sub">알림을 받기 위해선 이메일 주소가 필요해요!</p>
+
         <div className={`email-input-wrap ${error ? "has-error" : ""}`}>
           <input
             type="email"
@@ -61,9 +60,9 @@ const EmailInput = () => {
             autoFocus
           />
         </div>
- 
+
         {error && <p className="email-error">{error}</p>}
- 
+
         <button
           className="email-submit-btn"
           onClick={handleSubmit}
@@ -71,7 +70,6 @@ const EmailInput = () => {
         >
           {loading ? "저장 중..." : "확인"}
         </button>
- 
       </div>
     </div>
   );

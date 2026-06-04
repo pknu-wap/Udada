@@ -1,5 +1,6 @@
 package com.pknuwap.udada.controller;
 
+import com.pknuwap.udada.common.jwt.UserPrincipal;
 import com.pknuwap.udada.common.response.ApiResponse;
 import com.pknuwap.udada.dto.request.EmailRequest;
 import com.pknuwap.udada.service.UserService;
@@ -22,10 +23,10 @@ public class UserController {
     // 이메일 등록
     @PostMapping("/email")
     public ResponseEntity<ApiResponse<Void>> registerEmail(
-            @AuthenticationPrincipal Long userId,
+            @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody EmailRequest request
     ) {
-        userService.registerEmail(userId, request);
+        userService.registerEmail(principal.getUserId(), request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 }
