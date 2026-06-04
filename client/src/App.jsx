@@ -82,7 +82,10 @@ function AppContent() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
-            <Route path="/email-input" element={<EmailInput />} />
+            <Route
+              path="/email-input"
+              element={isLoggedIn() ? <EmailInput /> : <Navigate to="/login" replace />}
+            />
 
             {/* 로그인 필요 페이지 */}
             <Route

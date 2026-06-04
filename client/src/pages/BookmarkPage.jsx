@@ -24,14 +24,14 @@ export default function BookmarkPage() {
     if (el) el.scrollTop = 0;
   }, []);
 
-  const handleRemoveBookmark = (noticeId) => {
-    deleteBookmark(noticeId)
-      .then(() => {
-        setPosts((prev) => prev.filter((p) => p.id !== noticeId));
-        if (selectedPost?.id === noticeId) setSelectedPost(null);
-      })
-      .catch((err) => console.error("북마크 삭제 실패:", err));
-  };
+ const handleRemoveBookmark = (noticeId) => {
+  deleteBookmark(noticeId)
+    .then(() => {
+      setPosts((prev) => prev.filter((p) => p.noticeId !== noticeId));
+      if (selectedPost?.noticeId === noticeId) setSelectedPost(null);
+    })
+    .catch((err) => console.error("북마크 삭제 실패:", err));
+};
 
   return (
     <div className="bookmark-page-wrapper">

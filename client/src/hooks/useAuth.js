@@ -1,12 +1,14 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN_KEY } from "../api/api";
+import { debug } from "../utils/log";
 
 const useAuth = () => {
   const navigate = useNavigate();
 
   // 토큰 저장
   const saveToken = useCallback((token) => {
+    debug("saveToken(): token=", token);
     localStorage.setItem(ACCESS_TOKEN_KEY, token);
   }, []);
 
