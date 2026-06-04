@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Intro from "./pages/Intro";
 import Navbar from "./components/Navbar";
@@ -11,6 +11,7 @@ import Postdetail from "./pages/Postdetail";
 import EmailInput from "./pages/EmailInput";
 import useAuth from "./hooks/useAuth";
 import KeywordPanel from "./components/KeywordPanel";
+import { getKeywords } from "./api/keywords";
 import "./App.css";
 
 function AppContent() {
@@ -30,6 +31,14 @@ function AppContent() {
 
   const hideSidebar = ["/", "/login", "/oauth/kakao/callback", "/email-input"].includes(location.pathname);
   const showShell = isLoggedIn() && !hideSidebar;
+
+  useEffect(() => {
+    if (!isLoggedIn()) return;
+    getKeywords().then(res => {
+      const defaultKeywords = (res.data.data || []).filter(kw => kw.default === true);
+      setKeywords(defaultKeywords.map(kw => kw.word));
+    });
+  }, []);
 
   return (
     <div className="app">
@@ -56,7 +65,6 @@ function AppContent() {
             <KeywordPanel
               isOpen={isKeywordOpen}
               onClose={() => setIsKeywordOpen(false)}
-              onUserKeywordsChange={setKeywords}
             />
           </>
         )}

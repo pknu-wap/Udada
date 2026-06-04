@@ -19,13 +19,6 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, se
       const allActive = new Set(keywords.map((_, i) => i));
       setActiveKeys(allActive);
       onActiveKeysChange?.(allActive, keywords);
-    } else if (keywords.length > prevLenRef.current) {
-      // 이후 키워드 추가: 새 것만 활성화
-      setActiveKeys((prev) => {
-        const next = new Set(prev);
-        next.add(keywords.length - 1);
-        return next;
-      });
     }
     prevLenRef.current = keywords.length;
   }, [keywords]);
