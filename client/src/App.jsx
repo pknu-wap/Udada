@@ -22,9 +22,8 @@ function AppContent() {
   const [activeKeywords, setActiveKeywords] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn } = useAuth();
-
-  const toggleBookmark = () => setIsBookmarkOpen((prev) => !prev);
-  const toggleKeywordPanel = () => setIsKeywordOpen((prev) => !prev);
+const toggleBookmark = () => setIsBookmarkOpen((prev) => !prev);
+const toggleKeywordPanel = () => setIsKeywordOpen((prev) => !prev);
   const handleActiveKeysChange = (activeSet, kws) => {
     setActiveKeywords(kws.filter((_, i) => activeSet.has(i)));
   };
@@ -51,6 +50,7 @@ function AppContent() {
         />
       )}
       <div className="main-layout">
+
         {showShell && (
           <>
             <Navbar
@@ -70,26 +70,25 @@ function AppContent() {
           </>
         )}
 
-        <div className="content-area">
-          <Routes>
-            <Route path="/" element={isLoggedIn() ? <Navigate to="/home" /> : <Intro />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
-            <Route path="/email-input" element={<EmailInput />} />
+<div className="content-area">
+  <Routes>
+    <Route path="/" element={isLoggedIn() ? <Navigate to="/home" /> : <Intro />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/oauth/kakao/callback" element={<KakaoCallback />} />
+    <Route path="/email-input" element={<EmailInput />} />
 
-            {/* 로그인 필요 페이지 */}
-            <Route
-              path="/home"
-              element={isLoggedIn() ? <Home activeKeywords={activeKeywords} searchQuery={searchQuery} /> : <Navigate to="/login" replace />}
-            />
-            <Route
-              path="/post/:id"
-              element={isLoggedIn() ? <Postdetail /> : <Navigate to="/login" replace />}
-            />
+    <Route
+      path="/home"
+      element={isLoggedIn() ? <Home activeKeywords={activeKeywords} searchQuery={searchQuery} /> : <Navigate to="/login" replace />}
+    />
+    <Route
+      path="/post/:id"
+      element={isLoggedIn() ? <Postdetail /> : <Navigate to="/login" replace />}
+    />
 
-            <Route path="*" element={<Navigate to={isLoggedIn() ? "/home" : "/login"} replace />} />
-          </Routes>
-        </div>
+    <Route path="*" element={<Navigate to={isLoggedIn() ? "/home" : "/login"} replace />} />
+  </Routes>
+</div>
       </div>
     </div>
   );
