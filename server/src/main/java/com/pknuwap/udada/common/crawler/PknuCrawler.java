@@ -105,7 +105,7 @@ public class PknuCrawler {
                         .replaceAll("(?i)display:\\s*[^;'\"]*;?", "");
 
                 // 3. 본문 내 상대경로 이미지 주소 절대경로로 치환 (엑박 방지)
-                cleanedHtml = cleanedHtml.replaceAll("src=\"/", "src=\"" + BASE_URL + "/");
+                cleanedHtml = cleanedHtml.replace("src=\"/", "src=\"" + BASE_URL + "/");
 
                 content = cleanedHtml;
             }
