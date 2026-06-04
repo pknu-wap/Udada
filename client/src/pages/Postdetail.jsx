@@ -6,6 +6,11 @@ import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import bookmarkIcon from "../assets/favourite_false.svg";
 import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
+
+const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    return dateStr.split("T")[0];
+};
 const Postdetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -16,18 +21,18 @@ const Postdetail = () => {
 
     useEffect(() => {
         getNoticeDetail(id)
-        .then((res) => {
-            const data =res.data.data;
-            setPost(data);
-            setIsBookmarked(data.isBookmarked??false);
-            if (data.isBookmarked && data.bookmarkId) {
-                setBookmarkId(data.bookmarkId);
-            }
-        })
-        .catch((err) => {
-            console.error("공지사항 불러오기 실패:", err);
-        });
-}, [id]);
+            .then((res) => {
+                const data = res.data.data;
+                setPost(data);
+                setIsBookmarked(data.isBookmarked ?? false);
+                if (data.isBookmarked && data.bookmarkId) {
+                    setBookmarkId(data.bookmarkId);
+                }
+            })
+            .catch((err) => {
+                console.error("공지사항 불러오기 실패:", err);
+            });
+    }, [id]);
 
     const toggleBookmark = () => {
         if (isBookmarked) {
@@ -67,8 +72,7 @@ const Postdetail = () => {
                         </button>
                     </div>
                     <div className="header-bottom">
-                        <span>{post.noticedAt}</span>
-                    </div>
+                        <span>{formatDate(post.noticedAt)}</span>                    </div>
                 </div>
 
                 <hr className="content-divider" />
