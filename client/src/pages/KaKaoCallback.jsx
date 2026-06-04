@@ -2,16 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { kakaoLogin } from "../api/authApi";
 import useAuth from "../hooks/useAuth";
+import { debug } from "../utils/log";
 
 const KakaoCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { saveToken } = useAuth();
   const [error, setError] = useState(null);
-  const hasRun = useRef(false)
+  const hasRun = useRef(false);
 
   useEffect(() => {
-    if (hasRun.current) return;  // 이미 실행됐으면 스킵 (한 번 실행 보장)
+    if (hasRun.current) return; // 이미 실행됐으면 스킵 (한 번 실행 보장)
     hasRun.current = true;
 
     const code = searchParams.get("code");
@@ -23,15 +24,15 @@ const KakaoCallback = () => {
 
     const handleLogin = async () => {
       try {
-        const response = await kakaoLogin(code);
-        const { accessToken, isNewUser } = response;
+        const res = await kakaoLogin(code);
+        debug(res);
 
         // JWT 토큰 저장
-        saveToken(accessToken);
+        saveToken(res.data.accessToken);
 
         // 신규 유저 → 이메일 등록 화면
         // 기존 유저 → 메인 화면
-        if (isNewUser) {
+        if (res.data.newUser) {
           navigate("/email-input", { replace: true });
         } else {
           navigate("/home", { replace: true });
