@@ -37,9 +37,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String token = resolveToken(request);
+        log.debug("token = {}", token);
 
         if (StringUtils.hasText(token) && jwtProvider.isValid(token)) {
             Long userId = jwtProvider.getUserId(token);
+            log.debug("userId = {}", userId);
 
             // 수정: Long 대신 UserPrincipal 객체를 생성하여 넘깁니다.
             UserPrincipal principal = new UserPrincipal(userId);
