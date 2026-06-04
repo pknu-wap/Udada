@@ -3,7 +3,7 @@ import "./KeywordPanel.css";
 import { getKeywords } from "../api/keywords";
 import { getUserKeywords, addUserKeyword, deleteUserKeyword } from "../api/userKeywords";
 
-export default function KeywordPanel({ isOpen, onClose, onUserKeywordsChange }) {
+export default function KeywordPanel({ isOpen, onClose }) {
   const [keywords, setKeywords] = useState([]);       // 기본 제공 키워드 목록
   const [userKeywords, setUserKeywords] = useState([]); // 내가 설정한 키워드 목록
 
