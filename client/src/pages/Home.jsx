@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
 import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import BookmarkIcon from "../components/BookmarkIcon";
-import useAuth from "../hooks/useAuth";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "";

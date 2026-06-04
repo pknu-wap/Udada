@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
-import BookmarkList from "./BookmarkList";
-import BookmarkDetail from "./BookmarkDetail";
-import "./BookmarkPanel.css";
+import BookmarkList from "../components/BookmarkList";
+import BookmarkDetail from "../components/BookmarkDetail";
+import "./BookmarkPage.css";
 import { getBookmarks, deleteBookmark } from "../api/bookmarks";
 import { debug } from "../utils/log";
 
-export default function BookmarkPanel({ isOpen }) {
+export default function BookmarkPage() {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
-    if (!isOpen) return;
-
     getBookmarks()
       .then((res) => {
         debug("응답:", res.data);
-        setPosts(res.data.data.bookmarks||[]);
+        setPosts(res.data.data.bookmarks || []);
       })
       .catch((err) => console.error("북마크 불러오기 실패:", err));
-  }, [isOpen]);
+  }, []);
 
   const handleRemoveBookmark = (noticeId) => {
     deleteBookmark(noticeId)
@@ -29,10 +27,8 @@ export default function BookmarkPanel({ isOpen }) {
       .catch((err) => console.error("북마크 삭제 실패:", err));
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="bookmark-panel-wrapper">
+    <div className="bookmark-page-wrapper">
       <BookmarkList
         posts={posts}
         selectedPost={selectedPost}
