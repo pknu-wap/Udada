@@ -18,4 +18,8 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     Optional<Bookmark> findByUserIdAndNoticeId(Long userId, Long noticeId);
 
     boolean existsByUserIdAndNoticeId(Long userId, Long noticeId);
+
+    // 성능 최적화 북마크 누른 공지사항 id목록만 1번의 쿼리로 반환
+    @Query("SELECT b.notice.id FROM Bookmark b WHERE b.user.id = :userId AND b.notice.id IN :noticeIds")
+    List<Long> findBookmarkedNoticeIds(@Param("userId") Long userId, @Param("noticeIds") List<Long> noticeIds);
 }
