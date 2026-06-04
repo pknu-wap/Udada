@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./EmailInput.css";
 import { useNavigate } from "react-router-dom";
 import api from "../api/instance";
+import logoIcon from "../assets/logo.svg";
 
 const EmailInput = () => {
   const [email, setEmail] = useState("");
@@ -43,7 +44,7 @@ const EmailInput = () => {
   return (
     <div className="email-container">
       <div className="email-box">
-        <img src="/logo.svg" alt="UDADA 로고" className="logo-svg" />
+        <img src={logoIcon} alt="홈" className="logoIcon" />
  
         <h1 className="email-title">이메일을 알려주세요.</h1>
         <p className="email-sub">
