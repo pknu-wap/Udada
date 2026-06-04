@@ -1,14 +1,12 @@
-
-/* 전체 배경 및 가운데 정렬 */
 .post-detail-container {
-    padding: 40px;
+    padding: 40px 20px;
     background-color: #f8f9fa;
     min-height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: flex-start; 
 }
 
-/* 하얀색 메인 박스 */
 .post-detail-box {
     width: 100%;
     max-width: 900px;
@@ -16,10 +14,15 @@
     padding: 50px 60px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    flex-direction: column;
+    height: auto !important;
+    min-height: 500px;
 }
 
-/* 상단 헤더 영역 */
 .article-header {
+    width: 100%;
     margin-bottom: 20px;
 }
 
@@ -29,7 +32,6 @@
     align-items: center;
 }
 
-/* 키워드 태그 */
 .keyword-tag {
     display: inline-block;
     background-color: #FFC5C5;
@@ -45,17 +47,16 @@
     font-weight: 800;
     color: #212529;
     margin: 0;
-    -webkit-text-stroke: 0.5px #212529;
+    line-height: 1.4;
 }
 
-/* 북마크 버튼 */
 .bookmark-btn {
     background: none;
     border: none;
-    font-size: 2.5rem; /* 아이콘 크기 */
     cursor: pointer;
-    color: #00489F;
     transition: transform 0.2s;
+    padding: 0;
+    margin-left: 20px;
 }
 
 .bookmark-icon {
@@ -65,36 +66,71 @@
 
 .bookmark-btn:hover {
     transform: scale(1.1);
-    background-color: transparent;
 }
 
-/* 날짜 정보 */
 .header-bottom {
     margin-top: 15px;
     color: #868e96;
     font-size: 1rem;
 }
 
-/* 중앙 구분선 */
 .content-divider {
     border: 0;
+    width: 100%;
     height: 1.5px;
     background-color: #e9ecef;
     margin: 30px 0;
 }
 
-/* 본문 영역 */
 .article-body {
+    width: 100% !important;
+    height: auto !important;
     font-size: 1.0rem;
     line-height: 1.8;
     color: #333;
-    min-height: 400px; /* 본문이 짧아도 박스 높이 유지 */
+    
+    
+    display: block !important;
+    clear: both !important;
+    visibility: visible !important;
+    
+    white-space: normal !important;
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
 }
 
-/* 하단 버튼 영역 */
+.article-body * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    height: auto !important; 
+}
+
+.article-body img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 20px auto;
+}
+
+.article-body table {
+    width: 100% !important;
+    table-layout: fixed !important; 
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.article-body td, .article-body th {
+    word-break: break-all !important;
+    padding: 8px;
+    border: 1px solid #e9ecef;
+}
+
 .button-group {
+    width: 100%;
     text-align: right;
-    margin-top: 40px;
+    margin-top: auto; 
+    padding-top: 40px;
 }
 
 .back-btn {
