@@ -90,7 +90,24 @@ public class PknuCrawler {
 
             Element contentEl = detailDoc.selectFirst(".bdvTxt");
             if (contentEl != null) {
-                content = contentEl.html().trim();
+                String originalHtml = contentEl.html().trim();
+
+                // 1. 모든 태그의 고정 width, height 속성 제거
+                String cleanedHtml = originalHtml
+                        .replaceAll("(?i)\\swidth=\"[^\"]*\"", "")
+                        .replaceAll("(?i)\\sheight=\"[^\"]*\"", "")
+                        .replaceAll("(?i)width:\\s*[^;'\"]*px", "")
+                        .replaceAll("(?i)height:\\s*[^;'\"]*px", "");
+
+                // 2. [★치명타] 본문 레이아웃을 망치는 원흉인 최외곽 pre-wrap 및 display 관련 스타일 강제 제거
+                cleanedHtml = cleanedHtml
+                        .replaceAll("(?i)white-space:\\s*pre-wrap;?", "")
+                        .replaceAll("(?i)display:\\s*[^;'\"]*;?", "");
+
+                // 3. 본문 내 상대경로 이미지 주소 절대경로로 치환 (엑박 방지)
+                cleanedHtml = cleanedHtml.replaceAll("src=\"/", "src=\"" + BASE_URL + "/");
+
+                content = cleanedHtml;
             }
 
             // 첨부파일 다운로드 링크 수집
