@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getNotices } from "../api/notices";
 import { addBookmark, deleteBookmark } from "../api/bookmarks";
 import BookmarkIcon from "../components/BookmarkIcon";
+import useAuth from "../hooks/useAuth";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
@@ -14,14 +15,20 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const { getToken } = useAuth();
+
   useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     getNotices()
       .then((res) => {
         console.log("응답:", res.data);
         const data = res?.data?.data?.notices || [];
-        const sorted = [...data].sort((a, b) => a.id - b.id); // id 오름차순 정렬
+        const sorted = [...data].sort((a, b) => a.id - b.id);
         setNotices(sorted);
       })
       .catch((err) => {
@@ -34,7 +41,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
 
   const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
-  // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
       activeKeywords.length === 0 ||
@@ -94,13 +100,15 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                 onClick={() => navigate(`/post/${notice.id}`)}
               >
                 <span>{notice.id}</span>
-                {/* 키워드 툴팁 */}
                 <span className="keywords-badges">
                   {firstKeyword && (
                     <span className="keywords-badge">{firstKeyword.word}</span>
                   )}
                   {restKeywords.length > 0 && (
-                    <span className="keywords-more" onClick={(e) => e.stopPropagation()}>
+                    <span
+                      className="keywords-more"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       +{restKeywords.length}
                       <div className="keywords-tooltip">
                         {keywords.map((item, idx) => (
