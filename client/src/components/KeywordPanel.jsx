@@ -17,7 +17,7 @@ export default function KeywordPanel({
     getKeywords()
       .then((res) => {
         debug(res.data);
-        setApiKeywords(res.data.data);
+        setApiKeywords(res.data?.data || []);
       })
       .catch((err) => console.error("키워드 불러오기 실패:", err));
   }, [isOpen]);
