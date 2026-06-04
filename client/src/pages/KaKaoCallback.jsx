@@ -24,7 +24,7 @@ const KakaoCallback = () => {
     const handleLogin = async () => {
       try {
         const response = await kakaoLogin(code);
-        const { accessToken, isNewUser } = response.data;
+        const { accessToken, isNewUser } = response;
 
         // JWT 토큰 저장
         saveToken(accessToken);
