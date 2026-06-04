@@ -8,8 +8,8 @@ import bookmarkTrueIcon from "../assets/favourite_true.svg";
 
 
 const formatDate = (dateStr) => {
-  if (!dateStr) return "";
-  return dateStr.split("T")[0].replace(/-/g, ".");
+    if (!dateStr) return "";
+    return dateStr.split("T")[0];
 };
 const Postdetail = () => {
     const { id } = useParams();
@@ -20,19 +20,19 @@ const Postdetail = () => {
     const [bookmarkId, setBookmarkId] = useState(null);
 
     useEffect(() => {
-getNoticeDetail(id)
-        .then((res) => {
-            const data =res.data.data;
-            setPost(data);
-            setIsBookmarked(data.isBookmarked??false);
-            if (data.isBookmarked && data.bookmarkId) {
-                setBookmarkId(data.bookmarkId);
-            }
-        })
-        .catch((err) => {
-            console.error("공지사항 불러오기 실패:", err);
-        });
-}, [id]);
+        getNoticeDetail(id)
+            .then((res) => {
+                const data = res.data.data;
+                setPost(data);
+                setIsBookmarked(data.isBookmarked ?? false);
+                if (data.isBookmarked && data.bookmarkId) {
+                    setBookmarkId(data.bookmarkId);
+                }
+            })
+            .catch((err) => {
+                console.error("공지사항 불러오기 실패:", err);
+            });
+    }, [id]);
 
     const toggleBookmark = () => {
         if (isBookmarked) {
