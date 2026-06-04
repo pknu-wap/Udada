@@ -90,7 +90,7 @@ public class PknuCrawler {
 
             Element contentEl = detailDoc.selectFirst(".bdvTxt");
             if (contentEl != null) {
-                content = contentEl.text().trim();
+                content = contentEl.html().trim();
             }
 
             // 첨부파일 다운로드 링크 수집
