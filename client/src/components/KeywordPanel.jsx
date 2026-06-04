@@ -1,63 +1,73 @@
 import React, { useState, useEffect } from "react";
 import "./KeywordPanel.css";
-import { getKeywords, addKeyword } from "../api/keywords";
+import { getKeywords } from "../api/keywords";
+import { getUserKeywords, addUserKeyword, deleteUserKeyword } from "../api/userKeywords";
 
-export default function KeywordPanel({ isOpen, onClose, keywords, setKeywords }) {
-  const [input, setInput] = useState("");
-  const [apiKeywords, setApiKeywords] = useState([]);
+export default function KeywordPanel({ isOpen, onClose, onUserKeywordsChange }) {
+  const [keywords, setKeywords] = useState([]);
+  const [userKeywords, setUserKeywords] = useState([]);
 
   useEffect(() => {
     if (!isOpen) return;
-    getKeywords()
-      .then((res) => {
-        setApiKeywords(res.data.data.keywords||[]);
+    Promise.all([getKeywords(), getUserKeywords()])
+      .then(([keywordsRes, userKeywordsRes]) => {
+        const defaultKeywords = (keywordsRes.data.data || []).filter(kw => kw.default === true);
+        setKeywords(defaultKeywords);
+        const myKeywords = userKeywordsRes.data.data?.userKeywords || [];
+        setUserKeywords(myKeywords);
       })
       .catch((err) => console.error("키워드 불러오기 실패:", err));
   }, [isOpen]);
 
-  const handleAddKeyword = () => {
-    const trimmed = input.trim();
-    if (!trimmed) return;
-    addKeyword(trimmed)
-      .then((res) => {
-        setApiKeywords([...apiKeywords, { id: res.data.keywordId, word: res.data.word }]);
-        setKeywords([...keywords, trimmed]);
-        setInput("");
-      })
-      .catch((err) => console.error("키워드 추가 실패:", err));
-  };
+  const toggleKeyword = async (keywordId) => {
+    const existing = userKeywords.find(uk => uk.keywordId === keywordId);
+    try {
+      if (existing) {
+        await deleteUserKeyword(existing.id);
+        const next = userKeywords.filter(uk => uk.keywordId !== keywordId);
+        setUserKeywords(next);
+        onUserKeywordsChange?.(next.map(uk => uk.word).filter(Boolean));
+      } else {
+        const res = await addUserKeyword(keywordId);
+        const word = keywords.find(kw => kw.id === keywordId)?.word;
+        const next = [...userKeywords, {
+          id: res.data.data.userKeywordId,
+          keywordId,
+          word
+        }];
+        setUserKeywords(next);
+        onUserKeywordsChange?.(next.map(uk => uk.word).filter(Boolean));
+      }
+    } catch (err) {
+      console.error("키워드 토글 실패:", err);
+    }
+  }; // ← 여기 닫힘
 
   if (!isOpen) return null;
 
-  return (
+   return (
     <div className="kp-overlay" onClick={onClose}>
       <div className="kp-panel" onClick={(e) => e.stopPropagation()}>
         <div className="kp-top">
-          <h2 className="kp-title">추천 키워드</h2>
+          <h2 className="kp-title">알림 키워드 설정</h2>
           <button className="kp-close" onClick={onClose}>✕</button>
         </div>
-
         <div className="kp-desc-row">
-          <span className="kp-desc">원하는 키워드를 입력해주세요</span>
+          <span className="kp-desc">알림 받을 키워드를 선택해주세요</span>
         </div>
-
         <div className="kp-tags">
-          {apiKeywords.map((kw) => (
-            <button key={kw.id} className="kp-tag">
-              {kw.word}
-            </button>
-          ))}
-        </div>
-
-        <div className="kp-input-row">
-          <input
-            type="text"
-            placeholder="키워드 입력"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAddKeyword()}
-          />
-          <button className="kp-add-btn" onClick={handleAddKeyword}>＋</button>
+          {keywords.map((kw) => {
+            const isSelected = userKeywords.some(uk => uk.keywordId === kw.id);
+            return (
+              <button
+                key={kw.id}
+                className={`kp-tag ${isSelected ? "kp-tag--active" : ""}`}
+                onClick={() => toggleKeyword(kw.id)}
+              >
+                {kw.word}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

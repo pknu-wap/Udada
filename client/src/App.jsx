@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -17,6 +17,7 @@ import Postdetail from "./pages/Postdetail";
 import EmailInput from "./pages/EmailInput";
 import useAuth from "./hooks/useAuth";
 import KeywordPanel from "./components/KeywordPanel";
+import { getKeywords } from "./api/keywords";
 import "./App.css";
 
 function AppContent() {
@@ -40,6 +41,20 @@ function AppContent() {
   ].includes(location.pathname);
   const showShell = isLoggedIn() && !hideSidebar;
 
+  useEffect(() => {
+    if (!isLoggedIn() || keywords.length > 0) return;
+
+    getKeywords()
+      .then((res) => {
+        const defaultKeywords = (res.data.data || []).filter(
+          (kw) => kw.default === true
+        );
+        setKeywords(defaultKeywords.map((kw) => kw.word));
+      })
+      .catch((err) => console.error("기본 제공 키워드 불러오기 실패:", err));
+      
+  }, [location.pathname, keywords.length]);
+
   return (
     <div className="app">
       {showShell && <Sidebar toggleKeyword={toggleKeywordPanel} />}
@@ -55,8 +70,6 @@ function AppContent() {
             <KeywordPanel
               isOpen={isKeywordOpen}
               onClose={() => setIsKeywordOpen(false)}
-              keywords={keywords}
-              setKeywords={setKeywords}
             />
           </>
         )}

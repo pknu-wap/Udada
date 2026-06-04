@@ -7,23 +7,14 @@ import logoIcon from "../assets/logo.svg";
 
 export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, searchQuery: externalQuery = "" }) {
   const [isActive, setIsActive] = useState(false);
-
-  const [activeKeys, setActiveKeys] = useState(
-    () => new Set(keywords.map((_, i) => i))
-  );
-
+  const [activeKeys, setActiveKeys] = useState(() => new Set(keywords.map((_, i) => i)));
   const [searchQuery, setSearchQuery] = useState(externalQuery);
 
-  const prevLenRef = React.useRef(keywords.length);
   React.useEffect(() => {
-    if (keywords.length > prevLenRef.current) {
-      setActiveKeys((prev) => {
-        const next = new Set(prev);
-        next.add(keywords.length - 1);
-        return next;
-      });
-    }
-    prevLenRef.current = keywords.length;
+    if (keywords.length === 0) return;
+    const allActive = new Set(keywords.map((_, i) => i));
+    setActiveKeys(allActive);
+    onActiveKeysChange?.(allActive, keywords);
   }, [keywords]);
 
   React.useEffect(() => {
