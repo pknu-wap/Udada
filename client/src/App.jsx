@@ -103,12 +103,7 @@ function AppContent() {
               }
             />
 
-            <Route
-              path="*"
-              element={
-                <Navigate to={isLoggedIn() ? "/home" : "/login"} replace />
-              }
-            />
+            <Route path="*" element={<Navigate to={isLoggedIn() ? "/home" : "/login"} replace />} />
           </Routes>
         </div>
       </div>
