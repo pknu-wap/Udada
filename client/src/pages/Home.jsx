@@ -41,6 +41,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
 
   const [selectedKeyword, setSelectedKeyword] = useState("전체");
 
+  // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
       activeKeywords.length === 0 ||
@@ -49,7 +50,7 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       searchQuery === "" ||
       notice.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (notice.keywords ?? []).some((k) =>
-        k.word?.toLowerCase().includes(searchQuery.toLowerCase())
+        k.word?.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     return keywordMatch && searchMatch;
   });
@@ -65,8 +66,8 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
         prev.map((notice) =>
           notice.id === noticeId
             ? { ...notice, bookmarked: !notice.bookmarked }
-            : notice
-        )
+            : notice,
+        ),
       );
     } catch (err) {
       console.error("북마크 처리 실패", err);
@@ -112,7 +113,9 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
                       +{restKeywords.length}
                       <div className="keywords-tooltip">
                         {keywords.map((item, idx) => (
-                          <span key={idx} className="keywords-badge">{item.word}</span>
+                          <span key={idx} className="keywords-badge">
+                            {item.word}
+                          </span>
                         ))}
                       </div>
                     </span>
