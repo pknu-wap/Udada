@@ -88,7 +88,7 @@
 
 
 /* 입력창 */
-/* .kp-input-row {
+.kp-input-row {
   display: flex;
   align-items: center;
   border: 1.5px solid #ddd;
@@ -118,7 +118,7 @@
   cursor: pointer;
   line-height: 1;
 }
-.kp-add-btn:hover { color: #004695; } */
+.kp-add-btn:hover { color: #004695; }
 
 /* 애니메이션 */
 @keyframes kp-fadeIn {
