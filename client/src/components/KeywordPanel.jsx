@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./KeywordPanel.css";
 import { getKeywords, addKeyword } from "../api/keywords";
+import { debug } from "../utils/log";
 
-export default function KeywordPanel({ isOpen, onClose, keywords, setKeywords }) {
+export default function KeywordPanel({
+  isOpen,
+  onClose,
+  keywords,
+  setKeywords,
+}) {
   const [input, setInput] = useState("");
   const [apiKeywords, setApiKeywords] = useState([]);
 
@@ -10,7 +16,8 @@ export default function KeywordPanel({ isOpen, onClose, keywords, setKeywords })
     if (!isOpen) return;
     getKeywords()
       .then((res) => {
-        setApiKeywords(res.data.data.keywords||[]);
+        debug(res.data);
+        setApiKeywords(res.data?.data || []);
       })
       .catch((err) => console.error("키워드 불러오기 실패:", err));
   }, [isOpen]);
@@ -20,7 +27,10 @@ export default function KeywordPanel({ isOpen, onClose, keywords, setKeywords })
     if (!trimmed) return;
     addKeyword(trimmed)
       .then((res) => {
-        setApiKeywords([...apiKeywords, { id: res.data.keywordId, word: res.data.word }]);
+        setApiKeywords([
+          ...apiKeywords,
+          { id: res.data.id, word: res.data.word },
+        ]);
         setKeywords([...keywords, trimmed]);
         setInput("");
       })
@@ -34,7 +44,9 @@ export default function KeywordPanel({ isOpen, onClose, keywords, setKeywords })
       <div className="kp-panel" onClick={(e) => e.stopPropagation()}>
         <div className="kp-top">
           <h2 className="kp-title">추천 키워드</h2>
-          <button className="kp-close" onClick={onClose}>✕</button>
+          <button className="kp-close" onClick={onClose}>
+            ✕
+          </button>
         </div>
 
         <div className="kp-desc-row">
@@ -57,7 +69,9 @@ export default function KeywordPanel({ isOpen, onClose, keywords, setKeywords })
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAddKeyword()}
           />
-          <button className="kp-add-btn" onClick={handleAddKeyword}>＋</button>
+          <button className="kp-add-btn" onClick={handleAddKeyword}>
+            ＋
+          </button>
         </div>
       </div>
     </div>

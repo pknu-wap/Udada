@@ -39,8 +39,6 @@ function Home({ activeKeywords = [], searchQuery = "" }) {
       });
   }, []);
 
-  const [selectedKeyword, setSelectedKeyword] = useState("전체");
-
   // 검색어 + 키워드 필터링
   const filtered = notices.filter((notice) => {
     const keywordMatch =
