@@ -56,7 +56,7 @@ public class NoticeService {
     // 공지사항 상세 조회
     public NoticeDetailResponse getNoticeDetail(Long noticeId) {
         Notice notice = noticeRepository.findByIdWithKeywordsAndAttachments(noticeId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공지사항입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_INVALID));
 
         return NoticeDetailResponse.from(notice);
     }
