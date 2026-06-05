@@ -5,26 +5,23 @@ import filterIcon from "../assets/filter_icon.svg";
 import searchIcon from "../assets/search.svg";
 import logoIcon from "../assets/logo.svg";
 
-export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, searchQuery: externalQuery = "" }) {
+export default function Navbar({keywords = [], onActiveKeysChange, onSearch, searchQuery: externalQuery = "" }) {
   const [isActive, setIsActive] = useState(false);
-
-  const [activeKeys, setActiveKeys] = useState(
-    () => new Set(keywords.map((_, i) => i))
-  );
+  const [activeKeys, setActiveKeys] = useState(new Set());
 
   const [searchQuery, setSearchQuery] = useState(externalQuery);
 
-  const prevLenRef = React.useRef(keywords.length);
-  React.useEffect(() => {
-    if (keywords.length > prevLenRef.current) {
-      setActiveKeys((prev) => {
-        const next = new Set(prev);
-        next.add(keywords.length - 1);
-        return next;
-      });
-    }
-    prevLenRef.current = keywords.length;
-  }, [keywords]);
+  // const prevLenRef = React.useRef(keywords.length);
+  // React.useEffect(() => {
+  //   if (keywords.length > prevLenRef.current) {
+  //     setActiveKeys((prev) => {
+  //       const next = new Set(prev);
+  //       next.add(keywords.length - 1);
+  //       return next;
+  //     });
+  //   }
+  //   prevLenRef.current = keywords.length;
+  // }, [keywords]);
 
   React.useEffect(() => {
     setSearchQuery(externalQuery);
@@ -36,11 +33,11 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, se
     onSearch?.(trimmed);
   };
 
-  const toggleKey = (idx) => {
+  const toggleKey = (word) => {
     const next = new Set(activeKeys);
-    next.has(idx) ? next.delete(idx) : next.add(idx);
+    next.has(word) ? next.delete(word) : next.add(word);
     setActiveKeys(next);
-    onActiveKeysChange?.(next, keywords);
+    onActiveKeysChange?.([...next]);
   };
 
   return (
@@ -79,14 +76,14 @@ export default function Navbar({ keywords = [], onActiveKeysChange, onSearch, se
               {keywords.length === 0 ? (
                 <p className="keyword-dropdown-empty">설정된 키워드가 없어요</p>
               ) : (
-                keywords.map((kw, idx) => (
+                keywords.map((kw) => (
                   <button
-                    key={idx}
-                    className={`keyword-dropdown-item ${activeKeys.has(idx) ? "kd-active" : "kd-inactive"
+                    key={kw.id}
+                    className={`keyword-dropdown-item ${activeKeys.has(kw.word) ? "kd-active" : "kd-inactive"
                       }`}
-                    onClick={() => toggleKey(idx)}
+                    onClick={() => toggleKey(kw.word)}
                   >
-                    {kw}
+                    {kw.word}
                   </button>
                 ))
               )}
