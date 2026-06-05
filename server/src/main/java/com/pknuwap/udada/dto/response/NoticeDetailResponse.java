@@ -16,6 +16,7 @@ public class NoticeDetailResponse {
     private String originalUrl;
     private List<KeywordResponse> keywords;
     private String noticedAt;
+    private List<AttachmentResponse> attachments;
 
     //응답 생성
     public static NoticeDetailResponse from(Notice notice) {
@@ -28,6 +29,9 @@ public class NoticeDetailResponse {
                         .map(KeywordResponse::from)
                         .collect(Collectors.toList()))
                 .noticedAt(notice.getNoticedAt() != null ? notice.getNoticedAt().toString() : "")
+                .attachments(notice.getAttachments() != null ? notice.getAttachments().stream()
+                        .map(AttachmentResponse::from)
+                        .collect(Collectors.toList()) : List.of())
                 .build();
 
     }
