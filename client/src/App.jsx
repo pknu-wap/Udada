@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -17,6 +17,7 @@ import Postdetail from "./pages/Postdetail";
 import EmailInput from "./pages/EmailInput";
 import useAuth from "./hooks/useAuth";
 import KeywordPanel from "./components/KeywordPanel";
+import { getKeywords } from "./api/keywords"; 
 import "./App.css";
 
 function AppContent() {
@@ -27,9 +28,16 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn } = useAuth();
 
+  useEffect(() => {
+    if (!isLoggedIn()) return;
+    getKeywords()
+      .then((res) => setKeywords(res.data?.data || []))
+      .catch((err) => console.error("키워드 불러오기 실패:", err));
+  }, [isLoggedIn]);
+
   const toggleKeywordPanel = () => setIsKeywordOpen((prev) => !prev);
-  const handleActiveKeysChange = (activeSet, kws) => {
-    setActiveKeywords(kws.filter((_, i) => activeSet.has(i)));
+    const handleActiveKeysChange = (words) => {
+    setActiveKeywords(words);
   };
 
   const hideSidebar = [
@@ -56,7 +64,6 @@ function AppContent() {
               isOpen={isKeywordOpen}
               onClose={() => setIsKeywordOpen(false)}
               keywords={keywords}
-              setKeywords={setKeywords}
             />
           </>
         )}
