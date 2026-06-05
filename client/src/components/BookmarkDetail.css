@@ -49,9 +49,11 @@
 }
 
 .detail-body {
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   line-height: 1.8;
   color: #333;
+  word-break: break-all;    /* 긴 영문이나 링크가 영역을 삐져나가지 않게 줄바꿈 */
+  overflow-wrap: break-word;
 }
 
 .detail-footer {
@@ -92,4 +94,45 @@
 .detail-bookmark-icon {
   width: 28px;
   height: 28px;
+}
+
+.attachments-section {
+    margin-top: 30px;
+    padding: 15px 20px;
+    background-color: #f8f9fa; /* 연한 회색 배경 */
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.attachments-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.attachments-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.attachment-item {
+    margin-bottom: 8px;
+}
+
+.attachment-item:last-child {
+    margin-bottom: 0;
+}
+
+.attachment-item a {
+    color: #007bff; /* 파란색 링크 */
+    text-decoration: none;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.attachment-item a:hover {
+    text-decoration: underline; /* 마우스 올렸을 때 밑줄 */
+    color: #0056b3;
 }
