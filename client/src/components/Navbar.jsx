@@ -11,17 +11,15 @@ export default function Navbar({keywords = [], onActiveKeysChange, onSearch, sea
 
   const [searchQuery, setSearchQuery] = useState(externalQuery);
 
-  // const prevLenRef = React.useRef(keywords.length);
-  // React.useEffect(() => {
-  //   if (keywords.length > prevLenRef.current) {
-  //     setActiveKeys((prev) => {
-  //       const next = new Set(prev);
-  //       next.add(keywords.length - 1);
-  //       return next;
-  //     });
-  //   }
-  //   prevLenRef.current = keywords.length;
-  // }, [keywords]);
+  const isInitializedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (keywords.length > 0 && !isInitializedRef.current) {
+      const defaultKeys = new Set(keywords.map((kw) => kw.word));
+      setActiveKeys(defaultKeys);
+      onActiveKeysChange?.([...defaultKeys]);
+      isInitializedRef.current = true;
+    }
+  }, [keywords]);
 
   React.useEffect(() => {
     setSearchQuery(externalQuery);
