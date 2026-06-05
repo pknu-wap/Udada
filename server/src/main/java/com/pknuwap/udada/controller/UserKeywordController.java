@@ -4,6 +4,7 @@ import com.pknuwap.udada.common.jwt.UserPrincipal;
 import com.pknuwap.udada.common.response.ApiResponse;
 import com.pknuwap.udada.dto.response.UserKeywordResponse;
 import com.pknuwap.udada.service.UserKeywordService;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,7 @@ public class UserKeywordController {
     // 💡 프론트엔드 Request Body 매핑용 임시 DTO
     @Getter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class UserKeywordReq {
         private Long keywordId;
     }
