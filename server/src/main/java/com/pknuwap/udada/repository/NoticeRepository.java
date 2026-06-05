@@ -24,8 +24,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
     // 상세 조회 (키워드 fetch join)
     @Query("SELECT DISTINCT n FROM Notice n " +
-            "JOIN FETCH n.keywords " +
-            "LEFT JOIN FETCH n.attachments " +
+            "LEFT JOIN FETCH n.keywords " + // 키워드 없어도 조회댐 LEFT JOIN
             "WHERE n.id = :id")
     Optional<Notice> findByIdWithKeywordsAndAttachments(@Param("id") Long id);
 
