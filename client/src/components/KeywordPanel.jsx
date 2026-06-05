@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "./KeywordPanel.css";
-import { getKeywords, addKeyword } from "../api/keywords";
+import { getKeywords } from "../api/keywords";
+/* import { getKeywords, addKeyword } from "../api/keywords"; addkeyword는 추후 개발시 추가 */
+import { getUserKeywords, addUserKeyword, deleteUserKeyword } from "../api/userKeywords";
 import { debug } from "../utils/log";
 
 export default function KeywordPanel({
   isOpen,
   onClose,
-  keywords,
-  setKeywords,
 }) {
-  const [input, setInput] = useState("");
+  /*const [input, setInput] = useState("");*/
   const [apiKeywords, setApiKeywords] = useState([]);
+  const [userKeywords, setUserKeywords] = useState([]); 
 
   useEffect(() => {
     if (!isOpen) return;
-    getKeywords()
-      .then((res) => {
-        debug(res.data);
-        setApiKeywords(res.data?.data || []);
+    Promise.all([getKeywords(), getUserKeywords()])
+      .then(([allRes, userRes]) => {
+        debug(allRes.data);
+        debug(userRes.data);
+        setApiKeywords(allRes.data?.data || []);
+        setUserKeywords(userRes.data?.userKeywords || []);
       })
       .catch((err) => console.error("키워드 불러오기 실패:", err));
   }, [isOpen]);
 
-  const handleAddKeyword = () => {
+/*  const handleAddKeyword = () => {
     const trimmed = input.trim();
     if (!trimmed) return;
     addKeyword(trimmed)
@@ -31,10 +34,34 @@ export default function KeywordPanel({
           ...apiKeywords,
           { id: res.data.id, word: res.data.word },
         ]);
-        setKeywords([...keywords, trimmed]);
         setInput("");
       })
       .catch((err) => console.error("키워드 추가 실패:", err));
+  };
+키워드 추가는 추후 개발건
+*/
+
+const handleToggle = async (kw) => {
+    const existing = userKeywords.find((uk) => uk.keywordId === kw.id);
+
+    if (existing) {
+      try {
+        await deleteUserKeyword(existing.id);
+        setUserKeywords((prev) => prev.filter((uk) => uk.id !== existing.id));
+      } catch (err) {
+        console.error("키워드 알림 해제 실패:", err);
+      }
+    } else {
+      try {
+        const res = await addUserKeyword(kw.id);
+        setUserKeywords((prev) => [
+          ...prev,
+          { id: res.data?.userKeywordId, keywordId: kw.id, word: kw.word },
+        ]);
+      } catch (err) {
+        console.error("키워드 알림 등록 실패:", err);
+      }
+    }
   };
 
   if (!isOpen) return null;
@@ -54,25 +81,35 @@ export default function KeywordPanel({
         </div>
 
         <div className="kp-tags">
-          {apiKeywords.map((kw) => (
-            <button key={kw.id} className="kp-tag">
-              {kw.word}
-            </button>
-          ))}
+          {apiKeywords.map((kw) => {
+            const isActive = userKeywords.some((uk) => uk.keywordId === kw.id);
+              return (
+              <button
+                key={kw.id}
+                className={`kp-tag${isActive ? " active" : ""}`}
+                onClick={() => handleToggle(kw)}
+              >
+                {kw.word}
+              </button>
+            );
+          })}
         </div>
 
         <div className="kp-input-row">
           <input
             type="text"
             placeholder="키워드 입력"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            disabled
+            /*onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAddKeyword()}
+            추후 개발건
+            */
           />
-          <button className="kp-add-btn" onClick={handleAddKeyword}>
+          <button className="kp-add-btn" disabled /* onClick={handleAddKeyword} */>
             ＋
           </button>
         </div>
+        <p className="kp-coming-soon">🔒 키워드 추가 기능은 추후 개발 예정입니다</p>
       </div>
     </div>
   );
