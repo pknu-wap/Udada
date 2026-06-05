@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +33,7 @@ public class UserKeywordController {
     @PostMapping
     public ResponseEntity<ApiResponse<UserKeywordResponse.CreateResponse>> addUserKeyword(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestBody UserKeywordReq request
+            @Valid @RequestBody UserKeywordReq request
     ) {
         UserKeywordResponse.CreateResponse response = userKeywordService.addUserKeyword(userPrincipal.getUserId(), request.getKeywordId());
         return ResponseEntity.ok(ApiResponse.success(response));
