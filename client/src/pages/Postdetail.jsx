@@ -56,6 +56,10 @@ const Postdetail = () => {
         return <div>데이터를 불러오는 중입니다...</div>;
     }
 
+    const fileAttachments = post.attachments?.filter(
+        (file) => file.fileType?.toUpperCase() === "FILE"
+    ) || [];
+
     return (
         <div className="post-detail-container">
             <div className="post-detail-box">
@@ -81,6 +85,26 @@ const Postdetail = () => {
                     className="article-body" 
                     dangerouslySetInnerHTML={{ __html: post.content }} 
                 />
+
+                {fileAttachments.length > 0 && (
+                    <div className="attachments-section">
+                        <h3 className="attachments-title">첨부파일</h3>
+                        <ul className="attachments-list">
+                            {fileAttachments.map((file) => (
+                                <li key={file.id} className="attachment-item">
+                                    <a 
+                                        href={file.fileUrl} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        download={file.fileName}
+                                    >
+                                        📎 {file.fileName}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
                 <hr className="content-divider" />
                 <div className="button-group">

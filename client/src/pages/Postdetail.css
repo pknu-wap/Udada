@@ -148,3 +148,44 @@
 .back-btn:hover {
     background-color: #003980;
 }
+
+.attachments-section {
+    margin-top: 30px;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.attachments-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.attachments-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.attachment-item {
+    margin-bottom: 8px;
+}
+
+.attachment-item:last-child {
+    margin-bottom: 0;
+}
+
+.attachment-item a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.attachment-item a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
