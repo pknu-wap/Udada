@@ -22,7 +22,7 @@ import "./App.css";
 function AppContent() {
   const location = useLocation();
   const [isKeywordOpen, setIsKeywordOpen] = useState(false);
-  const [keywords, setKeywords] = useState([]);
+  const [keywords] = useState([]);
   const [activeKeywords, setActiveKeywords] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn } = useAuth();
@@ -55,8 +55,6 @@ function AppContent() {
             <KeywordPanel
               isOpen={isKeywordOpen}
               onClose={() => setIsKeywordOpen(false)}
-              keywords={keywords}
-              setKeywords={setKeywords}
             />
           </>
         )}
