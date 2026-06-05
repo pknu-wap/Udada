@@ -55,7 +55,7 @@ public class NoticeService {
 
     // 공지사항 상세 조회
     public NoticeDetailResponse getNoticeDetail(Long noticeId) {
-        Notice notice = noticeRepository.findByIdWithKeywords(noticeId)
+        Notice notice = noticeRepository.findByIdWithKeywordsAndAttachments(noticeId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_INVALID));
 
         return NoticeDetailResponse.from(notice);

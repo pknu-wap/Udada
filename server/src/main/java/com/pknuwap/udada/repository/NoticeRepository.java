@@ -23,8 +23,10 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     Page<Notice> findAllByKeywordIdWithKeywords(@Param("keywordId") Long keywordId, Pageable pageable);
 
     // 상세 조회 (키워드 fetch join)
-    @Query("SELECT n FROM Notice n JOIN FETCH n.keywords WHERE n.id = :id")
-    Optional<Notice> findByIdWithKeywords(@Param("id") Long id);
+    @Query("SELECT DISTINCT n FROM Notice n " +
+            "LEFT JOIN FETCH n.keywords " + // 키워드 없어도 조회댐 LEFT JOIN
+            "WHERE n.id = :id")
+    Optional<Notice> findByIdWithKeywordsAndAttachments(@Param("id") Long id);
 
     @Query("SELECT DISTINCT n FROM Notice n " +
             "JOIN n.keywords k " +
