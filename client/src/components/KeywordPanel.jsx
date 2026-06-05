@@ -43,14 +43,14 @@ export default function KeywordPanel({
     <div className="kp-overlay" onClick={onClose}>
       <div className="kp-panel" onClick={(e) => e.stopPropagation()}>
         <div className="kp-top">
-          <h2 className="kp-title">추천 키워드</h2>
+          <h2 className="kp-title">알람 설정 키워드</h2>
           <button className="kp-close" onClick={onClose}>
             ✕
           </button>
         </div>
 
         <div className="kp-desc-row">
-          <span className="kp-desc">원하는 키워드를 입력해주세요</span>
+          <span className="kp-desc">이메일로 알람 받고 싶은 키워드를 설정해주세요!</span>
         </div>
 
         <div className="kp-tags">
