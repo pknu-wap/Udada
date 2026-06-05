@@ -95,7 +95,7 @@ const handleToggle = async (kw) => {
           })}
         </div>
 
-        <div className="kp-input-row">
+        <div className="kp-input-row kp-input-disabled">
           <input
             type="text"
             placeholder="키워드 입력"

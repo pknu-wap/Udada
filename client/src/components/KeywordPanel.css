@@ -72,11 +72,36 @@
 }
 
 .kp-tag:hover {
-  border-color: #004695;
-  color: #004695;
+  border-color: #00489F;
+  background: #f5f5f5;
+  color: #333;
+}
+
+.kp-tag.active {
+  border-color: #00489F;
+  background: #00489F;
+  color: #fff;
+}
+
+.kp-tag.active:hover {
+  border-color: #ccc;
+  background: #f5f5f5;
+  color: #333;
 }
 
 /* 입력창 */
+.kp-input-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.kp-coming-soon {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 10px;
+  text-align: center;
+}
+
 .kp-input-row {
   display: flex;
   align-items: center;
@@ -107,7 +132,7 @@
   cursor: pointer;
   line-height: 1;
 }
-.kp-add-btn:hover { color: #004695; }
+.kp-add-btn:hover { color: #00489F; }
 
 /* 애니메이션 */
 @keyframes kp-fadeIn {
